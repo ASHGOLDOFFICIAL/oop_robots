@@ -12,6 +12,13 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- Dependencies -->
+        <gettext-commons.version>0.9.8</gettext-commons.version>
+        <log4j-bom.version>2.24.1</log4j-bom.version>
+
+        <!-- Plugins -->
+        <gettext-maven-plugin.version>1.2.4</gettext-maven-plugin.version>
     </properties>
 
     <build>
@@ -23,14 +30,72 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <!-- Делаем jar исполняемым,
-                                 для этого указываем класс для запуска -->
-                            <mainClass>gui.RobotsProgram</mainClass>
+                            <mainClass>ru.urfu.gui.RobotsProgram</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
             </plugin>
+
+            <!-- https://mvnrepository.com/artifact/com.googlecode.gettext-commons/gettext-maven-plugin -->
+            <plugin>
+                <groupId>com.googlecode.gettext-commons</groupId>
+                <artifactId>gettext-maven-plugin</artifactId>
+                <version>${gettext-maven-plugin.version}</version>
+                <configuration>
+                    <poDirectory>po</poDirectory>
+                    <targetBundle>app.i18n.Messages</targetBundle>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>dist</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-bom -->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-bom</artifactId>
+                <version>${log4j-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- Internationalization -->
+        <!-- https://mvnrepository.com/artifact/com.googlecode.gettext-commons/gettext-commons -->
+        <dependency>
+            <groupId>com.googlecode.gettext-commons</groupId>
+            <artifactId>gettext-commons</artifactId>
+            <version>${gettext-commons.version}</version>
+        </dependency>
+
+        <!-- Logging -->
+        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j2-impl -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j2-impl</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
