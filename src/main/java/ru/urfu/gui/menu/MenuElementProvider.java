@@ -1,7 +1,7 @@
-package gui.menu;
+package ru.urfu.gui.menu;
 
-import gui.MainApplicationFrame;
-import gui.MainApplicationFrameController;
+import ru.urfu.gui.MainApplicationFrame;
+import ru.urfu.gui.MainApplicationFrameController;
 
 import java.awt.*;
 

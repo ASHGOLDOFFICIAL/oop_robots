@@ -1,4 +1,4 @@
-package gui;
+package ru.urfu.gui;
 
 import org.xnap.commons.i18n.I18n;
 import org.xnap.commons.i18n.I18nFactory;

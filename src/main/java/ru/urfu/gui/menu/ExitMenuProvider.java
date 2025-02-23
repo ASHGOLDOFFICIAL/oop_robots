@@ -1,7 +1,7 @@
-package gui.menu;
+package ru.urfu.gui.menu;
 
-import gui.MainApplicationFrame;
-import gui.MainApplicationFrameController;
+import ru.urfu.gui.MainApplicationFrame;
+import ru.urfu.gui.MainApplicationFrameController;
 import org.xnap.commons.i18n.I18n;
 import org.xnap.commons.i18n.I18nFactory;
 

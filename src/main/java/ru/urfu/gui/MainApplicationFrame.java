@@ -1,4 +1,4 @@
-package gui;
+package ru.urfu.gui;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -8,10 +8,10 @@ import java.awt.event.WindowListener;
 
 import javax.swing.*;
 
-import gui.menu.ExitMenuProvider;
-import gui.menu.LookAndFeelMenuProvider;
-import gui.menu.TestsMenuProvider;
-import log.Logger;
+import ru.urfu.gui.menu.ExitMenuProvider;
+import ru.urfu.gui.menu.LookAndFeelMenuProvider;
+import ru.urfu.gui.menu.TestsMenuProvider;
+import ru.urfu.log.Logger;
 import org.xnap.commons.i18n.I18n;
 import org.xnap.commons.i18n.I18nFactory;
 

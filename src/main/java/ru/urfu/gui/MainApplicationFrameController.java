@@ -1,6 +1,6 @@
-package gui;
+package ru.urfu.gui;
 
-import log.Logger;
+import ru.urfu.log.Logger;
 import org.xnap.commons.i18n.I18n;
 import org.xnap.commons.i18n.I18nFactory;
 

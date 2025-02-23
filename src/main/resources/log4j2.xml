@@ -20,6 +20,6 @@
         </Root>
 
         <!-- Log messages from our packages starting with level TRACE -->
-        <Logger name="gui" level="TRACE"/>
+        <Logger name="ru.urfu" level="TRACE"/>
     </Loggers>
 </Configuration>
