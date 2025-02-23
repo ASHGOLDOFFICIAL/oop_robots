@@ -14,8 +14,6 @@ public class RobotsProgram {
         final Locale locale = Locale.getDefault();
         log.debug("System locale is {}", locale);
 
-        JOptionPane.setDefaultLocale(locale);
-
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
         } catch (Exception e) {

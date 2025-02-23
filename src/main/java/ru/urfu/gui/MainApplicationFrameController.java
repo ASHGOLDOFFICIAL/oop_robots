@@ -10,6 +10,7 @@ public class MainApplicationFrameController {
     private final I18n i18n = I18nFactory.getI18n(getClass());
 
     public void showExitConfirmationPopUp() {
+        final Object[] options = { i18n.tr("Yes"), i18n.tr("No")};
         final int result = JOptionPane.showOptionDialog(
                 null,
                 i18n.tr("Are you sure you want to close application?"),
@@ -17,8 +18,8 @@ public class MainApplicationFrameController {
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null,
-                null,
-                null);
+                options,
+                options[0]);
 
         Logger.debug(i18n.tr("Exit confirmation"));
 

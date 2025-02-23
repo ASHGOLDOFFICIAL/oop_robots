@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-23 16:14+0500\n"
+"POT-Creation-Date: 2025-02-23 17:29+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,70 +17,78 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: gui/menu/ExitMenuProvider.java:21
+#: ru/urfu/gui/menu/ExitMenuProvider.java:21
 msgid "Exit"
 msgstr ""
 
-#: gui/menu/LookAndFeelMenuProvider.java:21
+#: ru/urfu/gui/menu/LookAndFeelMenuProvider.java:21
 msgid "Look and Feel"
 msgstr ""
 
-#: gui/menu/LookAndFeelMenuProvider.java:25
+#: ru/urfu/gui/menu/LookAndFeelMenuProvider.java:25
 msgid "Controls look and feel of the program."
 msgstr ""
 
-#: gui/menu/LookAndFeelMenuProvider.java:41
+#: ru/urfu/gui/menu/LookAndFeelMenuProvider.java:41
 msgid "System Theme"
 msgstr ""
 
-#: gui/menu/LookAndFeelMenuProvider.java:54
+#: ru/urfu/gui/menu/LookAndFeelMenuProvider.java:54
 msgid "Crossplatform Theme"
 msgstr ""
 
-#: gui/menu/TestsMenuProvider.java:22
+#: ru/urfu/gui/menu/TestsMenuProvider.java:22
 msgid "Tests"
 msgstr ""
 
-#: gui/menu/TestsMenuProvider.java:24
+#: ru/urfu/gui/menu/TestsMenuProvider.java:24
 msgid "Test commands."
 msgstr ""
 
-#: gui/menu/TestsMenuProvider.java:37
+#: ru/urfu/gui/menu/TestsMenuProvider.java:37
 msgid "Log a message"
 msgstr ""
 
-#: gui/menu/TestsMenuProvider.java:38
+#: ru/urfu/gui/menu/TestsMenuProvider.java:38
 msgid "New string"
 msgstr ""
 
-#: gui/MainApplicationFrame.java:53
+#: ru/urfu/gui/MainApplicationFrame.java:52
 msgid "Logger is working"
 msgstr ""
 
-#: gui/GameWindow.java:16
+#: ru/urfu/gui/GameWindow.java:16
 msgid "Game Field"
 msgstr ""
 
-#: gui/MainApplicationFrameController.java:15
+#: ru/urfu/gui/MainApplicationFrameController.java:13
+msgid "Yes"
+msgstr ""
+
+#: ru/urfu/gui/MainApplicationFrameController.java:13
+msgid "No"
+msgstr ""
+
+#: ru/urfu/gui/MainApplicationFrameController.java:16
 msgid "Are you sure you want to close application?"
 msgstr ""
 
-#: gui/MainApplicationFrameController.java:16
+#: ru/urfu/gui/MainApplicationFrameController.java:17
 msgid "Exit Confirmation"
 msgstr ""
 
-#: gui/MainApplicationFrameController.java:23
+#: ru/urfu/gui/MainApplicationFrameController.java:24
 msgid "Exit confirmation"
 msgstr ""
 
-#: gui/MainApplicationFrameController.java:27
+#: ru/urfu/gui/MainApplicationFrameController.java:28
 msgid "Exit is confirmed"
 msgstr ""
 
-#: gui/MainApplicationFrameController.java:30
+#: ru/urfu/gui/MainApplicationFrameController.java:31
 msgid "Exit is cancelled"
 msgstr ""
 
-#: gui/LogWindow.java:22
+#: ru/urfu/gui/LogWindow.java:22
 msgid "Logs"
 msgstr ""

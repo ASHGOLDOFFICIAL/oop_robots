@@ -21,7 +21,7 @@ public final class TestsMenuProvider implements MenuElementProvider {
     public Component provide(MainApplicationFrame frame, MainApplicationFrameController controller) {
         final JMenu menu = new JMenu(i18n.tr("Tests"));
         menu.setMnemonic(KeyEvent.VK_T);
-        menu.getAccessibleContext().setAccessibleDescription(i18n.tr("Test commands.p"));
+        menu.getAccessibleContext().setAccessibleDescription(i18n.tr("Test commands."));
         menu.add(createAddLogMessageItem());
         return menu;
     }
