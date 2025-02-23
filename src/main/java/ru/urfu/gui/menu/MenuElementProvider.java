@@ -1,9 +1,8 @@
 package ru.urfu.gui.menu;
 
+import java.awt.Component;
 import ru.urfu.gui.MainApplicationFrame;
 import ru.urfu.gui.MainApplicationFrameController;
-
-import java.awt.*;
 
 /**
  * <p>Предоставляет элементы меню.</p>

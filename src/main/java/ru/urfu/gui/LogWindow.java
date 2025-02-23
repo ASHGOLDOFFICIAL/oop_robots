@@ -3,15 +3,13 @@ package ru.urfu.gui;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.TextArea;
-
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
-
+import org.xnap.commons.i18n.I18n;
+import org.xnap.commons.i18n.I18nFactory;
 import ru.urfu.log.LogChangeListener;
 import ru.urfu.log.LogEntry;
 import ru.urfu.log.LogWindowSource;
-import org.xnap.commons.i18n.I18n;
-import org.xnap.commons.i18n.I18nFactory;
 
 public class LogWindow extends JInternalFrame implements LogChangeListener {
     private static final I18n i18n = I18nFactory.getI18n(LogWindow.class);

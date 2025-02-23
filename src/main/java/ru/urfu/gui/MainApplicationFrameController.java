@@ -1,10 +1,12 @@
 package ru.urfu.gui;
 
-import ru.urfu.log.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import org.xnap.commons.i18n.I18n;
 import org.xnap.commons.i18n.I18nFactory;
-
-import javax.swing.*;
+import ru.urfu.log.Logger;
 
 public class MainApplicationFrameController {
     private final I18n i18n = I18nFactory.getI18n(getClass());

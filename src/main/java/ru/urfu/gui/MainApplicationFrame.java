@@ -5,15 +5,16 @@ import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-
-import javax.swing.*;
-
+import javax.swing.JDesktopPane;
+import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
+import javax.swing.JMenuBar;
+import org.xnap.commons.i18n.I18n;
+import org.xnap.commons.i18n.I18nFactory;
 import ru.urfu.gui.menu.ExitMenuProvider;
 import ru.urfu.gui.menu.LookAndFeelMenuProvider;
 import ru.urfu.gui.menu.TestsMenuProvider;
 import ru.urfu.log.Logger;
-import org.xnap.commons.i18n.I18n;
-import org.xnap.commons.i18n.I18nFactory;
 
 
 public class MainApplicationFrame extends JFrame {

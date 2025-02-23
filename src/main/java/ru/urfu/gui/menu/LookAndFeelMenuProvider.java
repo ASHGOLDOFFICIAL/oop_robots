@@ -1,13 +1,13 @@
 package ru.urfu.gui.menu;
 
-import ru.urfu.gui.MainApplicationFrame;
-import ru.urfu.gui.MainApplicationFrameController;
+import java.awt.Component;
+import java.awt.event.KeyEvent;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import org.xnap.commons.i18n.I18n;
 import org.xnap.commons.i18n.I18nFactory;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.KeyEvent;
+import ru.urfu.gui.MainApplicationFrame;
+import ru.urfu.gui.MainApplicationFrameController;
 
 
 /**

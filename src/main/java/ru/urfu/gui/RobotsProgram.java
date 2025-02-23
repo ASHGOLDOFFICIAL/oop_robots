@@ -2,8 +2,8 @@ package ru.urfu.gui;
 
 import java.awt.Frame;
 import java.util.Locale;
-
-import javax.swing.*;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +12,7 @@ public class RobotsProgram {
         final Logger log = LoggerFactory.getLogger(RobotsProgram.class);
 
         final Locale locale = Locale.getDefault();
-        log.debug("System locale is {}", locale);
+        log.info("System locale is {}", locale);
 
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
