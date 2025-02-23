@@ -2,7 +2,6 @@ package gui;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -13,9 +12,12 @@ import gui.menu.ExitMenuProvider;
 import gui.menu.LookAndFeelMenuProvider;
 import gui.menu.TestsMenuProvider;
 import log.Logger;
+import org.xnap.commons.i18n.I18n;
+import org.xnap.commons.i18n.I18nFactory;
 
 
 public class MainApplicationFrame extends JFrame {
+    private final I18n i18n = I18nFactory.getI18n(getClass());
     private final JDesktopPane desktopPane = new JDesktopPane();
     private final MainApplicationFrameController controller = new MainApplicationFrameController();
 
@@ -47,7 +49,7 @@ public class MainApplicationFrame extends JFrame {
         logWindow.setSize(300, 800);
         setMinimumSize(logWindow.getSize());
         logWindow.pack();
-        Logger.debug("Протокол работает");
+        Logger.debug(i18n.tr("Logger is working"));
         return logWindow;
     }
 
@@ -78,7 +80,7 @@ public class MainApplicationFrame extends JFrame {
         final WindowListener exitListener = new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                controller.showExitConfirmationPopUp(MainApplicationFrame.this);
+                controller.showExitConfirmationPopUp();
             }
         };
         addWindowListener(exitListener);

@@ -1,29 +1,33 @@
 package gui;
 
 import log.Logger;
+import org.xnap.commons.i18n.I18n;
+import org.xnap.commons.i18n.I18nFactory;
 
 import javax.swing.*;
 
 public class MainApplicationFrameController {
-    public void showExitConfirmationPopUp(MainApplicationFrame frame) {
+    private final I18n i18n = I18nFactory.getI18n(getClass());
+
+    public void showExitConfirmationPopUp() {
         final int result = JOptionPane.showOptionDialog(
                 null,
-                "Are You Sure to Close Application?",
-                "Exit Confirmation",
+                i18n.tr("Are you sure you want to close application?"),
+                i18n.tr("Exit Confirmation"),
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
                 null,
                 null,
                 null);
 
-        Logger.debug("Запрос на выход");
+        Logger.debug(i18n.tr("Exit confirmation"));
 
         switch (result) {
             case JOptionPane.YES_OPTION -> {
-                Logger.debug("Подтверждение выхода");
+                Logger.debug(i18n.tr("Exit is confirmed"));
                 closeWindow();
             }
-            case JOptionPane.NO_OPTION -> Logger.debug("Отмена выхода");
+            case JOptionPane.NO_OPTION -> Logger.debug(i18n.tr("Exit is cancelled"));
         }
     }
 
@@ -45,10 +49,8 @@ public class MainApplicationFrameController {
         try {
             UIManager.setLookAndFeel(className);
             SwingUtilities.updateComponentTreeUI(frame);
-        }
-        catch (ClassNotFoundException | InstantiationException
-               | IllegalAccessException | UnsupportedLookAndFeelException e)
-        {
+        } catch (ClassNotFoundException | InstantiationException
+                 | IllegalAccessException | UnsupportedLookAndFeelException e) {
             // just ignore
         }
     }

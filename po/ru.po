@@ -1,0 +1,81 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-02-23 16:14+0500\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.5\n"
+
+#: gui/menu/ExitMenuProvider.java:21
+msgid "Exit"
+msgstr "Выход"
+
+#: gui/menu/LookAndFeelMenuProvider.java:21
+msgid "Look and Feel"
+msgstr "Режим отображения"
+
+#: gui/menu/LookAndFeelMenuProvider.java:25
+msgid "Controls look and feel of the program."
+msgstr "Управление режимом отображения приложения."
+
+#: gui/menu/LookAndFeelMenuProvider.java:41
+msgid "System Theme"
+msgstr "Системная схема"
+
+#: gui/menu/LookAndFeelMenuProvider.java:54
+msgid "Crossplatform Theme"
+msgstr "Универсальная схема"
+
+#: gui/menu/TestsMenuProvider.java:22
+msgid "Tests"
+msgstr "Тесты"
+
+#: gui/menu/TestsMenuProvider.java:24
+msgid "Test commands."
+msgstr "Тестовые команды."
+
+#: gui/menu/TestsMenuProvider.java:37
+msgid "Log a message"
+msgstr "Сообщение в лог"
+
+#: gui/menu/TestsMenuProvider.java:38
+msgid "New string"
+msgstr "Новая строка"
+
+#: gui/MainApplicationFrame.java:53
+msgid "Logger is working"
+msgstr "Протокол работает"
+
+#: gui/GameWindow.java:16
+msgid "Game Field"
+msgstr "Игровое поле"
+
+#: gui/MainApplicationFrameController.java:15
+msgid "Are you sure you want to close application?"
+msgstr "Вы уверены, что хотите выйти?"
+
+#: gui/MainApplicationFrameController.java:16
+msgid "Exit Confirmation"
+msgstr "Подтверждение выхода"
+
+#: gui/MainApplicationFrameController.java:23
+msgid "Exit confirmation"
+msgstr "Запрос на выход"
+
+#: gui/MainApplicationFrameController.java:27
+msgid "Exit is confirmed"
+msgstr "Выход подтверждён"
+
+#: gui/MainApplicationFrameController.java:30
+msgid "Exit is cancelled"
+msgstr "Выход отменён"
+
+#: gui/LogWindow.java:22
+msgid "Logs"
+msgstr "Протокол работы"
