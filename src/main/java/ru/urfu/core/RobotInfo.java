@@ -14,6 +14,10 @@ public record RobotInfo(
         double positionY,
         double direction) {
 
+    /**
+     * <p>Конструктор на основе модели.</p>
+     * @param model модель.
+     */
     public RobotInfo(RobotModel model) {
         this(model.getPositionX(), model.getPositionY(), model.getDirection());
     }

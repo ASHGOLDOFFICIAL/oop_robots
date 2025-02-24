@@ -4,11 +4,24 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>Реализация интерфейса {@link GameModel}</p>
  */
 public final class GameModelImpl implements GameModel {
+    private final static int GAME_CLOCK_PERIOD = 10;
+    private final Logger log = LoggerFactory.getLogger(GameModelImpl.class);
+
+    private final EventGenerator timer;
+    private final TimerTask updateTask = new TimerTask() {
+        @Override
+        public void run() {
+            update();
+        }
+    };
+
     private final List<GameView> listeners = new ArrayList<>();
     private final RobotModel robot = new RobotModel(100, 100, 0);
     private Point targetPosition = new Point(100, 100);
@@ -18,15 +31,19 @@ public final class GameModelImpl implements GameModel {
      * @param timer таймер для генерации событий.
      */
     public GameModelImpl(EventGenerator timer) {
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                final boolean hasUpdates = updateModel();
-                if (hasUpdates) {
-                    notifySubscribers();
-                }
-            }
-        }, 0, 10);
+        this.timer = timer;
+    }
+
+    @Override
+    public void start() {
+        this.timer.schedule(updateTask, 0, GAME_CLOCK_PERIOD);
+        log.debug("Model has started.");
+    }
+
+    @Override
+    public void stop() {
+        updateTask.cancel();
+        log.debug("Model has stopped.");
     }
 
     @Override
@@ -50,6 +67,17 @@ public final class GameModelImpl implements GameModel {
     }
 
     /**
+     * <p>Обновляет состояние модели.</p>
+     */
+    private void update() {
+        if (!hasChanges()) {
+            return;
+        }
+        moveRobot();
+        notifySubscribers();
+    }
+
+    /**
      * <p>Оповещает подписавшихся на обновления об изменении модели.</p>
      */
     private void notifySubscribers() {
@@ -59,23 +87,17 @@ public final class GameModelImpl implements GameModel {
     }
 
     /**
-     * <p>Обновляет состояние модели.</p>
-     * @return были ли какие-то изменения.
-     */
-    private boolean updateModel() {
-        if (!hasChanges()) {
-            return false;
-        }
-        moveRobot();
-        return true;
-    }
-
-    /**
      * <p>Проверка на то, есть ли изменения.</p>
+     *
+     * <p>Определяем через квадрат расстояния между
+     * точкой назначения и текущим положением.</p>
+     *
+     * <p>Квадрат берём, чтобы не вычислять корень.</p>
+     *
      * @return результат проверки.
      */
     private boolean hasChanges() {
-        final double distance = distance(targetPosition.x, targetPosition.y,
+        final double distance = distanceSquared(targetPosition.x, targetPosition.y,
                 robot.getPositionX(), robot.getPositionY());
         return distance >= 0.5;
     }
@@ -84,48 +106,58 @@ public final class GameModelImpl implements GameModel {
      * <p>Перемещает робота на поле.</p>
      */
     private void moveRobot() {
-        final double duration = 10;
-        final double robotPositionX = robot.getPositionX();
-        final double robotPositionY = robot.getPositionY();
-        final double robotDirection = robot.getDirection();
+        double newDirection = calcNewDirection();
+        robot.setDirection(newDirection);
+
         final double velocity = robot.getVelocity();
 
-        final double angleToTarget = angleTo(robot.getPositionX(), robot.getPositionY(),
-                targetPosition.x, targetPosition.y);
-
-        double angularVelocity = 0;
-        if (angleToTarget > robot.getDirection()) {
-            angularVelocity = robot.getAngularVelocity();
-        }
-        if (angleToTarget < robot.getDirection()) {
-            angularVelocity = -robot.getAngularVelocity();
-        }
-
-        double newX = robotPositionX + velocity / angularVelocity *
-                (Math.sin(robotDirection + angularVelocity * duration) -
-                        Math.sin(robotDirection));
-        if (!Double.isFinite(newX)) {
-            newX = robotPositionX + velocity * duration * Math.cos(robotDirection);
-        }
-
-        double newY = robotPositionY - velocity / angularVelocity *
-                (Math.cos(robotDirection + angularVelocity * duration) -
-                        Math.cos(robotDirection));
-        if (!Double.isFinite(newY)) {
-            newY = robotPositionY + velocity * duration * Math.sin(robotDirection);
-        }
-
-        double newDirection = asNormalizedRadians(robotDirection + angularVelocity * duration);
-
+        final double oldX = robot.getPositionX();
+        final double newX = oldX + velocity * GAME_CLOCK_PERIOD * Math.cos(newDirection);
         robot.setPositionX(newX);
+
+        final double oldY = robot.getPositionY();
+        final double newY = oldY + velocity * GAME_CLOCK_PERIOD * Math.sin(newDirection);
         robot.setPositionY(newY);
-        robot.setDirection(newDirection);
     }
 
-    private static double distance(double x1, double y1, double x2, double y2) {
+    /**
+     * <p>Вычисляет новое направления робота
+     * на основании положения цели.</p>
+     *
+     * @return новое направление для робота.
+     */
+    private double calcNewDirection() {
+        final double angleToTarget = angleTo(
+                robot.getPositionX(), robot.getPositionY(),
+                targetPosition.x, targetPosition.y);
+
+        final double direction = robot.getDirection();
+        double newDirection = direction;
+        if (Math.abs(angleToTarget - direction) > 0.00001) {
+            double angularVelocity = robot.getAngularVelocity();
+            if (angleToTarget < direction) {
+                angularVelocity = -robot.getAngularVelocity();
+            }
+
+            final double angleDelta = angularVelocity * GAME_CLOCK_PERIOD;
+            newDirection = asNormalizedRadians(direction + angleDelta);
+        }
+
+        return newDirection;
+    }
+
+    /**
+     * <p>Квадрат расстояния между двумя точками.</p>
+     * @param x1 x первой точки.
+     * @param y1 y первой точки.
+     * @param x2 x второй точки.
+     * @param y2 y второй точки.
+     * @return квадрат расстояния.
+     */
+    private static double distanceSquared(double x1, double y1, double x2, double y2) {
         double diffX = x2 - x1;
         double diffY = y2 - y1;
-        return Math.sqrt(diffX * diffX + diffY * diffY);
+        return diffX * diffX + diffY * diffY;
     }
 
     private static double angleTo(double x1, double y1, double x2, double y2) {

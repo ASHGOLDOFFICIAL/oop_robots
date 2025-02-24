@@ -24,6 +24,9 @@ import ru.urfu.gui.menu.WindowsMenuProvider;
 import ru.urfu.log.Logger;
 
 
+/**
+ * <p>Главное окно приложения.</p>
+ */
 public class MainFrame extends JFrame {
     private final I18n i18n = I18nFactory.getI18n(MainFrame.class);
     private final org.slf4j.Logger log = LoggerFactory.getLogger(MainFrame.class);

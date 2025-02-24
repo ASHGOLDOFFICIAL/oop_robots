@@ -25,14 +25,16 @@ public final class GameWindow extends JInternalFrame {
         this.view = new GuiGameView(model, eventGenerator);
         this.controller = new GuiGameController(model, view);
 
-        view.start();
+        model.start();
         model.subscribeToUpdates(view);
+        view.start();
         controller.start();
 
         addInternalFrameListener(new InternalFrameAdapter() {
             public void internalFrameClosing(InternalFrameEvent e) {
                 controller.stop();
                 view.stop();
+                model.stop();
             }
         });
 

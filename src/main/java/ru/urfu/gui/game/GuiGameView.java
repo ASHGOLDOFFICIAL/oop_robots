@@ -62,7 +62,6 @@ public final class GuiGameView extends JPanel implements GameView {
 
     @Override
     public void onModelUpdate() {
-        log.debug("Model has updated, doing nothing.");
     }
 
     @Override
