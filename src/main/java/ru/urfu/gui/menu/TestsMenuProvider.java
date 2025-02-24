@@ -1,14 +1,13 @@
 package ru.urfu.gui.menu;
 
-import ru.urfu.gui.MainApplicationFrame;
-import ru.urfu.gui.MainApplicationFrameController;
-import ru.urfu.log.Logger;
+import java.awt.Component;
+import java.awt.event.KeyEvent;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import org.xnap.commons.i18n.I18n;
 import org.xnap.commons.i18n.I18nFactory;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.KeyEvent;
+import ru.urfu.gui.MainFrame;
+import ru.urfu.log.Logger;
 
 
 /**
@@ -18,7 +17,7 @@ public final class TestsMenuProvider implements MenuElementProvider {
     private final I18n i18n = I18nFactory.getI18n(getClass());
 
     @Override
-    public Component provide(MainApplicationFrame frame, MainApplicationFrameController controller) {
+    public Component provide(MainFrame frame) {
         final JMenu menu = new JMenu(i18n.tr("Tests"));
         menu.setMnemonic(KeyEvent.VK_T);
         menu.getAccessibleContext().setAccessibleDescription(i18n.tr("Test commands."));

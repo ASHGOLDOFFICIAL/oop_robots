@@ -1,89 +1,107 @@
+# SPDX-FileCopyrightText: 2025 ashgoldofficial
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-23 17:29+0500\n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"POT-Creation-Date: 2025-02-24 18:32+0500\n"
+"PO-Revision-Date: 2025-02-24 18:31+0500\n"
+"Last-Translator: ashgoldofficial\n"
+"Language-Team: English <kde-i18n-doc@kde.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Lokalize 24.12.2\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ru/urfu/gui/menu/ExitMenuProvider.java:21
-msgid "Exit"
-msgstr "Выход"
-
-#: ru/urfu/gui/menu/LookAndFeelMenuProvider.java:21
-msgid "Look and Feel"
-msgstr "Режим отображения"
-
-#: ru/urfu/gui/menu/LookAndFeelMenuProvider.java:25
-msgid "Controls look and feel of the program."
-msgstr "Управление режимом отображения приложения."
-
-#: ru/urfu/gui/menu/LookAndFeelMenuProvider.java:41
-msgid "System Theme"
-msgstr "Системная схема"
-
-#: ru/urfu/gui/menu/LookAndFeelMenuProvider.java:54
-msgid "Crossplatform Theme"
-msgstr "Универсальная схема"
-
-#: ru/urfu/gui/menu/TestsMenuProvider.java:22
-msgid "Tests"
-msgstr "Тесты"
-
-#: ru/urfu/gui/menu/TestsMenuProvider.java:24
-msgid "Test commands."
-msgstr "Тестовые команды."
-
-#: ru/urfu/gui/menu/TestsMenuProvider.java:37
-msgid "Log a message"
-msgstr "Сообщение в лог"
-
-#: ru/urfu/gui/menu/TestsMenuProvider.java:38
-msgid "New string"
-msgstr "Новая строка"
-
-#: ru/urfu/gui/MainApplicationFrame.java:52
+#: ru/urfu/gui/MainFrame.java:92
 msgid "Logger is working"
 msgstr "Протокол работает"
 
-#: ru/urfu/gui/GameWindow.java:16
-msgid "Game Field"
-msgstr "Игровое поле"
-
-#: ru/urfu/gui/MainApplicationFrameController.java:13
+#: ru/urfu/gui/MainFrame.java:101
 msgid "Yes"
 msgstr "Да"
 
-#: ru/urfu/gui/MainApplicationFrameController.java:13
+#: ru/urfu/gui/MainFrame.java:101
 msgid "No"
 msgstr "Нет"
 
-#: ru/urfu/gui/MainApplicationFrameController.java:16
+#: ru/urfu/gui/MainFrame.java:104
 msgid "Are you sure you want to close application?"
 msgstr "Вы уверены, что хотите выйти?"
 
-#: ru/urfu/gui/MainApplicationFrameController.java:17
+#: ru/urfu/gui/MainFrame.java:105
 msgid "Exit Confirmation"
 msgstr "Подтверждение выхода"
 
-#: ru/urfu/gui/MainApplicationFrameController.java:24
+#: ru/urfu/gui/MainFrame.java:112
 msgid "Exit confirmation"
 msgstr "Запрос на выход"
 
-#: ru/urfu/gui/MainApplicationFrameController.java:28
+#: ru/urfu/gui/MainFrame.java:116
 msgid "Exit is confirmed"
 msgstr "Выход подтверждён"
 
-#: ru/urfu/gui/MainApplicationFrameController.java:31
+#: ru/urfu/gui/MainFrame.java:119
 msgid "Exit is cancelled"
 msgstr "Выход отменён"
 
-#: ru/urfu/gui/LogWindow.java:22
+#: ru/urfu/gui/menu/ExitMenuProvider.java:19
+msgid "Exit"
+msgstr "Выход"
+
+#: ru/urfu/gui/menu/LookAndFeelMenuProvider.java:20
+msgid "Look and Feel"
+msgstr "Режим отображения"
+
+#: ru/urfu/gui/menu/LookAndFeelMenuProvider.java:24
+msgid "Controls look and feel of the program."
+msgstr "Управление режимом отображения приложения."
+
+#: ru/urfu/gui/menu/LookAndFeelMenuProvider.java:39
+msgid "System Theme"
+msgstr "Системная схема"
+
+#: ru/urfu/gui/menu/LookAndFeelMenuProvider.java:51
+msgid "Crossplatform Theme"
+msgstr "Универсальная схема"
+
+#: ru/urfu/gui/menu/TestsMenuProvider.java:21
+msgid "Tests"
+msgstr "Тесты"
+
+#: ru/urfu/gui/menu/TestsMenuProvider.java:23
+msgid "Test commands."
+msgstr "Тестовые команды."
+
+#: ru/urfu/gui/menu/TestsMenuProvider.java:36
+msgid "Log a message"
+msgstr "Сообщение в лог"
+
+#: ru/urfu/gui/menu/TestsMenuProvider.java:37
+msgid "New string"
+msgstr "Новая строка"
+
+#: ru/urfu/gui/menu/WindowsMenuProvider.java:16
+msgid "Windows"
+msgstr "Окна"
+
+#: ru/urfu/gui/menu/WindowsMenuProvider.java:20
+msgid "Controls windows."
+msgstr "Управление окнами."
+
+#: ru/urfu/gui/menu/WindowsMenuProvider.java:35
+#: ru/urfu/gui/game/GameWindow.java:21
+msgid "Game Field"
+msgstr "Игровое поле"
+
+#: ru/urfu/gui/menu/WindowsMenuProvider.java:47 ru/urfu/gui/LogWindow.java:20
 msgid "Logs"
 msgstr "Протокол работы"
+
+#, fuzzy
+#~ msgid "Game Window"
+#~ msgstr "Игровое поле"
+
+#~ msgid "Log Window"
+#~ msgstr "Протокол"

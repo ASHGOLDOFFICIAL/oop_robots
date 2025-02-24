@@ -1,9 +1,7 @@
 package ru.urfu.gui.menu;
 
-import ru.urfu.gui.MainApplicationFrame;
-import ru.urfu.gui.MainApplicationFrameController;
-
-import java.awt.*;
+import java.awt.Component;
+import ru.urfu.gui.MainFrame;
 
 /**
  * <p>Предоставляет элементы меню.</p>
@@ -16,5 +14,5 @@ public interface MenuElementProvider {
      * @param controller контроллер окна.
      * @return элемент для добавления.
      */
-    Component provide(MainApplicationFrame frame, MainApplicationFrameController controller);
+    Component provide(MainFrame frame);
 }

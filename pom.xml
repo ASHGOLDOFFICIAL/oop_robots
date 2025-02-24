@@ -30,7 +30,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>ru.urfu.gui.RobotsProgram</mainClass>
+                            <mainClass>ru.urfu.gui.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

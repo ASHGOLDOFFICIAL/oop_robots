@@ -1,13 +1,11 @@
 package ru.urfu.gui.menu;
 
-import ru.urfu.gui.MainApplicationFrame;
-import ru.urfu.gui.MainApplicationFrameController;
+import java.awt.Component;
+import java.awt.event.KeyEvent;
+import javax.swing.JMenuItem;
 import org.xnap.commons.i18n.I18n;
 import org.xnap.commons.i18n.I18nFactory;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.KeyEvent;
+import ru.urfu.gui.MainFrame;
 
 /**
  * <p>Создаёт элемент меню "Выход"
@@ -17,9 +15,9 @@ public final class ExitMenuProvider implements MenuElementProvider {
     private final I18n i18n = I18nFactory.getI18n(getClass());
 
     @Override
-    public Component provide(MainApplicationFrame frame, MainApplicationFrameController controller) {
+    public Component provide(MainFrame frame) {
         final JMenuItem item = new JMenuItem(i18n.tr("Exit"), KeyEvent.VK_Q);
-        item.addActionListener((event) -> controller.showExitConfirmationPopUp());
+        item.addActionListener((event) -> frame.showExitConfirmationPopUp());
         return item;
     }
 }
