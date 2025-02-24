@@ -18,7 +18,7 @@ public final class LogWindow extends JInternalFrame implements LogChangeListener
     private final static int LOG_CONTENT_WIDTH = 200;
     private final static int LOG_CONTENT_HEIGHT = 500;
 
-    private static final I18n I18N = I18nFactory.getI18n(LogWindow.class);
+    private final I18n i18n = I18nFactory.getI18n(LogWindow.class);
     private final LogWindowSource logSource;
     private final TextArea logContent;
 
@@ -28,7 +28,9 @@ public final class LogWindow extends JInternalFrame implements LogChangeListener
      * @param logSource источник логов.
      */
     public LogWindow(LogWindowSource logSource) {
-        super(I18N.tr("Logs"), true, true, true, true);
+        super("Logs", true, true, true, true);
+        setTitle(i18n.tr("Logs"));
+
         this.logSource = logSource;
         this.logSource.registerListener(this);
         logContent = new TextArea("");
