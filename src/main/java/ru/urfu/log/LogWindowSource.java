@@ -3,21 +3,14 @@ package ru.urfu.log;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.slf4j.LoggerFactory;
 
-/**
- * Что починить:
- * 1. Этот класс порождает утечку ресурсов (связанные слушатели оказываются
- * удерживаемыми в памяти)
- * 2. Этот класс хранит активные сообщения лога, но в такой реализации он
- * их лишь накапливает. Надо же, чтобы количество сообщений в логе было ограничено
- * величиной m_iQueueLength (т.е. реально нужна очередь сообщений
- * ограниченного размера)
- */
-@SuppressWarnings({"MissingJavadocMethod", "HiddenField"})
+
+@SuppressWarnings({"MissingJavadocMethod"})
 public class LogWindowSource {
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(LogWindowSource.class);
     private final int iQueueLength;
-
-    private final List<LogEntry> messages;
+    private List<LogEntry> messages;
     private final List<LogChangeListener> listeners;
     private volatile LogChangeListener[] activeListeners;
 
@@ -31,6 +24,7 @@ public class LogWindowSource {
         synchronized (listeners) {
             listeners.add(listener);
             activeListeners = null;
+            log.debug("Listener registered. Its hashcode is {}", listener.hashCode());
         }
     }
 
@@ -38,22 +32,27 @@ public class LogWindowSource {
         synchronized (listeners) {
             listeners.remove(listener);
             activeListeners = null;
+            log.debug("Listener unregistered: Its hashcode is {}", listener.hashCode());
         }
     }
 
     public void append(LogLevel logLevel, String strMessage) {
-        LogEntry entry = new LogEntry(logLevel, strMessage);
+        final LogEntry entry = new LogEntry(logLevel, strMessage);
+
+        if (size() >= iQueueLength) {
+            this.messages = range(1, iQueueLength);
+        }
         messages.add(entry);
-        LogChangeListener[] activeListeners = this.activeListeners;
-        if (activeListeners == null) {
+        log.debug("Current size is {}", size());
+
+        if (this.activeListeners == null) {
             synchronized (listeners) {
                 if (this.activeListeners == null) {
-                    activeListeners = listeners.toArray(new LogChangeListener[0]);
-                    this.activeListeners = activeListeners;
+                    this.activeListeners = listeners.toArray(new LogChangeListener[0]);
                 }
             }
         }
-        for (LogChangeListener listener : activeListeners) {
+        for (LogChangeListener listener : this.activeListeners) {
             listener.onLogChanged();
         }
     }
@@ -62,7 +61,7 @@ public class LogWindowSource {
         return messages.size();
     }
 
-    public Iterable<LogEntry> range(int startFrom, int count) {
+    public List<LogEntry> range(int startFrom, int count) {
         if (startFrom < 0 || startFrom >= messages.size()) {
             return Collections.emptyList();
         }
@@ -71,6 +70,6 @@ public class LogWindowSource {
     }
 
     public Iterable<LogEntry> all() {
-        return messages;
+        return List.copyOf(messages);
     }
 }
