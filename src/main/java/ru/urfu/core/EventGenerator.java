@@ -3,7 +3,7 @@ package ru.urfu.core;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class EventGenerator {
+public final class EventGenerator {
     private final Timer timer = initTimer();
     private static Timer initTimer() {
         return new Timer("events generator", true);

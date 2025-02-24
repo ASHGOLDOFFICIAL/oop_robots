@@ -13,6 +13,10 @@ public final class GameModelImpl implements GameModel {
     private final RobotModel robot = new RobotModel(100, 100, 0);
     private Point targetPosition = new Point(100, 100);
 
+    /**
+     * <p>Конструктор.</p>
+     * @param timer таймер для генерации событий.
+     */
     public GameModelImpl(EventGenerator timer) {
         timer.schedule(new TimerTask() {
             @Override
@@ -45,41 +49,57 @@ public final class GameModelImpl implements GameModel {
         return new RobotInfo(robot);
     }
 
+    /**
+     * <p>Оповещает подписавшихся на обновления об изменении модели.</p>
+     */
     private void notifySubscribers() {
         for (final GameView view : listeners) {
             view.onModelUpdate();
         }
     }
 
+    /**
+     * <p>Обновляет состояние модели.</p>
+     * @return были ли какие-то изменения.
+     */
     private boolean updateModel() {
-        double distance = distance(targetPosition.x, targetPosition.y,
-                robot.getPositionX(), robot.getPositionY());
-        if (distance < 0.5) {
+        if (!hasChanges()) {
             return false;
         }
-        double velocity = robot.getMaxVelocity();
-        double angleToTarget = angleTo(robot.getPositionX(), robot.getPositionY(),
-                targetPosition.x, targetPosition.y);
-        double angularVelocity = 0;
-
-        if (angleToTarget > robot.getDirection()) {
-            angularVelocity = robot.getMaxAngularVelocity();
-        }
-        if (angleToTarget < robot.getDirection()) {
-            angularVelocity = -robot.getMaxAngularVelocity();
-        }
-
-        moveRobot(velocity, angularVelocity, 10);
+        moveRobot();
         return true;
     }
 
-    private void moveRobot(double velocity, double angularVelocity, double duration) {
+    /**
+     * <p>Проверка на то, есть ли изменения.</p>
+     * @return результат проверки.
+     */
+    private boolean hasChanges() {
+        final double distance = distance(targetPosition.x, targetPosition.y,
+                robot.getPositionX(), robot.getPositionY());
+        return distance >= 0.5;
+    }
+
+    /**
+     * <p>Перемещает робота на поле.</p>
+     */
+    private void moveRobot() {
+        final double duration = 10;
         final double robotPositionX = robot.getPositionX();
         final double robotPositionY = robot.getPositionY();
         final double robotDirection = robot.getDirection();
+        final double velocity = robot.getVelocity();
 
-        velocity = robot.setVelocity(velocity);
-        angularVelocity = robot.setAngularVelocity(angularVelocity);
+        final double angleToTarget = angleTo(robot.getPositionX(), robot.getPositionY(),
+                targetPosition.x, targetPosition.y);
+
+        double angularVelocity = 0;
+        if (angleToTarget > robot.getDirection()) {
+            angularVelocity = robot.getAngularVelocity();
+        }
+        if (angleToTarget < robot.getDirection()) {
+            angularVelocity = -robot.getAngularVelocity();
+        }
 
         double newX = robotPositionX + velocity / angularVelocity *
                 (Math.sin(robotDirection + angularVelocity * duration) -
@@ -94,6 +114,7 @@ public final class GameModelImpl implements GameModel {
         if (!Double.isFinite(newY)) {
             newY = robotPositionY + velocity * duration * Math.sin(robotDirection);
         }
+
         double newDirection = asNormalizedRadians(robotDirection + angularVelocity * duration);
 
         robot.setPositionX(newX);

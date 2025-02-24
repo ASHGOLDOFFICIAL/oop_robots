@@ -40,23 +40,11 @@ public final class RobotModel {
         this.direction = direction;
     }
 
-    public double setVelocity(double velocity) {
-        final double newVelocity = applyLimits(velocity, 0, MAX_VELOCITY);
-        this.velocity = newVelocity;
-        return newVelocity;
-    }
-
-    public double setAngularVelocity(double angularVelocity) {
-        final double newAngularVelocity = applyLimits(angularVelocity, -MAX_ANGULAR_VELOCITY, MAX_ANGULAR_VELOCITY);
-        this.angularVelocity = newAngularVelocity;
-        return newAngularVelocity;
-    }
-
-    public double getMaxVelocity() {
+    public double getVelocity() {
         return MAX_VELOCITY;
     }
 
-    public double getMaxAngularVelocity() {
+    public double getAngularVelocity() {
         return MAX_ANGULAR_VELOCITY;
     }
 

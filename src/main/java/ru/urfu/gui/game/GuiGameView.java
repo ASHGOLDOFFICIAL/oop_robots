@@ -1,52 +1,68 @@
-package ru.urfu.gui;
+package ru.urfu.gui.game;
 
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.util.TimerTask;
 import javax.swing.JPanel;
-import ru.urfu.core.RobotInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.urfu.core.EventGenerator;
-import ru.urfu.core.GameController;
 import ru.urfu.core.GameModel;
 import ru.urfu.core.GameView;
+import ru.urfu.core.RobotInfo;
 
 /**
  * <p>Реализация интерфейса {@link GameView} на Swing.</p>
  */
-public final class SwingGameView extends JPanel implements GameView {
+public final class GuiGameView extends JPanel implements GameView {
+    private final Logger log = LoggerFactory.getLogger(GuiGameView.class);
+
+    private final EventGenerator timer;
     private final GameModel model;
-    private final GameController controller;
+    private final TimerTask repaintTask = new TimerTask() {
+        @Override
+        public void run() {
+            EventQueue.invokeLater(GuiGameView.this::repaint);
+        }
+    };
 
-    public SwingGameView(GameModel model,
-                         GameController controller,
-                         EventGenerator timer) {
+    /**
+     * <p>Конструктор.</p>
+     * @param model модель игры.
+     * @param timer таймер для генерации событий.
+     */
+    public GuiGameView(GameModel model, EventGenerator timer) {
         this.model = model;
-        this.controller = controller;
-
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                EventQueue.invokeLater(SwingGameView.this::repaint);
-            }
-        }, 0, 50);
-
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                SwingGameView.this.controller.setTargetPosition(e.getPoint());
-            }
-        });
+        this.timer = timer;
         setDoubleBuffered(true);
+    }
+
+    /**
+     * <p>Начинает работу view: поле
+     * периодически перерисовывается
+     * для отображения изменений в модели.</p>
+     */
+    public void start() {
+        timer.schedule(repaintTask, 0, 50);
+        log.debug("View has started.");
+    }
+
+    /**
+     * <p>Останавливает работу view:
+     * поле больше не перерисовывается.</p>
+     */
+    public void stop() {
+        repaintTask.cancel();
+        log.debug("View has stopped.");
     }
 
     @Override
     public void onModelUpdate() {
+        log.debug("Model has updated, doing nothing.");
     }
 
     @Override
