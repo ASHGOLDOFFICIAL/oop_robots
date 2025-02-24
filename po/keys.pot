@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-23 17:29+0500\n"
+"POT-Creation-Date: 2025-02-24 18:32+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,78 +17,87 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ru/urfu/gui/menu/ExitMenuProvider.java:21
-msgid "Exit"
-msgstr ""
-
-#: ru/urfu/gui/menu/LookAndFeelMenuProvider.java:21
-msgid "Look and Feel"
-msgstr ""
-
-#: ru/urfu/gui/menu/LookAndFeelMenuProvider.java:25
-msgid "Controls look and feel of the program."
-msgstr ""
-
-#: ru/urfu/gui/menu/LookAndFeelMenuProvider.java:41
-msgid "System Theme"
-msgstr ""
-
-#: ru/urfu/gui/menu/LookAndFeelMenuProvider.java:54
-msgid "Crossplatform Theme"
-msgstr ""
-
-#: ru/urfu/gui/menu/TestsMenuProvider.java:22
-msgid "Tests"
-msgstr ""
-
-#: ru/urfu/gui/menu/TestsMenuProvider.java:24
-msgid "Test commands."
-msgstr ""
-
-#: ru/urfu/gui/menu/TestsMenuProvider.java:37
-msgid "Log a message"
-msgstr ""
-
-#: ru/urfu/gui/menu/TestsMenuProvider.java:38
-msgid "New string"
-msgstr ""
-
-#: ru/urfu/gui/MainApplicationFrame.java:52
+#: ru/urfu/gui/MainFrame.java:92
 msgid "Logger is working"
 msgstr ""
 
-#: ru/urfu/gui/GameWindow.java:16
-msgid "Game Field"
-msgstr ""
-
-#: ru/urfu/gui/MainApplicationFrameController.java:13
+#: ru/urfu/gui/MainFrame.java:101
 msgid "Yes"
 msgstr ""
 
-#: ru/urfu/gui/MainApplicationFrameController.java:13
+#: ru/urfu/gui/MainFrame.java:101
 msgid "No"
 msgstr ""
 
-#: ru/urfu/gui/MainApplicationFrameController.java:16
+#: ru/urfu/gui/MainFrame.java:104
 msgid "Are you sure you want to close application?"
 msgstr ""
 
-#: ru/urfu/gui/MainApplicationFrameController.java:17
+#: ru/urfu/gui/MainFrame.java:105
 msgid "Exit Confirmation"
 msgstr ""
 
-#: ru/urfu/gui/MainApplicationFrameController.java:24
+#: ru/urfu/gui/MainFrame.java:112
 msgid "Exit confirmation"
 msgstr ""
 
-#: ru/urfu/gui/MainApplicationFrameController.java:28
+#: ru/urfu/gui/MainFrame.java:116
 msgid "Exit is confirmed"
 msgstr ""
 
-#: ru/urfu/gui/MainApplicationFrameController.java:31
+#: ru/urfu/gui/MainFrame.java:119
 msgid "Exit is cancelled"
 msgstr ""
 
-#: ru/urfu/gui/LogWindow.java:22
+#: ru/urfu/gui/menu/ExitMenuProvider.java:19
+msgid "Exit"
+msgstr ""
+
+#: ru/urfu/gui/menu/LookAndFeelMenuProvider.java:20
+msgid "Look and Feel"
+msgstr ""
+
+#: ru/urfu/gui/menu/LookAndFeelMenuProvider.java:24
+msgid "Controls look and feel of the program."
+msgstr ""
+
+#: ru/urfu/gui/menu/LookAndFeelMenuProvider.java:39
+msgid "System Theme"
+msgstr ""
+
+#: ru/urfu/gui/menu/LookAndFeelMenuProvider.java:51
+msgid "Crossplatform Theme"
+msgstr ""
+
+#: ru/urfu/gui/menu/TestsMenuProvider.java:21
+msgid "Tests"
+msgstr ""
+
+#: ru/urfu/gui/menu/TestsMenuProvider.java:23
+msgid "Test commands."
+msgstr ""
+
+#: ru/urfu/gui/menu/TestsMenuProvider.java:36
+msgid "Log a message"
+msgstr ""
+
+#: ru/urfu/gui/menu/TestsMenuProvider.java:37
+msgid "New string"
+msgstr ""
+
+#: ru/urfu/gui/menu/WindowsMenuProvider.java:16
+msgid "Windows"
+msgstr ""
+
+#: ru/urfu/gui/menu/WindowsMenuProvider.java:20
+msgid "Controls windows."
+msgstr ""
+
+#: ru/urfu/gui/menu/WindowsMenuProvider.java:35
+#: ru/urfu/gui/game/GameWindow.java:21
+msgid "Game Field"
+msgstr ""
+
+#: ru/urfu/gui/menu/WindowsMenuProvider.java:47 ru/urfu/gui/LogWindow.java:20
 msgid "Logs"
 msgstr ""

@@ -32,7 +32,7 @@ public final class WindowsMenuProvider implements MenuElementProvider {
      * @return элемент меню.
      */
     private JMenuItem createOpenGameWindowItem(MainFrame frame) {
-        final JMenuItem item = new JMenuItem(i18n.tr("Game Window"), KeyEvent.VK_G);
+        final JMenuItem item = new JMenuItem(i18n.tr("Game Field"), KeyEvent.VK_G);
         item.addActionListener((event) -> frame.addGameWindow());
         return item;
     }
@@ -44,7 +44,7 @@ public final class WindowsMenuProvider implements MenuElementProvider {
      * @return элемент меню.
      */
     private JMenuItem createOpenLogWindowItem(MainFrame frame) {
-        final JMenuItem item = new JMenuItem(i18n.tr("Log Window"), KeyEvent.VK_L);
+        final JMenuItem item = new JMenuItem(i18n.tr("Logs"), KeyEvent.VK_L);
         item.addActionListener((event) -> frame.addLogWindow());
         return item;
     }
