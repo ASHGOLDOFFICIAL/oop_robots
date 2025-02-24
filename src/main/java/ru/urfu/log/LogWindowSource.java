@@ -6,9 +6,9 @@ import java.util.List;
 import org.slf4j.LoggerFactory;
 
 
-@SuppressWarnings({"MissingJavadocMethod"})
+@SuppressWarnings({"MissingJavadocMethod", "MissingJavadocType"})
 public class LogWindowSource {
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(LogWindowSource.class);
+    private final org.slf4j.Logger log = LoggerFactory.getLogger(LogWindowSource.class);
     private final int iQueueLength;
     private List<LogEntry> messages;
     private final List<LogChangeListener> listeners;
