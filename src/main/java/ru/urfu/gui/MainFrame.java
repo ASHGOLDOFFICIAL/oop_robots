@@ -27,7 +27,14 @@ import ru.urfu.log.Logger;
 /**
  * <p>Главное окно приложения.</p>
  */
-public class MainFrame extends JFrame {
+public final class MainFrame extends JFrame {
+    private final static int GAME_WINDOW_WIDTH = 400;
+    private final static int GAME_WINDOW_HEIGHT = 400;
+    private final static int LOG_WINDOW_WIDTH = 300;
+    private final static int LOG_WINDOW_HEIGHT = 800;
+    private final static int LOG_WINDOW_LOCATION_X = 10;
+    private final static int LOG_WINDOW_LOCATION_Y = 10;
+
     private final I18n i18n = I18nFactory.getI18n(MainFrame.class);
     private final org.slf4j.Logger log = LoggerFactory.getLogger(MainFrame.class);
     private final JDesktopPane desktopPane = new JDesktopPane();
@@ -79,7 +86,7 @@ public class MainFrame extends JFrame {
      */
     public void addGameWindow() {
         final GameWindow gameWindow = new GameWindow();
-        gameWindow.setSize(400, 400);
+        gameWindow.setSize(GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT);
         this.addWindow(gameWindow);
     }
 
@@ -88,8 +95,8 @@ public class MainFrame extends JFrame {
      */
     public void addLogWindow() {
         final LogWindow logWindow = new LogWindow(Logger.getDefaultLogSource());
-        logWindow.setLocation(10, 10);
-        logWindow.setSize(300, 800);
+        logWindow.setLocation(LOG_WINDOW_LOCATION_X, LOG_WINDOW_LOCATION_Y);
+        logWindow.setSize(LOG_WINDOW_WIDTH, LOG_WINDOW_HEIGHT);
         this.setMinimumSize(logWindow.getSize());
         logWindow.pack();
         Logger.debug(i18n.tr("Logger is working"));
@@ -120,6 +127,7 @@ public class MainFrame extends JFrame {
                 closeMainWindow();
             }
             case JOptionPane.NO_OPTION -> Logger.debug(i18n.tr("Exit is cancelled"));
+            default -> Logger.debug(i18n.tr("Unknown option"));
         }
     }
 

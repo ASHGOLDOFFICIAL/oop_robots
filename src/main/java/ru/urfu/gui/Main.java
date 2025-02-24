@@ -6,7 +6,22 @@ import javax.swing.SwingUtilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Main {
+/**
+ * <p>Класс для запуска приложения.</p>
+ */
+public final class Main {
+    /**
+     * <p>Приватный конструктор,
+     * чтобы не создавали объектов.</p>
+     */
+    private Main() {
+    }
+
+    /**
+     * <p>Метод для запуска приложения.</p>
+     *
+     * @param args аргументы.
+     */
     public static void main(String[] args) {
         final Logger log = LoggerFactory.getLogger(Main.class);
         final Locale locale = Locale.getDefault();

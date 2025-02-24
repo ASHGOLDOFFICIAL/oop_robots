@@ -11,32 +11,44 @@ import ru.urfu.log.LogChangeListener;
 import ru.urfu.log.LogEntry;
 import ru.urfu.log.LogWindowSource;
 
-public class LogWindow extends JInternalFrame implements LogChangeListener {
-    private static final I18n i18n = I18nFactory.getI18n(LogWindow.class);
-    private final LogWindowSource m_logSource;
-    private final TextArea m_logContent;
+/**
+ * <p>Окно с логами.</p>
+ */
+public final class LogWindow extends JInternalFrame implements LogChangeListener {
+    private final static int LOG_CONTENT_WIDTH = 200;
+    private final static int LOG_CONTENT_HEIGHT = 500;
 
+    private static final I18n I18N = I18nFactory.getI18n(LogWindow.class);
+    private final LogWindowSource logSource;
+    private final TextArea logContent;
+
+    /**
+     * <p>Конструктор.</p>
+     *
+     * @param logSource источник логов.
+     */
     public LogWindow(LogWindowSource logSource) {
-        super(i18n.tr("Logs"), true, true, true, true);
-        m_logSource = logSource;
-        m_logSource.registerListener(this);
-        m_logContent = new TextArea("");
-        m_logContent.setSize(200, 500);
+        super(I18N.tr("Logs"), true, true, true, true);
+        this.logSource = logSource;
+        this.logSource.registerListener(this);
+        logContent = new TextArea("");
+        logContent.setSize(LOG_CONTENT_WIDTH, LOG_CONTENT_HEIGHT);
 
         JPanel panel = new JPanel(new BorderLayout());
-        panel.add(m_logContent, BorderLayout.CENTER);
+        panel.add(logContent, BorderLayout.CENTER);
         getContentPane().add(panel);
         pack();
         updateLogContent();
     }
 
+    @SuppressWarnings("MissingJavadocMethod")
     private void updateLogContent() {
         StringBuilder content = new StringBuilder();
-        for (LogEntry entry : m_logSource.all()) {
+        for (LogEntry entry : logSource.all()) {
             content.append(entry.getMessage()).append("\n");
         }
-        m_logContent.setText(content.toString());
-        m_logContent.invalidate();
+        logContent.setText(content.toString());
+        logContent.invalidate();
     }
 
     @Override
