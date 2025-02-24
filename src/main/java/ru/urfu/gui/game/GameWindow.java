@@ -24,7 +24,7 @@ public final class GameWindow extends JInternalFrame {
      * <p>Конструктор.</p>
      */
     public GameWindow() {
-        super("Game Field", true, true, true, true);
+        super(null, true, true, true, true);
         setTitle(i18n.tr("Game Field"));
 
         final EventGenerator eventGenerator = new EventGenerator();

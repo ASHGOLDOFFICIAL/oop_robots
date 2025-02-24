@@ -28,7 +28,7 @@ public final class LogWindow extends JInternalFrame implements LogChangeListener
      * @param logSource источник логов.
      */
     public LogWindow(LogWindowSource logSource) {
-        super("Logs", true, true, true, true);
+        super(null, true, true, true, true);
         setTitle(i18n.tr("Logs"));
 
         this.logSource = logSource;
