@@ -15,7 +15,7 @@ import ru.urfu.core.GameModelImpl;
  * <p>Игровое окно.</p>
  */
 public final class GameWindow extends JInternalFrame {
-    private static final I18n I18N = I18nFactory.getI18n(GameWindow.class);
+    private final I18n i18n = I18nFactory.getI18n(GameWindow.class);
     private final GameModel model;
     private final GuiGameView view;
     private final GuiGameController controller;
@@ -24,7 +24,8 @@ public final class GameWindow extends JInternalFrame {
      * <p>Конструктор.</p>
      */
     public GameWindow() {
-        super(I18N.tr("Game Field"), true, true, true, true);
+        super(null, true, true, true, true);
+        setTitle(i18n.tr("Game Field"));
 
         final EventGenerator eventGenerator = new EventGenerator();
         this.model = new GameModelImpl(eventGenerator);
