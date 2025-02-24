@@ -12,14 +12,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.urfu.core.EventGenerator;
 import ru.urfu.core.GameModel;
-import ru.urfu.core.GameView;
 import ru.urfu.core.RobotInfo;
 
 /**
- * <p>Реализация интерфейса {@link GameView} на Swing.</p>
+ * <p>View игры.</p>
  */
 @SuppressWarnings({"MissingJavadocMethod", "MagicNumber"})
-public final class GuiGameView extends JPanel implements GameView {
+public final class GuiGameView extends JPanel {
     private final static int REFRESH_PERIOD = 20;
     private final Logger log = LoggerFactory.getLogger(GuiGameView.class);
 
@@ -61,10 +60,6 @@ public final class GuiGameView extends JPanel implements GameView {
     public void stop() {
         repaintTask.cancel();
         log.debug("View has stopped.");
-    }
-
-    @Override
-    public void onModelUpdate() {
     }
 
     @Override
