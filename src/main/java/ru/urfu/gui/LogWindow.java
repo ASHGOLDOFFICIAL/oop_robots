@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import java.awt.TextArea;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
 import org.xnap.commons.i18n.I18n;
 import org.xnap.commons.i18n.I18nFactory;
 import ru.urfu.log.LogChangeListener;
@@ -36,7 +38,13 @@ public final class LogWindow extends JInternalFrame implements LogChangeListener
         logContent = new TextArea("");
         logContent.setSize(LOG_CONTENT_WIDTH, LOG_CONTENT_HEIGHT);
 
-        JPanel panel = new JPanel(new BorderLayout());
+        addInternalFrameListener(new InternalFrameAdapter() {
+            public void internalFrameClosing(InternalFrameEvent e) {
+                logSource.unregisterListener(LogWindow.this);
+            }
+        });
+
+        final JPanel panel = new JPanel(new BorderLayout());
         panel.add(logContent, BorderLayout.CENTER);
         getContentPane().add(panel);
         pack();
@@ -45,7 +53,7 @@ public final class LogWindow extends JInternalFrame implements LogChangeListener
 
     @SuppressWarnings("MissingJavadocMethod")
     private void updateLogContent() {
-        StringBuilder content = new StringBuilder();
+        final StringBuilder content = new StringBuilder();
         for (LogEntry entry : logSource.all()) {
             content.append(entry.getMessage()).append("\n");
         }
