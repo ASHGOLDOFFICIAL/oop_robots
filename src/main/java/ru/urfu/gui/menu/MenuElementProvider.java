@@ -10,8 +10,7 @@ public interface MenuElementProvider {
     /**
      * <p>Предоставляет элемент для добавления в меню.</p>
      *
-     * @param frame      окно.
-     * @param controller контроллер окна.
+     * @param frame окно.
      * @return элемент для добавления.
      */
     Component provide(MainFrame frame);

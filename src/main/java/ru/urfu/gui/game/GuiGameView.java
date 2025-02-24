@@ -18,7 +18,9 @@ import ru.urfu.core.RobotInfo;
 /**
  * <p>Реализация интерфейса {@link GameView} на Swing.</p>
  */
+@SuppressWarnings({"MissingJavadocMethod", "MagicNumber"})
 public final class GuiGameView extends JPanel implements GameView {
+    private final static int REFRESH_PERIOD = 20;
     private final Logger log = LoggerFactory.getLogger(GuiGameView.class);
 
     private final EventGenerator timer;
@@ -48,7 +50,7 @@ public final class GuiGameView extends JPanel implements GameView {
      * для отображения изменений в модели.</p>
      */
     public void start() {
-        timer.schedule(repaintTask, 0, 50);
+        timer.schedule(repaintTask, 0, REFRESH_PERIOD);
         log.debug("View has started.");
     }
 

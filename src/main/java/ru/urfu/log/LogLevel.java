@@ -1,5 +1,6 @@
 package ru.urfu.log;
 
+@SuppressWarnings({"MissingJavadocMethod", "MissingJavadocType"})
 public enum LogLevel {
     Trace(0),
     Debug(1),
@@ -8,14 +9,14 @@ public enum LogLevel {
     Error(4),
     Fatal(5);
 
-    private final int m_iLevel;
+    private final int iLevel;
 
     LogLevel(int iLevel) {
-        m_iLevel = iLevel;
+        this.iLevel = iLevel;
     }
 
     public int level() {
-        return m_iLevel;
+        return iLevel;
     }
 }
 

@@ -8,23 +8,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * <p>Реализация интерфейса {@link GameModel}</p>
+ * <p>Реализация интерфейса {@link GameModel}.</p>
  */
 public final class GameModelImpl implements GameModel {
     private final static int GAME_CLOCK_PERIOD = 10;
+    private final static double HALF_A_PIXEL = 0.5;
+    private final static double EPSILON = 0.00001;
+
     private final Logger log = LoggerFactory.getLogger(GameModelImpl.class);
+    private final Point initialPosition = new Point(100, 100);
 
     private final EventGenerator timer;
+    private final List<GameView> listeners = new ArrayList<>();
+    private final RobotModel robot = new RobotModel(initialPosition.x, initialPosition.y, 0);
+    private Point targetPosition = new Point(initialPosition.x, initialPosition.y);
     private final TimerTask updateTask = new TimerTask() {
         @Override
         public void run() {
             update();
         }
     };
-
-    private final List<GameView> listeners = new ArrayList<>();
-    private final RobotModel robot = new RobotModel(100, 100, 0);
-    private Point targetPosition = new Point(100, 100);
 
     /**
      * <p>Конструктор.</p>
@@ -33,6 +36,54 @@ public final class GameModelImpl implements GameModel {
      */
     public GameModelImpl(EventGenerator timer) {
         this.timer = timer;
+    }
+
+    /**
+     * <p>Квадрат расстояния между двумя точками.</p>
+     *
+     * @param x1 x первой точки.
+     * @param y1 y первой точки.
+     * @param x2 x второй точки.
+     * @param y2 y второй точки.
+     * @return квадрат расстояния.
+     */
+    private static double distanceSquared(double x1, double y1, double x2, double y2) {
+        double diffX = x2 - x1;
+        double diffY = y2 - y1;
+        return diffX * diffX + diffY * diffY;
+    }
+
+    /**
+     * <p>Угол между ось x и прямой,
+     * проходящей через две точки.</p>
+     *
+     * @param x1 x первой точки.
+     * @param y1 y первой точки.
+     * @param x2 x второй точки.
+     * @param y2 y второй точки.
+     * @return угол.
+     */
+    private static double angleTo(double x1, double y1, double x2, double y2) {
+        double diffX = x2 - x1;
+        double diffY = y2 - y1;
+        return asNormalizedRadians(Math.atan2(diffY, diffX));
+    }
+
+    /**
+     * <p>Нормализация угла.</p>
+     *
+     * @param angle угол.
+     * @return нормализация угла.
+     */
+    private static double asNormalizedRadians(double angle) {
+        double newAngle = angle;
+        while (newAngle < 0) {
+            newAngle += 2 * Math.PI;
+        }
+        while (newAngle >= 2 * Math.PI) {
+            newAngle -= 2 * Math.PI;
+        }
+        return newAngle;
     }
 
     @Override
@@ -100,7 +151,7 @@ public final class GameModelImpl implements GameModel {
     private boolean hasChanges() {
         final double distance = distanceSquared(targetPosition.x, targetPosition.y,
                 robot.getPositionX(), robot.getPositionY());
-        return distance >= 0.5;
+        return distance >= HALF_A_PIXEL;
     }
 
     /**
@@ -128,13 +179,12 @@ public final class GameModelImpl implements GameModel {
      * @return новое направление для робота.
      */
     private double calcNewDirection() {
-        final double angleToTarget = angleTo(
-                robot.getPositionX(), robot.getPositionY(),
+        final double angleToTarget = angleTo(robot.getPositionX(), robot.getPositionY(),
                 targetPosition.x, targetPosition.y);
 
         final double direction = robot.getDirection();
         double newDirection = direction;
-        if (Math.abs(angleToTarget - direction) > 0.00001) {
+        if (Math.abs(angleToTarget - direction) > EPSILON) {
             double angularVelocity = robot.getAngularVelocity();
             if (angleToTarget < direction) {
                 angularVelocity = -robot.getAngularVelocity();
@@ -145,36 +195,5 @@ public final class GameModelImpl implements GameModel {
         }
 
         return newDirection;
-    }
-
-    /**
-     * <p>Квадрат расстояния между двумя точками.</p>
-     *
-     * @param x1 x первой точки.
-     * @param y1 y первой точки.
-     * @param x2 x второй точки.
-     * @param y2 y второй точки.
-     * @return квадрат расстояния.
-     */
-    private static double distanceSquared(double x1, double y1, double x2, double y2) {
-        double diffX = x2 - x1;
-        double diffY = y2 - y1;
-        return diffX * diffX + diffY * diffY;
-    }
-
-    private static double angleTo(double x1, double y1, double x2, double y2) {
-        double diffX = x2 - x1;
-        double diffY = y2 - y1;
-        return asNormalizedRadians(Math.atan2(diffY, diffX));
-    }
-
-    private static double asNormalizedRadians(double angle) {
-        while (angle < 0) {
-            angle += 2 * Math.PI;
-        }
-        while (angle >= 2 * Math.PI) {
-            angle -= 2 * Math.PI;
-        }
-        return angle;
     }
 }
