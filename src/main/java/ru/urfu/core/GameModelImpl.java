@@ -1,8 +1,6 @@
 package ru.urfu.core;
 
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.TimerTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,15 +17,15 @@ public final class GameModelImpl implements GameModel {
     private final Point initialPosition = new Point(100, 100);
 
     private final EventGenerator timer;
-    private final List<GameView> listeners = new ArrayList<>();
     private final RobotModel robot = new RobotModel(initialPosition.x, initialPosition.y, 0);
-    private Point targetPosition = new Point(initialPosition.x, initialPosition.y);
     private final TimerTask updateTask = new TimerTask() {
         @Override
         public void run() {
             update();
         }
     };
+
+    private Point targetPosition = new Point(initialPosition.x, initialPosition.y);
 
     /**
      * <p>Конструктор.</p>
@@ -99,11 +97,6 @@ public final class GameModelImpl implements GameModel {
     }
 
     @Override
-    public void subscribeToUpdates(GameView view) {
-        listeners.add(view);
-    }
-
-    @Override
     public Point getTargetPosition() {
         return new Point(targetPosition.x, targetPosition.y);
     }
@@ -126,16 +119,6 @@ public final class GameModelImpl implements GameModel {
             return;
         }
         moveRobot();
-        notifySubscribers();
-    }
-
-    /**
-     * <p>Оповещает подписавшихся на обновления об изменении модели.</p>
-     */
-    private void notifySubscribers() {
-        for (final GameView view : listeners) {
-            view.onModelUpdate();
-        }
     }
 
     /**

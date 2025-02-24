@@ -33,7 +33,6 @@ public final class GameWindow extends JInternalFrame {
         this.controller = new GuiGameController(model, view);
 
         model.start();
-        model.subscribeToUpdates(view);
         view.start();
         controller.start();
 

@@ -19,14 +19,6 @@ public interface GameModel {
     void stop();
 
     /**
-     * <p>Подписывает view на получение
-     * уведомлений об обновлении модели.</p>
-     *
-     * @param view который хотим подписать на обновления
-     */
-    void subscribeToUpdates(GameView view);
-
-    /**
      * <p>Геттер информации о роботе.</p>
      *
      * @return информация о роботе.
