@@ -1,18 +1,17 @@
-package ru.urfu.core.gamefield;
+package ru.urfu.core;
 
 import java.awt.Point;
-import ru.urfu.core.RobotInfo;
 
 /**
  * <p>Модель игрового поля.</p>
  */
-public interface GameFieldModel {
+public interface GameModel {
     /**
      * <p>Подписывает view на получение
      * уведомлений об обновлении модели.</p>
      * @param view который хотим подписать на обновления
      */
-    void subscribeToUpdates(GameFieldView view);
+    void subscribeToUpdates(GameView view);
 
     /**
      * <p>Геттер информации о роботе.</p>

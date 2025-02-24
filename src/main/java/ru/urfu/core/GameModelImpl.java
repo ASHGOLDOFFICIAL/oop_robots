@@ -1,21 +1,19 @@
-package ru.urfu.core.gamefield;
+package ru.urfu.core;
 
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
-import ru.urfu.core.RobotInfo;
-import ru.urfu.core.RobotModel;
 
 /**
- * <p>Реализация интерфейса {@link GameFieldModel}</p>
+ * <p>Реализация интерфейса {@link GameModel}</p>
  */
-public final class GameFieldModelImpl implements GameFieldModel {
-    private final List<GameFieldView> listeners = new ArrayList<>();
+public final class GameModelImpl implements GameModel {
+    private final List<GameView> listeners = new ArrayList<>();
     private final RobotModel robot = new RobotModel(100, 100, 0);
     private Point targetPosition = new Point(100, 100);
 
-    public GameFieldModelImpl(EventGenerator timer) {
+    public GameModelImpl(EventGenerator timer) {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -28,7 +26,7 @@ public final class GameFieldModelImpl implements GameFieldModel {
     }
 
     @Override
-    public void subscribeToUpdates(GameFieldView view) {
+    public void subscribeToUpdates(GameView view) {
         listeners.add(view);
     }
 
@@ -48,7 +46,7 @@ public final class GameFieldModelImpl implements GameFieldModel {
     }
 
     private void notifySubscribers() {
-        for (final GameFieldView view : listeners) {
+        for (final GameView view : listeners) {
             view.onModelUpdate();
         }
     }

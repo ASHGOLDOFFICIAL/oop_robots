@@ -11,35 +11,35 @@ import java.awt.geom.AffineTransform;
 import java.util.TimerTask;
 import javax.swing.JPanel;
 import ru.urfu.core.RobotInfo;
-import ru.urfu.core.gamefield.EventGenerator;
-import ru.urfu.core.gamefield.GameFieldController;
-import ru.urfu.core.gamefield.GameFieldModel;
-import ru.urfu.core.gamefield.GameFieldView;
+import ru.urfu.core.EventGenerator;
+import ru.urfu.core.GameController;
+import ru.urfu.core.GameModel;
+import ru.urfu.core.GameView;
 
 /**
- * <p>Реализация интерфейса {@link GameFieldView} на Swing.</p>
+ * <p>Реализация интерфейса {@link GameView} на Swing.</p>
  */
-public final class SwingGameFieldView extends JPanel implements GameFieldView {
-    private final GameFieldModel model;
-    private final GameFieldController controller;
+public final class SwingGameView extends JPanel implements GameView {
+    private final GameModel model;
+    private final GameController controller;
 
-    public SwingGameFieldView(GameFieldModel model,
-                              GameFieldController controller,
-                              EventGenerator timer) {
+    public SwingGameView(GameModel model,
+                         GameController controller,
+                         EventGenerator timer) {
         this.model = model;
         this.controller = controller;
 
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                EventQueue.invokeLater(SwingGameFieldView.this::repaint);
+                EventQueue.invokeLater(SwingGameView.this::repaint);
             }
         }, 0, 50);
 
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                SwingGameFieldView.this.controller.setTargetPosition(e.getPoint());
+                SwingGameView.this.controller.setTargetPosition(e.getPoint());
             }
         });
         setDoubleBuffered(true);

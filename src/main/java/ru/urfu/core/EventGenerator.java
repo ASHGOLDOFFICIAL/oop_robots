@@ -1,4 +1,4 @@
-package ru.urfu.core.gamefield;
+package ru.urfu.core;
 
 import java.util.Timer;
 import java.util.TimerTask;
