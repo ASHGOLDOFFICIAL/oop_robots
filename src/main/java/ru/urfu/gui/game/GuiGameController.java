@@ -18,8 +18,9 @@ public final class GuiGameController {
 
     /**
      * <p>Конструктор.</p>
+     *
      * @param model модель, с которой контроллер будет работать.
-     * @param view GUI-view, от которого контроллер будет получать события.
+     * @param view  GUI-view, от которого контроллер будет получать события.
      */
     public GuiGameController(GameModel model, GuiGameView view) {
         this.view = view;

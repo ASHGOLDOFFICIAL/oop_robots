@@ -31,8 +31,8 @@ public final class LookAndFeelMenuProvider implements MenuElementProvider {
 
     /**
      * <p>Создаёт элемент меню для переключения системную темы оформления.</p>
+     *
      * @param frame окно.
-     * @param controller контроллер окна.
      * @return элемент меню.
      */
     private JMenuItem createSetSystemLookAndFeelItem(MainFrame frame) {
@@ -43,8 +43,8 @@ public final class LookAndFeelMenuProvider implements MenuElementProvider {
 
     /**
      * <p>Создаёт элемент меню для переключения универсальную темы оформления.</p>
+     *
      * @param frame окно.
-     * @param controller контроллер окна.
      * @return элемент меню.
      */
     private JMenuItem createSetCrossplatformLookAndFeelItem(MainFrame frame) {

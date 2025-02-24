@@ -16,6 +16,7 @@ public record RobotInfo(
 
     /**
      * <p>Конструктор на основе модели.</p>
+     *
      * @param model модель.
      */
     public RobotInfo(RobotModel model) {

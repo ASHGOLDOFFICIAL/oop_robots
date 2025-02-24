@@ -11,6 +11,7 @@ public final class EventGenerator {
 
     /**
      * <p>Инициализирует таймер.</p>
+     *
      * @return таймер.
      */
     private Timer initTimer() {
@@ -19,8 +20,9 @@ public final class EventGenerator {
 
     /**
      * <p>Запланировать задачу.</p>
-     * @param task задача.
-     * @param delay отложить на.
+     *
+     * @param task   задача.
+     * @param delay  отложить на.
      * @param period периодичность.
      */
     public void schedule(TimerTask task, long delay, long period) {

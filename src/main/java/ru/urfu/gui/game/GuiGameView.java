@@ -32,6 +32,7 @@ public final class GuiGameView extends JPanel implements GameView {
 
     /**
      * <p>Конструктор.</p>
+     *
      * @param model модель игры.
      * @param timer таймер для генерации событий.
      */

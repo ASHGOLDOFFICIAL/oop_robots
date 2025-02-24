@@ -28,6 +28,7 @@ public final class GameModelImpl implements GameModel {
 
     /**
      * <p>Конструктор.</p>
+     *
      * @param timer таймер для генерации событий.
      */
     public GameModelImpl(EventGenerator timer) {
@@ -148,6 +149,7 @@ public final class GameModelImpl implements GameModel {
 
     /**
      * <p>Квадрат расстояния между двумя точками.</p>
+     *
      * @param x1 x первой точки.
      * @param y1 y первой точки.
      * @param x2 x второй точки.

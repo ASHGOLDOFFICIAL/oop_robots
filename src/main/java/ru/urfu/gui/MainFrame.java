@@ -101,7 +101,7 @@ public class MainFrame extends JFrame {
      * с запросом подтверждения выхода.</p>
      */
     public void showExitConfirmationPopUp() {
-        final Object[] options = { i18n.tr("Yes"), i18n.tr("No")};
+        final Object[] options = {i18n.tr("Yes"), i18n.tr("No")};
         final int result = JOptionPane.showOptionDialog(
                 null,
                 i18n.tr("Are you sure you want to close application?"),
@@ -141,6 +141,7 @@ public class MainFrame extends JFrame {
 
     /**
      * <p>Добавляет внутреннее окно.</p>
+     *
      * @param frame добавляемое окно.
      */
     private void addWindow(JInternalFrame frame) {
@@ -150,6 +151,7 @@ public class MainFrame extends JFrame {
 
     /**
      * <p>Меняет тему оформления.</p>
+     *
      * @param className имя класс новой темы.
      */
     private void setLookAndFeel(String className) {
