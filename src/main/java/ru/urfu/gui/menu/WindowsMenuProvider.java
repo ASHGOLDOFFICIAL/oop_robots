@@ -11,7 +11,7 @@ import ru.urfu.gui.MainFrame;
 /**
  * <p>Создаёт меню для открытия окон.</p>
  */
-public final class WindowsMenuProvider implements MenuElementProvider {
+final class WindowsMenuProvider implements MenuElementProvider {
     private final I18n i18n = I18nFactory.getI18n(getClass());
 
     @Override

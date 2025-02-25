@@ -6,7 +6,7 @@ import ru.urfu.gui.MainFrame;
 /**
  * <p>Предоставляет элементы меню.</p>
  */
-public interface MenuElementProvider {
+interface MenuElementProvider {
     /**
      * <p>Предоставляет элемент для добавления в меню.</p>
      *

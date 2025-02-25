@@ -13,7 +13,7 @@ import ru.urfu.log.Logger;
 /**
  * <p>Создаёт меню "Тесты".</p>
  */
-public final class TestsMenuProvider implements MenuElementProvider {
+final class TestsMenuProvider implements MenuElementProvider {
     private final I18n i18n = I18nFactory.getI18n(getClass());
 
     @Override
