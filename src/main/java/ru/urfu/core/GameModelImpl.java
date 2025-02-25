@@ -107,8 +107,8 @@ public final class GameModelImpl implements GameModel {
     }
 
     @Override
-    public RobotInfo getRobot() {
-        return new RobotInfo(robot);
+    public RobotPosition getRobotPosition() {
+        return new RobotPosition(robot);
     }
 
     /**

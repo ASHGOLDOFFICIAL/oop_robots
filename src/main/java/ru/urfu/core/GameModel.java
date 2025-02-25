@@ -19,11 +19,11 @@ public interface GameModel {
     void stop();
 
     /**
-     * <p>Геттер информации о роботе.</p>
+     * <p>Геттер информации о положении робота.</p>
      *
-     * @return информация о роботе.
+     * @return информация о положении робота.
      */
-    RobotInfo getRobot();
+    RobotPosition getRobotPosition();
 
     /**
      * <p>Геттер положения цели.</p>

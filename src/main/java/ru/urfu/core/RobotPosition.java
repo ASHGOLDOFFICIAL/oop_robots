@@ -1,15 +1,13 @@
 package ru.urfu.core;
 
 /**
- * <p>Информация о роботе. Класс нужен для того,
- * чтобы скрыть {@link RobotModel} от всех классов,
- * кроме {@link GameModel}</p>
+ * <p>Информация о положении робота.</p>
  *
  * @param positionX позиция робота по оси x.
  * @param positionY позиция робота по оси y.
  * @param direction направление робота.
  */
-public record RobotInfo(
+public record RobotPosition(
         double positionX,
         double positionY,
         double direction) {
@@ -19,7 +17,7 @@ public record RobotInfo(
      *
      * @param model модель.
      */
-    public RobotInfo(RobotModel model) {
+    public RobotPosition(RobotModel model) {
         this(model.getPositionX(), model.getPositionY(), model.getDirection());
     }
 }
