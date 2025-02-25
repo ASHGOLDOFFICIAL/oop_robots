@@ -28,13 +28,6 @@ import ru.urfu.log.Logger;
  * <p>Главное окно приложения.</p>
  */
 public final class MainFrame extends JFrame {
-    private final static int GAME_WINDOW_WIDTH = 400;
-    private final static int GAME_WINDOW_HEIGHT = 400;
-    private final static int LOG_WINDOW_WIDTH = 300;
-    private final static int LOG_WINDOW_HEIGHT = 800;
-    private final static int LOG_WINDOW_LOCATION_X = 10;
-    private final static int LOG_WINDOW_LOCATION_Y = 10;
-
     private final I18n i18n = I18nFactory.getI18n(MainFrame.class);
     private final org.slf4j.Logger log = LoggerFactory.getLogger(MainFrame.class);
     private final JDesktopPane desktopPane = new JDesktopPane();
@@ -86,7 +79,6 @@ public final class MainFrame extends JFrame {
      */
     public void addGameWindow() {
         final GameWindow gameWindow = new GameWindow();
-        gameWindow.setSize(GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT);
         this.addWindow(gameWindow);
     }
 
@@ -95,10 +87,7 @@ public final class MainFrame extends JFrame {
      */
     public void addLogWindow() {
         final LogWindow logWindow = new LogWindow(Logger.getDefaultLogSource());
-        logWindow.setLocation(LOG_WINDOW_LOCATION_X, LOG_WINDOW_LOCATION_Y);
-        logWindow.setSize(LOG_WINDOW_WIDTH, LOG_WINDOW_HEIGHT);
         this.setMinimumSize(logWindow.getSize());
-        logWindow.pack();
         Logger.debug(i18n.tr("Logger is working"));
         this.addWindow(logWindow);
     }
@@ -107,7 +96,7 @@ public final class MainFrame extends JFrame {
      * <p>Открывает всплывающее окно
      * с запросом подтверждения выхода.</p>
      */
-    public void showExitConfirmationPopUp() {
+    private void showExitConfirmationPopUp() {
         final Object[] options = {i18n.tr("Yes"), i18n.tr("No")};
         final int result = JOptionPane.showOptionDialog(
                 null,
@@ -176,6 +165,8 @@ public final class MainFrame extends JFrame {
      * <p>Закрывает главное окно.</p>
      */
     private void closeMainWindow() {
+        setVisible(false);
+        dispose();
         System.exit(0);
     }
 

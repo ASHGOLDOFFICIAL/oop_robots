@@ -2,6 +2,7 @@ package ru.urfu.gui.menu;
 
 import java.awt.Component;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
 import javax.swing.JMenuItem;
 import org.xnap.commons.i18n.I18n;
 import org.xnap.commons.i18n.I18nFactory;
@@ -17,7 +18,8 @@ public final class ExitMenuProvider implements MenuElementProvider {
     @Override
     public Component provide(MainFrame frame) {
         final JMenuItem item = new JMenuItem(i18n.tr("Exit"), KeyEvent.VK_Q);
-        item.addActionListener((event) -> frame.showExitConfirmationPopUp());
+        item.addActionListener((event) ->
+                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING)));
         return item;
     }
 }
