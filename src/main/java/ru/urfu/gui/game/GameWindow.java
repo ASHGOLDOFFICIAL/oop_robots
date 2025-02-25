@@ -15,6 +15,9 @@ import ru.urfu.core.GameModelImpl;
  * <p>Игровое окно.</p>
  */
 public final class GameWindow extends JInternalFrame {
+    private final static int WINDOW_WIDTH = 400;
+    private final static int WINDOW_HEIGHT = 400;
+
     private final I18n i18n = I18nFactory.getI18n(GameWindow.class);
     private final GameModel model;
     private final GuiGameView view;
@@ -46,6 +49,7 @@ public final class GameWindow extends JInternalFrame {
 
         final JPanel panel = new JPanel(new BorderLayout());
         panel.add(view, BorderLayout.CENTER);
+        setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         getContentPane().add(panel);
         pack();
     }

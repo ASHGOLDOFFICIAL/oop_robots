@@ -17,8 +17,12 @@ import ru.urfu.log.LogWindowSource;
  * <p>Окно с логами.</p>
  */
 public final class LogWindow extends JInternalFrame implements LogChangeListener {
-    private final static int LOG_CONTENT_WIDTH = 200;
-    private final static int LOG_CONTENT_HEIGHT = 500;
+    private final static int WINDOW_WIDTH = 300;
+    private final static int WINDOW_HEIGHT = 800;
+    private final static int WINDOW_LOCATION_X = 10;
+    private final static int WINDOW_LOCATION_Y = 10;
+    private final static int CONTENT_WIDTH = 200;
+    private final static int CONTENT_HEIGHT = 500;
 
     private final I18n i18n = I18nFactory.getI18n(LogWindow.class);
     private final LogWindowSource logSource;
@@ -36,7 +40,7 @@ public final class LogWindow extends JInternalFrame implements LogChangeListener
         this.logSource = logSource;
         this.logSource.registerListener(this);
         logContent = new TextArea("");
-        logContent.setSize(LOG_CONTENT_WIDTH, LOG_CONTENT_HEIGHT);
+        logContent.setSize(CONTENT_WIDTH, CONTENT_HEIGHT);
 
         addInternalFrameListener(new InternalFrameAdapter() {
             public void internalFrameClosing(InternalFrameEvent e) {
@@ -47,6 +51,8 @@ public final class LogWindow extends JInternalFrame implements LogChangeListener
         final JPanel panel = new JPanel(new BorderLayout());
         panel.add(logContent, BorderLayout.CENTER);
         getContentPane().add(panel);
+        setLocation(WINDOW_LOCATION_X, WINDOW_LOCATION_Y);
+        setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         pack();
         updateLogContent();
     }
