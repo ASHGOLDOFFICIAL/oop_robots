@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.urfu.core.EventGenerator;
 import ru.urfu.core.GameModel;
-import ru.urfu.core.RobotInfo;
+import ru.urfu.core.RobotPosition;
 
 /**
  * <p>View игры.</p>
@@ -65,7 +65,7 @@ public final class GuiGameView extends JPanel {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        final RobotInfo robot = model.getRobot();
+        final RobotPosition robot = model.getRobotPosition();
 
         Graphics2D g2d = (Graphics2D) g;
         drawRobot(g2d, round(robot.positionX()), round(robot.positionY()), robot.direction());
