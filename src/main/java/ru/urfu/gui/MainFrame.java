@@ -35,9 +35,6 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
      * <p>Конструктор.</p>
      */
     public MainFrame() {
-
-        // Make the big window be indented 50 pixels
-        // from each edge of the screen.
         final int inset = 50;
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setBounds(inset, inset,
@@ -60,6 +57,13 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
         setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
         addLogWindow();
         addGameWindow();
+
+        int width = 0, height = 0;
+        for (JInternalFrame frame : this.desktopPane.getAllFrames()) {
+            width = Math.max(width, frame.getWidth());
+            height = Math.max(height, frame.getHeight());
+        }
+        setMinimumSize(new Dimension(width, height));
     }
 
     /**
@@ -75,8 +79,6 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
      */
     public void addLogWindow() {
         final LogWindow logWindow = new LogWindow(Logger.getDefaultLogSource());
-        this.setMinimumSize(logWindow.getSize());
-        Logger.debug(i18n.tr("Logger is working"));
         this.addWindow(logWindow);
     }
 
