@@ -33,18 +33,18 @@
                 <groupId>com.googlecode.gettext-commons</groupId>
                 <artifactId>gettext-maven-plugin</artifactId>
                 <version>${gettext-maven-plugin.version}</version>
-                <configuration>
-                    <poDirectory>po</poDirectory>
-                    <targetBundle>app.i18n.Messages</targetBundle>
-                </configuration>
                 <executions>
                     <execution>
-                        <phase>package</phase>
+                        <phase>generate-sources</phase>
                         <goals>
                             <goal>dist</goal>
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <poDirectory>po</poDirectory>
+                    <targetBundle>ru.urfu.i18n.Messages</targetBundle>
+                </configuration>
             </plugin>
 
             <!-- Checks Style -->
