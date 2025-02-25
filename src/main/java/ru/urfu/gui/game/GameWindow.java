@@ -49,8 +49,9 @@ public final class GameWindow extends JInternalFrame {
 
         final JPanel panel = new JPanel(new BorderLayout());
         panel.add(view, BorderLayout.CENTER);
-        setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         getContentPane().add(panel);
         pack();
+
+        setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
     }
 }

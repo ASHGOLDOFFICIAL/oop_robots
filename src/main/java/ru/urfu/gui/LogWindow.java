@@ -51,10 +51,11 @@ public final class LogWindow extends JInternalFrame implements LogChangeListener
         final JPanel panel = new JPanel(new BorderLayout());
         panel.add(logContent, BorderLayout.CENTER);
         getContentPane().add(panel);
-        setLocation(WINDOW_LOCATION_X, WINDOW_LOCATION_Y);
-        setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         pack();
         updateLogContent();
+
+        setLocation(WINDOW_LOCATION_X, WINDOW_LOCATION_Y);
+        setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
     }
 
     @SuppressWarnings("MissingJavadocMethod")

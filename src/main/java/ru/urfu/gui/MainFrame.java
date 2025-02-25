@@ -88,7 +88,6 @@ public final class MainFrame extends JFrame {
     public void addLogWindow() {
         final LogWindow logWindow = new LogWindow(Logger.getDefaultLogSource());
         this.setMinimumSize(logWindow.getSize());
-        logWindow.pack();
         Logger.debug(i18n.tr("Logger is working"));
         this.addWindow(logWindow);
     }
