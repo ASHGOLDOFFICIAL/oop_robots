@@ -1,4 +1,4 @@
-package ru.urfu.gui.game;
+package ru.urfu.gui;
 
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
@@ -7,7 +7,8 @@ import org.xnap.commons.i18n.I18nFactory;
 import ru.urfu.core.EventGenerator;
 import ru.urfu.core.GameModel;
 import ru.urfu.core.GameModelImpl;
-import ru.urfu.gui.CustomInternalFrame;
+import ru.urfu.gui.game.GuiGameController;
+import ru.urfu.gui.game.GuiGameView;
 
 /**
  * <p>Игровое окно.</p>

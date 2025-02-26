@@ -18,7 +18,8 @@ import org.xnap.commons.i18n.I18nFactory;
 import org.xnap.commons.i18n.I18nManager;
 import org.xnap.commons.i18n.LocaleChangeEvent;
 import org.xnap.commons.i18n.LocaleChangeListener;
-import ru.urfu.gui.game.GameWindow;
+import ru.urfu.config.ConfigurationManager;
+import ru.urfu.config.FileConfigurationSource;
 import ru.urfu.gui.menu.MainFrameMenu;
 import ru.urfu.log.Logger;
 
@@ -27,9 +28,13 @@ import ru.urfu.log.Logger;
  * <p>Главное окно приложения.</p>
  */
 public final class MainFrame extends JFrame implements LocaleChangeListener {
+    private final JDesktopPane desktopPane = new JDesktopPane();
+
     private final I18n i18n = I18nFactory.getI18n(MainFrame.class);
     private final org.slf4j.Logger log = LoggerFactory.getLogger(MainFrame.class);
-    private final JDesktopPane desktopPane = new JDesktopPane();
+
+    private final ConfigurationManager config =
+            new ConfigurationManager(new FileConfigurationSource(System.getProperty("user.home")));
 
     /**
      * <p>Конструктор.</p>
@@ -60,7 +65,7 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
 
         int width = 0;
         int height = 0;
-        for (JInternalFrame frame : this.desktopPane.getAllFrames()) {
+        for (final JInternalFrame frame : this.desktopPane.getAllFrames()) {
             width = Math.max(width, frame.getWidth());
             height = Math.max(height, frame.getHeight());
         }
