@@ -46,7 +46,7 @@ public final class LogWindow extends CustomInternalFrame implements LogChangeLis
         setLocaleDependantProperties();
 
         final I18n i18n = I18nFactory.getI18n(getClass());
-        Logger.debug(i18n.tr("Протокол работает"));
+        Logger.debug(i18n.tr("Logger is working"));
     }
 
     @Override

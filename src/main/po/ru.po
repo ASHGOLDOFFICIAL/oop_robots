@@ -3,10 +3,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-25 17:49+0500\n"
+"POT-Creation-Date: 2025-02-26 15:26+0500\n"
 "PO-Revision-Date: 2025-02-25 17:49+0500\n"
-"Last-Translator: ashgoldofficial <104313094+ASHGOLDOFFICIAL@users.noreply.gith"
-"ub.com>\n"
+"Last-Translator: ashgoldofficial <104313094+ASHGOLDOFFICIAL@users.noreply."
+"github.com>\n"
 "Language-Team: English <kde-i18n-doc@kde.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -15,59 +15,55 @@ msgstr ""
 "X-Generator: Lokalize 24.12.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ru/urfu/gui/MainFrame.java:94
-msgid "Logger is working"
-msgstr "Протокол работает"
-
-#: ru/urfu/gui/MainFrame.java:103
+#: ru/urfu/gui/MainFrame.java:91
 msgid "Yes"
 msgstr "Да"
 
-#: ru/urfu/gui/MainFrame.java:103
+#: ru/urfu/gui/MainFrame.java:91
 msgid "No"
 msgstr "Нет"
 
-#: ru/urfu/gui/MainFrame.java:106
+#: ru/urfu/gui/MainFrame.java:94
 msgid "Are you sure you want to close application?"
 msgstr "Вы уверены, что хотите выйти?"
 
-#: ru/urfu/gui/MainFrame.java:107
+#: ru/urfu/gui/MainFrame.java:95
 msgid "Exit Confirmation"
 msgstr "Подтверждение выхода"
 
-#: ru/urfu/gui/MainFrame.java:114
+#: ru/urfu/gui/MainFrame.java:102
 msgid "Exit confirmation"
 msgstr "Запрос на выход"
 
-#: ru/urfu/gui/MainFrame.java:118
+#: ru/urfu/gui/MainFrame.java:106
 msgid "Exit is confirmed"
 msgstr "Выход подтверждён"
 
-#: ru/urfu/gui/MainFrame.java:121
+#: ru/urfu/gui/MainFrame.java:109
 msgid "Exit is cancelled"
 msgstr "Выход отменён"
 
-#: ru/urfu/gui/MainFrame.java:122
+#: ru/urfu/gui/MainFrame.java:110
 msgid "Unknown option"
 msgstr "Неизвестная опция"
 
-#: ru/urfu/gui/menu/LanguagesMenuProvider.java:21
-msgid "Languages"
+#: ru/urfu/gui/menu/LanguageMenuProvider.java:24
+msgid "Language"
 msgstr "Язык"
 
-#: ru/urfu/gui/menu/LanguagesMenuProvider.java:25
+#: ru/urfu/gui/menu/LanguageMenuProvider.java:28
 msgid "Change application language."
 msgstr "Изменяет язык приложения"
 
-#: ru/urfu/gui/menu/ControlMenuProvider.java:18
+#: ru/urfu/gui/menu/ControlMenuProvider.java:21
 msgid "Control"
 msgstr "Управление"
 
-#: ru/urfu/gui/menu/ControlMenuProvider.java:22
+#: ru/urfu/gui/menu/ControlMenuProvider.java:25
 msgid "Controls the application."
 msgstr "Управляет приложением."
 
-#: ru/urfu/gui/menu/ControlMenuProvider.java:33
+#: ru/urfu/gui/menu/ControlMenuProvider.java:42
 msgid "Exit"
 msgstr "Выход"
 
@@ -112,13 +108,17 @@ msgid "Controls windows."
 msgstr "Управление окнами."
 
 #: ru/urfu/gui/menu/WindowsMenuProvider.java:38
-#: ru/urfu/gui/game/GameWindow.java:72
+#: ru/urfu/gui/game/GameWindow.java:55
 msgid "Game Field"
 msgstr "Игровое поле"
 
-#: ru/urfu/gui/menu/WindowsMenuProvider.java:50 ru/urfu/gui/LogWindow.java:91
+#: ru/urfu/gui/menu/WindowsMenuProvider.java:50 ru/urfu/gui/LogWindow.java:65
 msgid "Logs"
 msgstr "Протокол работы"
+
+#: ru/urfu/gui/LogWindow.java:49
+msgid "Logger is working"
+msgstr "Протокол работает"
 
 #, fuzzy
 #~ msgid "Game Window"

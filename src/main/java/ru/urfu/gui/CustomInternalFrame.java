@@ -43,7 +43,7 @@ public abstract class CustomInternalFrame
 
     /**
      * <p>Действия, которые нужно совершить
-     * перед вызовом {@link JInternalFrame#dispose}</p>
+     * перед вызовом {@link JInternalFrame#dispose}.</p>
      */
     protected abstract void onDispose();
 

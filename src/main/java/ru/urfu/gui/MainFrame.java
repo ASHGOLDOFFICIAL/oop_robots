@@ -58,7 +58,8 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
         addLogWindow();
         addGameWindow();
 
-        int width = 0, height = 0;
+        int width = 0;
+        int height = 0;
         for (JInternalFrame frame : this.desktopPane.getAllFrames()) {
             width = Math.max(width, frame.getWidth());
             height = Math.max(height, frame.getHeight());

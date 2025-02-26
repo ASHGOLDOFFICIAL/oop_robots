@@ -10,6 +10,9 @@ import org.xnap.commons.i18n.I18n;
 import org.xnap.commons.i18n.I18nFactory;
 import ru.urfu.gui.MainFrame;
 
+/**
+ * <p>Создаёт меню для управления приложением.</p>
+ */
 public final class ControlMenuProvider implements MenuElementProvider {
     private final I18n i18n = I18nFactory.getI18n(getClass());
 
@@ -22,13 +25,19 @@ public final class ControlMenuProvider implements MenuElementProvider {
                 i18n.tr("Controls the application."));
 
         menu.add(new LookAndFeelMenuProvider().provide(frame));
-        menu.add(new LanguagesMenuProvider().provide(frame));
+        menu.add(new LanguageMenuProvider().provide(frame));
         menu.add(new JSeparator());
         menu.add(createExitItem(frame));
 
         return menu;
     }
 
+    /**
+     * <p>Создаёт кнопку для выхода из приложения.</p>
+     *
+     * @param frame главное окно, которое надо закрыть.
+     * @return кнопку.
+     */
     public Component createExitItem(MainFrame frame) {
         final JMenuItem item = new JMenuItem(i18n.tr("Exit"), KeyEvent.VK_Q);
         item.addActionListener((event) ->
