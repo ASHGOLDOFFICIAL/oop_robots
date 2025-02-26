@@ -1,10 +1,10 @@
 package ru.urfu.gui;
 
 import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.Locale;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
@@ -18,7 +18,10 @@ import org.xnap.commons.i18n.I18nFactory;
 import org.xnap.commons.i18n.I18nManager;
 import org.xnap.commons.i18n.LocaleChangeEvent;
 import org.xnap.commons.i18n.LocaleChangeListener;
+import ru.urfu.config.ConfigSaveFailed;
+import ru.urfu.config.Configuration;
 import ru.urfu.config.ConfigurationManager;
+import ru.urfu.config.ConfigurationSource;
 import ru.urfu.config.FileConfigurationSource;
 import ru.urfu.gui.menu.MainFrameMenu;
 import ru.urfu.log.Logger;
@@ -28,29 +31,45 @@ import ru.urfu.log.Logger;
  * <p>Главное окно приложения.</p>
  */
 public final class MainFrame extends JFrame implements LocaleChangeListener {
+    private final static int MIN_WIDTH = 300;
+    private final static int MIN_HEIGHT = 800;
+
+    private final static String DEFAULT_THEME = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
+    private final static String CONFIG_FILE = System.getProperty("user.home") + "/robots.properties";
+    private final static String THEME_KEY = "themeClass";
+
     private final JDesktopPane desktopPane = new JDesktopPane();
 
     private final I18n i18n = I18nFactory.getI18n(MainFrame.class);
     private final org.slf4j.Logger log = LoggerFactory.getLogger(MainFrame.class);
 
-    private final ConfigurationManager config =
-            new ConfigurationManager(new FileConfigurationSource(System.getProperty("user.home")));
+    private final ConfigurationManager configManager;
+    private final Configuration config;
+
+    private final WindowListener exitListener = new WindowAdapter() {
+        @Override
+        public void windowClosing(WindowEvent e) {
+            showExitConfirmationPopUp();
+        }
+    };
 
     /**
      * <p>Конструктор.</p>
      */
     public MainFrame() {
-        final int inset = 50;
-        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds(inset, inset,
-                screenSize.width - inset * 2,
-                screenSize.height - inset * 2);
+        log.debug("System locale is {}", Locale.getDefault());
+        log.debug("Configuration file is {}", CONFIG_FILE);
 
-        setContentPane(desktopPane);
-        setConfirmationBeforeExit();
+        final ConfigurationSource configurationSource = new FileConfigurationSource(CONFIG_FILE);
+        this.configManager = new ConfigurationManager(configurationSource);
+        this.config = this.configManager.get();
 
         I18nManager.getInstance().addLocaleChangeListener(this);
+
+        setConfirmationBeforeExit();
         setLocaleSpecificProperties();
+
+        setContentPane(desktopPane);
 
         initialState();
     }
@@ -59,24 +78,19 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
      * <p>Настройка изначального состояния приложения.</p>
      */
     private void initialState() {
-        setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
+        final String themeClass = config.get(THEME_KEY, DEFAULT_THEME);
+        setLookAndFeel(themeClass);
+        new WindowConfigurationManager(config).configureWindow(this);
         addLogWindow();
         addGameWindow();
-
-        int width = 0;
-        int height = 0;
-        for (final JInternalFrame frame : this.desktopPane.getAllFrames()) {
-            width = Math.max(width, frame.getWidth());
-            height = Math.max(height, frame.getHeight());
-        }
-        setMinimumSize(new Dimension(width, height));
     }
 
     /**
      * <p>Добавляет окно с игрой.</p>
      */
     public void addGameWindow() {
-        final GameWindow gameWindow = new GameWindow();
+        final GameWindow gameWindow = new GameWindow(this.config);
         this.addWindow(gameWindow);
     }
 
@@ -84,7 +98,7 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
      * <p>Добавляет окно с логами.</p>
      */
     public void addLogWindow() {
-        final LogWindow logWindow = new LogWindow(Logger.getDefaultLogSource());
+        final LogWindow logWindow = new LogWindow(this.config, Logger.getDefaultLogSource());
         this.addWindow(logWindow);
     }
 
@@ -104,15 +118,8 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
                 options,
                 options[0]);
 
-        Logger.debug(i18n.tr("Exit confirmation"));
-
-        switch (result) {
-            case JOptionPane.YES_OPTION -> {
-                Logger.debug(i18n.tr("Exit is confirmed"));
-                closeMainWindow();
-            }
-            case JOptionPane.NO_OPTION -> Logger.debug(i18n.tr("Exit is cancelled"));
-            default -> Logger.debug(i18n.tr("Unknown option"));
+        if (result == JOptionPane.YES_OPTION) {
+            onClose();
         }
     }
 
@@ -142,6 +149,7 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
         frame.setVisible(true);
     }
 
+
     /**
      * <p>Меняет тему оформления.</p>
      *
@@ -155,15 +163,7 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
                  | IllegalAccessException | UnsupportedLookAndFeelException e) {
             log.error("Error during setting application theme", e);
         }
-    }
-
-    /**
-     * <p>Закрывает главное окно.</p>
-     */
-    private void closeMainWindow() {
-        setVisible(false);
-        dispose();
-        System.exit(0);
+        config.put(THEME_KEY, className);
     }
 
     /**
@@ -172,13 +172,7 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
      */
     private void setConfirmationBeforeExit() {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        final WindowListener exitListener = new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                showExitConfirmationPopUp();
-            }
-        };
-        addWindowListener(exitListener);
+        addWindowListener(this.exitListener);
     }
 
     @Override
@@ -192,5 +186,22 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
      */
     private void setLocaleSpecificProperties() {
         setJMenuBar(new MainFrameMenu(this));
+    }
+
+    /**
+     * <p>Действия при выходе.</p>
+     */
+    private void onClose() {
+        for (final JInternalFrame frame : this.desktopPane.getAllFrames()) {
+            frame.dispose();
+        }
+        dispose();
+
+        try {
+            new WindowConfigurationManager(config).saveState(this);
+            this.configManager.flush();
+        } catch (ConfigSaveFailed e) {
+            log.error("Couldn't save application state");
+        }
     }
 }

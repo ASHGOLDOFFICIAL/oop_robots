@@ -1,11 +1,13 @@
 package ru.urfu.gui;
 
+import java.awt.Dimension;
 import javax.swing.JInternalFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xnap.commons.i18n.I18nManager;
 import org.xnap.commons.i18n.LocaleChangeEvent;
 import org.xnap.commons.i18n.LocaleChangeListener;
+import ru.urfu.config.Configuration;
 
 /**
  * <p>{@link JInternalFrame} с предустановленными настройками:</p>
@@ -18,12 +20,19 @@ public abstract class CustomInternalFrame
         extends JInternalFrame
         implements LocaleChangeListener {
     private final Logger log = LoggerFactory.getLogger(CustomInternalFrame.class);
+    private final Configuration config;
 
     /**
      * <p>Конструктор.</p>
      */
-    protected CustomInternalFrame() {
+    protected CustomInternalFrame(Configuration config) {
         super(null, true, true, true);
+
+        this.config = config;
+        setPreferredSize(defaultSize());
+        pack();
+        new WindowConfigurationManager(config).configureWindow(this);
+
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         I18nManager.getInstance().addLocaleChangeListener(this);
     }
@@ -31,7 +40,10 @@ public abstract class CustomInternalFrame
     @Override
     public void dispose() {
         log.trace("{}[{}] is being disposed", this.getClass().getSimpleName(), hashCode());
+
         this.onDispose();
+
+        new WindowConfigurationManager(config).saveState(this);
         I18nManager.getInstance().removeLocaleChangeListener(this);
         super.dispose();
     }
@@ -40,6 +52,13 @@ public abstract class CustomInternalFrame
     public void localeChanged(LocaleChangeEvent event) {
         setLocaleDependantProperties();
     }
+
+    /**
+     * <p>Размер по умолчанию для данного окна.</p>
+     *
+     * @return размер по умолчанию.
+     */
+    protected abstract Dimension defaultSize();
 
     /**
      * <p>Действия, которые нужно совершить

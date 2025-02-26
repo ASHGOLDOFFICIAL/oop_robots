@@ -1,6 +1,7 @@
 package ru.urfu.core;
 
 import java.awt.Point;
+import java.util.Timer;
 import java.util.TimerTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +17,7 @@ public final class GameModelImpl implements GameModel {
     private final Logger log = LoggerFactory.getLogger(GameModelImpl.class);
     private final Point initialPosition = new Point(100, 100);
 
-    private final EventGenerator timer;
+    private final Timer timer;
     private final RobotModel robot = new RobotModel(initialPosition.x, initialPosition.y, 0);
     private final TimerTask updateTask = new TimerTask() {
         @Override
@@ -32,7 +33,7 @@ public final class GameModelImpl implements GameModel {
      *
      * @param timer таймер для генерации событий.
      */
-    public GameModelImpl(EventGenerator timer) {
+    public GameModelImpl(Timer timer) {
         this.timer = timer;
     }
 
