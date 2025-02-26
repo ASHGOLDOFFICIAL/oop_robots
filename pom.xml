@@ -42,7 +42,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <poDirectory>po</poDirectory>
+                    <poDirectory>src/main/po</poDirectory>
                     <targetBundle>ru.urfu.i18n.Messages</targetBundle>
                 </configuration>
             </plugin>

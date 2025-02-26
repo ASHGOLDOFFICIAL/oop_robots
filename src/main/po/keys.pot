@@ -8,48 +8,44 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-25 17:49+0500\n"
+"POT-Creation-Date: 2025-02-26 15:18+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ru/urfu/gui/MainFrame.java:94
-msgid "Logger is working"
-msgstr ""
-
-#: ru/urfu/gui/MainFrame.java:103
+#: ru/urfu/gui/MainFrame.java:90
 msgid "Yes"
 msgstr ""
 
-#: ru/urfu/gui/MainFrame.java:103
+#: ru/urfu/gui/MainFrame.java:90
 msgid "No"
 msgstr ""
 
-#: ru/urfu/gui/MainFrame.java:106
+#: ru/urfu/gui/MainFrame.java:93
 msgid "Are you sure you want to close application?"
 msgstr ""
 
-#: ru/urfu/gui/MainFrame.java:107
+#: ru/urfu/gui/MainFrame.java:94
 msgid "Exit Confirmation"
 msgstr ""
 
-#: ru/urfu/gui/MainFrame.java:114
+#: ru/urfu/gui/MainFrame.java:101
 msgid "Exit confirmation"
 msgstr ""
 
-#: ru/urfu/gui/MainFrame.java:118
+#: ru/urfu/gui/MainFrame.java:105
 msgid "Exit is confirmed"
 msgstr ""
 
-#: ru/urfu/gui/MainFrame.java:121
+#: ru/urfu/gui/MainFrame.java:108
 msgid "Exit is cancelled"
 msgstr ""
 
-#: ru/urfu/gui/MainFrame.java:122
+#: ru/urfu/gui/MainFrame.java:109
 msgid "Unknown option"
 msgstr ""
 
@@ -114,10 +110,14 @@ msgid "Controls windows."
 msgstr ""
 
 #: ru/urfu/gui/menu/WindowsMenuProvider.java:38
-#: ru/urfu/gui/game/GameWindow.java:72
+#: ru/urfu/gui/game/GameWindow.java:55
 msgid "Game Field"
 msgstr ""
 
-#: ru/urfu/gui/menu/WindowsMenuProvider.java:50 ru/urfu/gui/LogWindow.java:91
+#: ru/urfu/gui/menu/WindowsMenuProvider.java:50 ru/urfu/gui/LogWindow.java:65
 msgid "Logs"
+msgstr ""
+
+#: ru/urfu/gui/LogWindow.java:49
+msgid "Протокол работает"
 msgstr ""

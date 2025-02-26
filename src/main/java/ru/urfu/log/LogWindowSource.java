@@ -24,7 +24,7 @@ public class LogWindowSource {
         synchronized (listeners) {
             listeners.add(listener);
             activeListeners = null;
-            log.debug("Listener registered. Its hashcode is {}", listener.hashCode());
+            log.trace("Listener {}[{}] registered.", listener.getClass().getSimpleName(), listener.hashCode());
         }
     }
 
@@ -32,7 +32,7 @@ public class LogWindowSource {
         synchronized (listeners) {
             listeners.remove(listener);
             activeListeners = null;
-            log.debug("Listener unregistered: Its hashcode is {}", listener.hashCode());
+            log.trace("Listener {}[{}] unregistered.", listener.getClass().getSimpleName(), listener.hashCode());
         }
     }
 
