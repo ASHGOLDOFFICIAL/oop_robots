@@ -12,7 +12,7 @@ import ru.urfu.gui.MainFrame;
 /**
  * <p>Создаёт меню для смены темы оформления.</p>
  */
-public final class LookAndFeelMenuProvider implements MenuElementProvider {
+final class LookAndFeelMenuProvider implements MenuElementProvider {
     private final I18n i18n = I18nFactory.getI18n(getClass());
 
     @Override

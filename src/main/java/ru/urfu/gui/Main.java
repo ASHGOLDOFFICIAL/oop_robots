@@ -25,7 +25,7 @@ public final class Main {
     public static void main(String[] args) {
         final Logger log = LoggerFactory.getLogger(Main.class);
         final Locale locale = Locale.getDefault();
-        log.info("System locale is {}", locale);
+        log.debug("System locale is {}", locale);
 
         SwingUtilities.invokeLater(() -> {
             final MainFrame frame = new MainFrame();

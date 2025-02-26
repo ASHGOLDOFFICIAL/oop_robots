@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-25 00:25+0500\n"
+"POT-Creation-Date: 2025-02-26 15:26+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,43 +17,55 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ru/urfu/gui/MainFrame.java:102
-msgid "Logger is working"
-msgstr ""
-
-#: ru/urfu/gui/MainFrame.java:111
+#: ru/urfu/gui/MainFrame.java:91
 msgid "Yes"
 msgstr ""
 
-#: ru/urfu/gui/MainFrame.java:111
+#: ru/urfu/gui/MainFrame.java:91
 msgid "No"
 msgstr ""
 
-#: ru/urfu/gui/MainFrame.java:114
+#: ru/urfu/gui/MainFrame.java:94
 msgid "Are you sure you want to close application?"
 msgstr ""
 
-#: ru/urfu/gui/MainFrame.java:115
+#: ru/urfu/gui/MainFrame.java:95
 msgid "Exit Confirmation"
 msgstr ""
 
-#: ru/urfu/gui/MainFrame.java:122
+#: ru/urfu/gui/MainFrame.java:102
 msgid "Exit confirmation"
 msgstr ""
 
-#: ru/urfu/gui/MainFrame.java:126
+#: ru/urfu/gui/MainFrame.java:106
 msgid "Exit is confirmed"
 msgstr ""
 
-#: ru/urfu/gui/MainFrame.java:129
+#: ru/urfu/gui/MainFrame.java:109
 msgid "Exit is cancelled"
 msgstr ""
 
-#: ru/urfu/gui/MainFrame.java:130
+#: ru/urfu/gui/MainFrame.java:110
 msgid "Unknown option"
 msgstr ""
 
-#: ru/urfu/gui/menu/ExitMenuProvider.java:19
+#: ru/urfu/gui/menu/LanguageMenuProvider.java:24
+msgid "Language"
+msgstr ""
+
+#: ru/urfu/gui/menu/LanguageMenuProvider.java:28
+msgid "Change application language."
+msgstr ""
+
+#: ru/urfu/gui/menu/ControlMenuProvider.java:21
+msgid "Control"
+msgstr ""
+
+#: ru/urfu/gui/menu/ControlMenuProvider.java:25
+msgid "Controls the application."
+msgstr ""
+
+#: ru/urfu/gui/menu/ControlMenuProvider.java:42
 msgid "Exit"
 msgstr ""
 
@@ -98,10 +110,14 @@ msgid "Controls windows."
 msgstr ""
 
 #: ru/urfu/gui/menu/WindowsMenuProvider.java:38
-#: ru/urfu/gui/game/GameWindow.java:28
+#: ru/urfu/gui/game/GameWindow.java:55
 msgid "Game Field"
 msgstr ""
 
-#: ru/urfu/gui/menu/WindowsMenuProvider.java:50 ru/urfu/gui/LogWindow.java:32
+#: ru/urfu/gui/menu/WindowsMenuProvider.java:50 ru/urfu/gui/LogWindow.java:65
 msgid "Logs"
+msgstr ""
+
+#: ru/urfu/gui/LogWindow.java:49
+msgid "Logger is working"
 msgstr ""

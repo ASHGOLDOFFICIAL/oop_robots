@@ -8,7 +8,6 @@ import java.awt.event.WindowListener;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
-import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -16,18 +15,18 @@ import javax.swing.UnsupportedLookAndFeelException;
 import org.slf4j.LoggerFactory;
 import org.xnap.commons.i18n.I18n;
 import org.xnap.commons.i18n.I18nFactory;
+import org.xnap.commons.i18n.I18nManager;
+import org.xnap.commons.i18n.LocaleChangeEvent;
+import org.xnap.commons.i18n.LocaleChangeListener;
 import ru.urfu.gui.game.GameWindow;
-import ru.urfu.gui.menu.ExitMenuProvider;
-import ru.urfu.gui.menu.LookAndFeelMenuProvider;
-import ru.urfu.gui.menu.TestsMenuProvider;
-import ru.urfu.gui.menu.WindowsMenuProvider;
+import ru.urfu.gui.menu.MainFrameMenu;
 import ru.urfu.log.Logger;
 
 
 /**
  * <p>Главное окно приложения.</p>
  */
-public final class MainFrame extends JFrame {
+public final class MainFrame extends JFrame implements LocaleChangeListener {
     private final I18n i18n = I18nFactory.getI18n(MainFrame.class);
     private final org.slf4j.Logger log = LoggerFactory.getLogger(MainFrame.class);
     private final JDesktopPane desktopPane = new JDesktopPane();
@@ -36,8 +35,6 @@ public final class MainFrame extends JFrame {
      * <p>Конструктор.</p>
      */
     public MainFrame() {
-        // Make the big window be indented 50 pixels
-        // from each edge of the screen.
         final int inset = 50;
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setBounds(inset, inset,
@@ -45,24 +42,12 @@ public final class MainFrame extends JFrame {
                 screenSize.height - inset * 2);
 
         setContentPane(desktopPane);
-        setJMenuBar(generateMenuBar());
         setConfirmationBeforeExit();
 
-        initialState();
-    }
+        I18nManager.getInstance().addLocaleChangeListener(this);
+        setLocaleSpecificProperties();
 
-    /**
-     * <p>Создаёт меню.</p>
-     *
-     * @return созданное меню.
-     */
-    private JMenuBar generateMenuBar() {
-        final JMenuBar menuBar = new JMenuBar();
-        menuBar.add(new WindowsMenuProvider().provide(this));
-        menuBar.add(new LookAndFeelMenuProvider().provide(this));
-        menuBar.add(new TestsMenuProvider().provide(this));
-        menuBar.add(new ExitMenuProvider().provide(this));
-        return menuBar;
+        initialState();
     }
 
     /**
@@ -72,6 +57,14 @@ public final class MainFrame extends JFrame {
         setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
         addLogWindow();
         addGameWindow();
+
+        int width = 0;
+        int height = 0;
+        for (JInternalFrame frame : this.desktopPane.getAllFrames()) {
+            width = Math.max(width, frame.getWidth());
+            height = Math.max(height, frame.getHeight());
+        }
+        setMinimumSize(new Dimension(width, height));
     }
 
     /**
@@ -87,8 +80,6 @@ public final class MainFrame extends JFrame {
      */
     public void addLogWindow() {
         final LogWindow logWindow = new LogWindow(Logger.getDefaultLogSource());
-        this.setMinimumSize(logWindow.getSize());
-        Logger.debug(i18n.tr("Logger is working"));
         this.addWindow(logWindow);
     }
 
@@ -183,5 +174,18 @@ public final class MainFrame extends JFrame {
             }
         };
         addWindowListener(exitListener);
+    }
+
+    @Override
+    public void localeChanged(LocaleChangeEvent event) {
+        setLocaleSpecificProperties();
+    }
+
+    /**
+     * <p>Устанавливает свойства и поля,
+     * зависящие от текущей Locale.</p>
+     */
+    private void setLocaleSpecificProperties() {
+        setJMenuBar(new MainFrameMenu(this));
     }
 }
