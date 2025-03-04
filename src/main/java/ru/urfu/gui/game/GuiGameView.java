@@ -26,21 +26,22 @@ public final class GuiGameView extends JPanel implements GameModelChangeListener
         this.model = model;
         this.model.registerListener(this);
         setDoubleBuffered(true);
-    }
-
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-        final RobotPosition robot = model.getRobotPosition();
-
-        Graphics2D g2d = (Graphics2D) g;
-        drawRobot(g2d, round(robot.positionX()), round(robot.positionY()), robot.direction());
-        drawTarget(g2d, model.getTargetPosition());
+        repaint();
     }
 
     @Override
     public void onModelChange() {
         repaint();
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        Graphics2D g2d = (Graphics2D) g;
+
+        final RobotPosition robot = model.getRobotPosition();
+        drawRobot(g2d, round(robot.positionX()), round(robot.positionY()), robot.direction());
+        drawTarget(g2d, model.getTargetPosition());
     }
 
     private static void fillOval(Graphics g, int centerX, int centerY, int diam1, int diam2) {
