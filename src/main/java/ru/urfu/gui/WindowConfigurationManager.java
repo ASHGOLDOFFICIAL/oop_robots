@@ -20,7 +20,8 @@ public final class WindowConfigurationManager {
     private final static String X_KEY = "x";
     private final static String Y_KEY = "y";
     private final static String MINIMIZED_KEY = "minimized";
-    private static final Logger log = LoggerFactory.getLogger(WindowConfigurationManager.class);
+
+    private final Logger log = LoggerFactory.getLogger(WindowConfigurationManager.class);
 
     private final Configuration config;
 
