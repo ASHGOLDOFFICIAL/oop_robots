@@ -23,6 +23,8 @@ public final class GameWindow extends CustomInternalFrame {
 
     /**
      * <p>Конструктор.</p>
+     *
+     * @param config конфигурация
      */
     public GameWindow(Configuration config) {
         super(config);

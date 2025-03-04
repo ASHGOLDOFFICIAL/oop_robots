@@ -5,6 +5,11 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import ru.urfu.config.Configuration;
 
+/**
+ * <p>Менеджер конфигураций окон.</p>
+ *
+ * <p>Сохраняет и загружает общее состояние окна: положение и размер.</p>
+ */
 public final class WindowConfigurationManager {
     private final static String WIDTH_KEY = "width";
     private final static String HEIGHT_KEY = "height";
@@ -13,10 +18,20 @@ public final class WindowConfigurationManager {
 
     private final Configuration config;
 
+    /**
+     * <p>Конструктор.</p>
+     *
+     * @param config конфиг, в который сохранять информацию
+     */
     public WindowConfigurationManager(Configuration config) {
         this.config = config;
     }
 
+    /**
+     * <p>Конфигурирует окно, считывая состояние из конфига.</p>
+     *
+     * @param window конфигурируемое окно.
+     */
     public void configureWindow(Component window) {
         final String prefix = window.getClass().getSimpleName() + ".";
         final Point location = window.getLocation();
@@ -27,6 +42,11 @@ public final class WindowConfigurationManager {
         window.setBounds(x, y, width, height);
     }
 
+    /**
+     * <p>Сохраняет состояние окна: размер и положение.</p>
+     *
+     * @param window окно, чьё состояние сохраняем.
+     */
     public void saveState(Component window) {
         final String prefix = window.getClass().getSimpleName() + ".";
         final Rectangle bounds = window.getBounds();

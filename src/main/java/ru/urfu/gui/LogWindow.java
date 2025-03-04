@@ -26,6 +26,7 @@ public final class LogWindow extends CustomInternalFrame implements LogChangeLis
     /**
      * <p>Конструктор.</p>
      *
+     * @param config    конфигурация
      * @param logSource источник логов.
      */
     public LogWindow(Configuration config, LogWindowSource logSource) {
