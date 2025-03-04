@@ -1,11 +1,13 @@
 package ru.urfu.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.TextArea;
 import javax.swing.JPanel;
 import org.xnap.commons.i18n.I18n;
 import org.xnap.commons.i18n.I18nFactory;
+import ru.urfu.config.Configuration;
 import ru.urfu.log.LogChangeListener;
 import ru.urfu.log.LogEntry;
 import ru.urfu.log.LogWindowSource;
@@ -15,10 +17,6 @@ import ru.urfu.log.Logger;
  * <p>Окно с логами.</p>
  */
 public final class LogWindow extends CustomInternalFrame implements LogChangeListener {
-    private final static int WINDOW_WIDTH = 300;
-    private final static int WINDOW_HEIGHT = 800;
-    private final static int WINDOW_LOCATION_X = 10;
-    private final static int WINDOW_LOCATION_Y = 10;
     private final static int CONTENT_WIDTH = 200;
     private final static int CONTENT_HEIGHT = 500;
 
@@ -30,19 +28,18 @@ public final class LogWindow extends CustomInternalFrame implements LogChangeLis
      *
      * @param logSource источник логов.
      */
-    public LogWindow(LogWindowSource logSource) {
+    public LogWindow(Configuration config, LogWindowSource logSource) {
+        super(config);
+
         this.logSource = logSource;
         this.logSource.registerListener(this);
-        logContent = new TextArea("");
-        logContent.setSize(CONTENT_WIDTH, CONTENT_HEIGHT);
+        this.logContent = new TextArea("");
+        this.logContent.setSize(CONTENT_WIDTH, CONTENT_HEIGHT);
 
         final JPanel panel = new JPanel(new BorderLayout());
         panel.add(logContent, BorderLayout.CENTER);
         getContentPane().add(panel);
-        pack();
 
-        setLocation(WINDOW_LOCATION_X, WINDOW_LOCATION_Y);
-        setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         setLocaleDependantProperties();
 
         final I18n i18n = I18nFactory.getI18n(getClass());
@@ -52,6 +49,13 @@ public final class LogWindow extends CustomInternalFrame implements LogChangeLis
     @Override
     public void onLogChanged() {
         EventQueue.invokeLater(this::updateLogContent);
+    }
+
+    @Override
+    protected Dimension defaultSize() {
+        final int windowWidth = 300;
+        final int windowHeight = 800;
+        return new Dimension(windowWidth, windowHeight);
     }
 
     @Override

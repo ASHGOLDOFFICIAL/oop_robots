@@ -1,16 +1,15 @@
 package ru.urfu.gui.game;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
+import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JPanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.urfu.core.EventGenerator;
 import ru.urfu.core.GameModel;
 import ru.urfu.core.RobotPosition;
 
@@ -22,14 +21,14 @@ public final class GuiGameView extends JPanel {
     private final static int REFRESH_PERIOD = 20;
     private final Logger log = LoggerFactory.getLogger(GuiGameView.class);
 
-    private final EventGenerator timer;
-    private final GameModel model;
     private final TimerTask repaintTask = new TimerTask() {
         @Override
         public void run() {
-            EventQueue.invokeLater(GuiGameView.this::repaint);
+            GuiGameView.this.repaint();
         }
     };
+    private final Timer timer;
+    private final GameModel model;
 
     /**
      * <p>Конструктор.</p>
@@ -37,7 +36,7 @@ public final class GuiGameView extends JPanel {
      * @param model модель игры.
      * @param timer таймер для генерации событий.
      */
-    public GuiGameView(GameModel model, EventGenerator timer) {
+    public GuiGameView(GameModel model, Timer timer) {
         this.model = model;
         this.timer = timer;
         setDoubleBuffered(true);
