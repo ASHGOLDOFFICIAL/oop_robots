@@ -37,7 +37,7 @@ final class WindowsMenuProvider implements MenuElementProvider {
      */
     private JMenuItem createOpenGameWindowItem(MainFrame frame) {
         final JMenuItem item = new JMenuItem(i18n.tr("Game Field"), KeyEvent.VK_G);
-        item.addActionListener((event) -> frame.addGameWindow());
+        item.addActionListener((event) -> frame.addGameWindowIfClosed());
         return item;
     }
 
@@ -49,7 +49,7 @@ final class WindowsMenuProvider implements MenuElementProvider {
      */
     private JMenuItem createOpenLogWindowItem(MainFrame frame) {
         final JMenuItem item = new JMenuItem(i18n.tr("Logs"), KeyEvent.VK_L);
-        item.addActionListener((event) -> frame.addLogWindow());
+        item.addActionListener((event) -> frame.addLogWindowIfClosed());
         return item;
     }
 
@@ -61,7 +61,7 @@ final class WindowsMenuProvider implements MenuElementProvider {
      */
     private JMenuItem createOpenCoordinatesWindowItem(MainFrame frame) {
         final JMenuItem item = new JMenuItem(i18n.tr("Coordinates"), KeyEvent.VK_L);
-        item.addActionListener((event) -> frame.addCoordinatesWindow());
+        item.addActionListener((event) -> frame.addCoordinatesWindowIfClosed());
         return item;
     }
 }

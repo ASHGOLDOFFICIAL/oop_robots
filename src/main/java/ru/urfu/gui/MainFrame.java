@@ -89,33 +89,54 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
         final String themeClass = config.get(THEME_KEY, DEFAULT_THEME);
         setLookAndFeel(themeClass);
         new WindowConfigurationManager(config).configureWindow(this);
-        addLogWindow();
-        addGameWindow();
-        addCoordinatesWindow();
+        addLogWindowIfClosed();
+        addGameWindowIfClosed();
+        addCoordinatesWindowIfClosed();
     }
 
     /**
-     * <p>Добавляет окно с игрой.</p>
+     * <p>Проверяет, закрыто ли окно.</p>
+     *
+     * @param clazz класс окна
+     * @return результат проверки
      */
-    public void addGameWindow() {
-        final GameWindow gameWindow = new GameWindow(this.config, this.model);
-        this.addWindow(gameWindow);
+    private boolean isWindowClosed(Class<?> clazz) {
+        for (final JInternalFrame frame : desktopPane.getAllFrames()) {
+            if (frame.getClass() == clazz) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
-     * <p>Добавляет окно с логами.</p>
+     * <p>Добавляет окно с игрой, если то уже не открыто.</p>
      */
-    public void addLogWindow() {
-        final LogWindow logWindow = new LogWindow(this.config, Logger.getDefaultLogSource());
-        this.addWindow(logWindow);
+    public void addGameWindowIfClosed() {
+        if (isWindowClosed(GameWindow.class)) {
+            final GameWindow gameWindow = new GameWindow(this.config, this.model);
+            this.addWindow(gameWindow);
+        }
     }
 
     /**
-     * <p>Добавляет окно с координатами робота.</p>
+     * <p>Добавляет окно с логами, если то уже не открыто.</p>
      */
-    public void addCoordinatesWindow() {
-        final CoordinatesWindow coordinatesWindow = new CoordinatesWindow(this.config, this.model);
-        this.addWindow(coordinatesWindow);
+    public void addLogWindowIfClosed() {
+        if (isWindowClosed(LogWindow.class)) {
+            final LogWindow logWindow = new LogWindow(this.config, Logger.getDefaultLogSource());
+            this.addWindow(logWindow);
+        }
+    }
+
+    /**
+     * <p>Добавляет окно с координатами робота, если то уже не открыто.</p>
+     */
+    public void addCoordinatesWindowIfClosed() {
+        if (isWindowClosed(CoordinatesWindow.class)) {
+            final CoordinatesWindow coordinatesWindow = new CoordinatesWindow(this.config, this.model);
+            this.addWindow(coordinatesWindow);
+        }
     }
 
     /**
