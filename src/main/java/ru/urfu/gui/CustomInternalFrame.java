@@ -28,12 +28,12 @@ public abstract class CustomInternalFrame
      * @param config конфигурация
      */
     protected CustomInternalFrame(Configuration config) {
-        super(null, true, true, true);
+        super(null, true, true, true, true);
 
         this.config = config;
         setPreferredSize(defaultSize());
         pack();
-        new WindowConfigurationManager(config).configureWindow(this);
+        new WindowConfigurationManager(config).configureFrame(this);
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         I18nManager.getInstance().addLocaleChangeListener(this);
@@ -45,7 +45,7 @@ public abstract class CustomInternalFrame
 
         this.onDispose();
 
-        new WindowConfigurationManager(config).saveState(this);
+        new WindowConfigurationManager(config).saveFrameState(this);
         I18nManager.getInstance().removeLocaleChangeListener(this);
         super.dispose();
     }

@@ -75,6 +75,32 @@ public final class Configuration {
     }
 
     /**
+     * <p>Помещает пару ключ-значение в конфигурацию.</p>
+     *
+     * @param key   ключ
+     * @param value булевое значение
+     */
+    public void put(String key, boolean value) {
+        config.put(key, String.valueOf(value));
+    }
+
+    /**
+     * <p>Достаёт значение по ключу. Если не нашлось,
+     * возвращает значение по умолчанию.</p>
+     *
+     * @param key ключ
+     * @param def значение по умолчанию
+     * @return полученное значение или значение по умолчанию
+     */
+    public boolean get(String key, boolean def) {
+        String value = config.get(key);
+        if (value == null) {
+            return def;
+        }
+        return Boolean.parseBoolean(config.get(key));
+    }
+
+    /**
      * <p>Создаёт отображение с парами
      * ключ-значение из конфигурации.</p>
      *
