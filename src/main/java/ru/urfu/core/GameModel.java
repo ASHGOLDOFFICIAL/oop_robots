@@ -38,4 +38,18 @@ public interface GameModel {
      * @param p новое положение цели.
      */
     void setTargetPosition(Point p);
+
+    /**
+     * <p>Регистрирует слушателя изменения модели.</p>
+     *
+     * @param listener слушатель
+     */
+    void registerListener(GameModelChangeListener listener);
+
+    /**
+     * <p>Убирает слушателя изменения модели.</p>
+     *
+     * @param listener слушатель
+     */
+    void removeListener(GameModelChangeListener listener);
 }

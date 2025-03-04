@@ -1,6 +1,8 @@
 package ru.urfu.gui;
 
 import javax.swing.SwingUtilities;
+import ru.urfu.core.GameModel;
+import ru.urfu.core.GameModelImpl;
 
 /**
  * <p>Класс для запуска приложения.</p>
@@ -19,8 +21,10 @@ public final class Main {
      * @param args аргументы.
      */
     public static void main(String[] args) {
+        final GameModel gameModel = new GameModelImpl();
+
         final Runnable runGui = () -> {
-            final MainFrame frame = new MainFrame();
+            final MainFrame frame = new MainFrame(gameModel);
             frame.setVisible(true);
         };
 

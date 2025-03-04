@@ -1,6 +1,8 @@
 package ru.urfu.core;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import org.slf4j.Logger;
@@ -17,8 +19,10 @@ public final class GameModelImpl implements GameModel {
     private final Logger log = LoggerFactory.getLogger(GameModelImpl.class);
     private final Point initialPosition = new Point(100, 100);
 
-    private final Timer timer;
+    private final Timer timer = new Timer("Model Events Generator", true);
     private final RobotModel robot = new RobotModel(initialPosition.x, initialPosition.y, 0);
+    private final List<GameModelChangeListener> listeners = new ArrayList<>();
+
     private final TimerTask updateTask = new TimerTask() {
         @Override
         public void run() {
@@ -26,16 +30,8 @@ public final class GameModelImpl implements GameModel {
         }
     };
 
+    private boolean isRunning = false;
     private Point targetPosition = new Point(initialPosition.x, initialPosition.y);
-
-    /**
-     * <p>Конструктор.</p>
-     *
-     * @param timer таймер для генерации событий.
-     */
-    public GameModelImpl(Timer timer) {
-        this.timer = timer;
-    }
 
     /**
      * <p>Квадрат расстояния между двумя точками.</p>
@@ -87,12 +83,14 @@ public final class GameModelImpl implements GameModel {
 
     @Override
     public void start() {
+        this.isRunning = true;
         this.timer.schedule(updateTask, 0, GAME_CLOCK_PERIOD);
         log.debug("Model has started.");
     }
 
     @Override
     public void stop() {
+        this.isRunning = false;
         updateTask.cancel();
         log.debug("Model has stopped.");
     }
@@ -108,6 +106,18 @@ public final class GameModelImpl implements GameModel {
     }
 
     @Override
+    public void registerListener(GameModelChangeListener listener) {
+        this.listeners.add(listener);
+        log.debug("Registered listener. Current listeners are {}", this.listeners);
+    }
+
+    @Override
+    public void removeListener(GameModelChangeListener listener) {
+        this.listeners.remove(listener);
+        log.debug("Unregistered listener. Current listeners are {}", this.listeners);
+    }
+
+    @Override
     public RobotPosition getRobotPosition() {
         return new RobotPosition(robot);
     }
@@ -120,6 +130,16 @@ public final class GameModelImpl implements GameModel {
             return;
         }
         moveRobot();
+        notifyListeners();
+    }
+
+    /**
+     * <p>Оповещает слушателей об изменении модели.</p>
+     */
+    private void notifyListeners() {
+        for (final GameModelChangeListener listener : listeners) {
+            listener.onModelChange();
+        }
     }
 
     /**
