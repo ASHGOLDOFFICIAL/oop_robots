@@ -44,6 +44,8 @@
                 <configuration>
                     <poDirectory>src/main/po</poDirectory>
                     <targetBundle>ru.urfu.i18n.Messages</targetBundle>
+                    <outputDirectory>src/main/resources</outputDirectory>
+                    <outputFormat>properties</outputFormat>
                 </configuration>
             </plugin>
 
