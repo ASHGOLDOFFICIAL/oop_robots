@@ -24,6 +24,7 @@ final class WindowsMenuProvider implements MenuElementProvider {
 
         windowsMenu.add(createOpenGameWindowItem(frame));
         windowsMenu.add(createOpenLogWindowItem(frame));
+        windowsMenu.add(createOpenCoordinatesWindowItem(frame));
 
         return windowsMenu;
     }
@@ -49,6 +50,18 @@ final class WindowsMenuProvider implements MenuElementProvider {
     private JMenuItem createOpenLogWindowItem(MainFrame frame) {
         final JMenuItem item = new JMenuItem(i18n.tr("Logs"), KeyEvent.VK_L);
         item.addActionListener((event) -> frame.addLogWindow());
+        return item;
+    }
+
+    /**
+     * <p>Создаёт элемент меню для открытия окна с логами.</p>
+     *
+     * @param frame окно.
+     * @return элемент меню.
+     */
+    private JMenuItem createOpenCoordinatesWindowItem(MainFrame frame) {
+        final JMenuItem item = new JMenuItem(i18n.tr("Coordinates"), KeyEvent.VK_L);
+        item.addActionListener((event) -> frame.addCoordinatesWindow());
         return item;
     }
 }

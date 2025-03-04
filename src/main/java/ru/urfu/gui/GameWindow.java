@@ -2,13 +2,11 @@ package ru.urfu.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.util.Timer;
 import javax.swing.JPanel;
 import org.xnap.commons.i18n.I18n;
 import org.xnap.commons.i18n.I18nFactory;
 import ru.urfu.config.Configuration;
 import ru.urfu.core.GameModel;
-import ru.urfu.core.GameModelImpl;
 import ru.urfu.gui.game.GuiGameController;
 import ru.urfu.gui.game.GuiGameView;
 
@@ -16,30 +14,24 @@ import ru.urfu.gui.game.GuiGameView;
  * <p>Игровое окно.</p>
  */
 public final class GameWindow extends CustomInternalFrame {
-    private final Timer timer = new Timer("Game Events Generator", true);
-    private final GameModel model;
-    private final GuiGameView view;
     private final GuiGameController controller;
 
     /**
      * <p>Конструктор.</p>
      *
      * @param config конфигурация
+     * @param model  модель игры
      */
-    public GameWindow(Configuration config) {
+    public GameWindow(Configuration config, GameModel model) {
         super(config);
 
-        this.model = new GameModelImpl(timer);
-        this.view = new GuiGameView(model, timer);
+        final GuiGameView view = new GuiGameView(model);
         this.controller = new GuiGameController(model, view);
-
-        model.start();
-        view.start();
-        controller.start();
+        this.controller.start();
 
         final JPanel panel = new JPanel(new BorderLayout());
         panel.add(view, BorderLayout.CENTER);
-        getContentPane().add(panel);
+        getContentPane().add(view);
 
         setLocaleDependantProperties();
     }
@@ -54,9 +46,6 @@ public final class GameWindow extends CustomInternalFrame {
     @Override
     public void onDispose() {
         controller.stop();
-        view.stop();
-        model.stop();
-        timer.cancel();
     }
 
     @Override

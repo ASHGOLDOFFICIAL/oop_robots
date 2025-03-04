@@ -23,6 +23,7 @@ import ru.urfu.config.Configuration;
 import ru.urfu.config.ConfigurationManager;
 import ru.urfu.config.ConfigurationSource;
 import ru.urfu.config.FileConfigurationSource;
+import ru.urfu.core.GameModel;
 import ru.urfu.gui.menu.MainFrameMenu;
 import ru.urfu.log.Logger;
 
@@ -45,6 +46,7 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
 
     private final ConfigurationManager configManager;
     private final Configuration config;
+    private final GameModel model;
 
     private final WindowListener exitListener = new WindowAdapter() {
         @Override
@@ -55,14 +57,19 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
 
     /**
      * <p>Конструктор.</p>
+     *
+     * @param gameModel модель игры
      */
-    public MainFrame() {
+    public MainFrame(GameModel gameModel) {
         log.debug("System locale is {}", Locale.getDefault());
         log.debug("Configuration file is {}", CONFIG_FILE);
 
         final ConfigurationSource configurationSource = new FileConfigurationSource(CONFIG_FILE);
         this.configManager = new ConfigurationManager(configurationSource);
         this.config = this.configManager.get();
+
+        this.model = gameModel;
+        this.model.start();
 
         I18nManager.getInstance().addLocaleChangeListener(this);
 
@@ -84,13 +91,14 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
         new WindowConfigurationManager(config).configureWindow(this);
         addLogWindow();
         addGameWindow();
+        addCoordinatesWindow();
     }
 
     /**
      * <p>Добавляет окно с игрой.</p>
      */
     public void addGameWindow() {
-        final GameWindow gameWindow = new GameWindow(this.config);
+        final GameWindow gameWindow = new GameWindow(this.config, this.model);
         this.addWindow(gameWindow);
     }
 
@@ -100,6 +108,14 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
     public void addLogWindow() {
         final LogWindow logWindow = new LogWindow(this.config, Logger.getDefaultLogSource());
         this.addWindow(logWindow);
+    }
+
+    /**
+     * <p>Добавляет окно с координатами робота.</p>
+     */
+    public void addCoordinatesWindow() {
+        final CoordinatesWindow coordinatesWindow = new CoordinatesWindow(this.config, this.model);
+        this.addWindow(coordinatesWindow);
     }
 
     /**
@@ -192,6 +208,8 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
      * <p>Действия при выходе.</p>
      */
     private void onClose() {
+        this.model.stop();
+
         for (final JInternalFrame frame : this.desktopPane.getAllFrames()) {
             frame.dispose();
         }

@@ -5,60 +5,27 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
-import java.util.Timer;
-import java.util.TimerTask;
 import javax.swing.JPanel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import ru.urfu.core.GameModel;
+import ru.urfu.core.GameModelChangeListener;
 import ru.urfu.core.RobotPosition;
 
 /**
  * <p>View игры.</p>
  */
 @SuppressWarnings({"MissingJavadocMethod", "MagicNumber"})
-public final class GuiGameView extends JPanel {
-    private final static int REFRESH_PERIOD = 20;
-    private final Logger log = LoggerFactory.getLogger(GuiGameView.class);
-
-    private final TimerTask repaintTask = new TimerTask() {
-        @Override
-        public void run() {
-            GuiGameView.this.repaint();
-        }
-    };
-    private final Timer timer;
+public final class GuiGameView extends JPanel implements GameModelChangeListener {
     private final GameModel model;
 
     /**
      * <p>Конструктор.</p>
      *
      * @param model модель игры.
-     * @param timer таймер для генерации событий.
      */
-    public GuiGameView(GameModel model, Timer timer) {
+    public GuiGameView(GameModel model) {
         this.model = model;
-        this.timer = timer;
+        this.model.registerListener(this);
         setDoubleBuffered(true);
-    }
-
-    /**
-     * <p>Начинает работу view: поле
-     * периодически перерисовывается
-     * для отображения изменений в модели.</p>
-     */
-    public void start() {
-        timer.schedule(repaintTask, 0, REFRESH_PERIOD);
-        log.debug("View has started.");
-    }
-
-    /**
-     * <p>Останавливает работу view:
-     * поле больше не перерисовывается.</p>
-     */
-    public void stop() {
-        repaintTask.cancel();
-        log.debug("View has stopped.");
     }
 
     @Override
@@ -69,6 +36,11 @@ public final class GuiGameView extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         drawRobot(g2d, round(robot.positionX()), round(robot.positionY()), robot.direction());
         drawTarget(g2d, model.getTargetPosition());
+    }
+
+    @Override
+    public void onModelChange() {
+        repaint();
     }
 
     private static void fillOval(Graphics g, int centerX, int centerY, int diam1, int diam2) {
