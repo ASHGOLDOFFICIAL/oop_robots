@@ -64,6 +64,7 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <includeResources>false</includeResources>
                     <configLocation>checkstyle.xml</configLocation>
                     <consoleOutput>true</consoleOutput>
                     <logViolationsToConsole>true</logViolationsToConsole>
