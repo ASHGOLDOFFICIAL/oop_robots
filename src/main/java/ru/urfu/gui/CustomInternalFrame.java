@@ -24,6 +24,8 @@ public abstract class CustomInternalFrame
 
     /**
      * <p>Конструктор.</p>
+     *
+     * @param config конфигурация
      */
     protected CustomInternalFrame(Configuration config) {
         super(null, true, true, true);

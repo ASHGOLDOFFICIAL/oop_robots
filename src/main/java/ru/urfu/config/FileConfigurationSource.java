@@ -33,7 +33,7 @@ public final class FileConfigurationSource implements ConfigurationSource {
     public void save(Configuration config) throws ConfigSaveFailed {
         final Properties properties = new Properties();
         properties.putAll(config.toMap());
-        try (final Writer writer = new FileWriter(this.fileName)) {
+        try (Writer writer = new FileWriter(this.fileName)) {
             properties.store(writer, "config");
         } catch (IOException e) {
             throw new ConfigSaveFailed("Configuration save failed");
@@ -64,7 +64,7 @@ public final class FileConfigurationSource implements ConfigurationSource {
             throw new ConfigLoadFailed("Couldn't create file");
         }
 
-        try (final Reader reader = new FileReader(file)) {
+        try (Reader reader = new FileReader(file)) {
             properties.load(reader);
         } catch (IOException e) {
             throw new ConfigLoadFailed("Couldn't read file");
