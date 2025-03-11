@@ -55,6 +55,10 @@ public final class LogWindow extends JInternalFrame
         final int width = 300;
         final int height = 800;
         setPreferredSize(new Dimension(width, height));
+
+        final int x = 10;
+        final int y = 10;
+        setLocation(x, y);
         pack();
     }
 
