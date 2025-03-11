@@ -3,8 +3,6 @@ package ru.urfu.core;
 import java.awt.Point;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.Timer;
-import java.util.TimerTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +10,6 @@ import org.slf4j.LoggerFactory;
  * <p>Реализация интерфейса {@link GameModel}.</p>
  */
 public final class GameModelImpl implements GameModel {
-    private final static int GAME_CLOCK_PERIOD = 10;
     private final static double HALF_A_PIXEL = 0.5;
     private final static double EPSILON = 0.00001;
 
@@ -21,14 +18,7 @@ public final class GameModelImpl implements GameModel {
     private final Point initialPosition = new Point(100, 100);
     private final RobotModel robot = new RobotModel(initialPosition.x, initialPosition.y, 0);
 
-    private final Timer timer = new Timer("Model Events Generator", true);
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-    private final TimerTask updateTask = new TimerTask() {
-        @Override
-        public void run() {
-            update();
-        }
-    };
 
     private Point targetPosition = new Point(initialPosition.x, initialPosition.y);
 
@@ -81,18 +71,6 @@ public final class GameModelImpl implements GameModel {
     }
 
     @Override
-    public void start() {
-        this.timer.schedule(updateTask, 0, GAME_CLOCK_PERIOD);
-        log.debug("Model has started.");
-    }
-
-    @Override
-    public void stop() {
-        updateTask.cancel();
-        log.debug("Model has stopped.");
-    }
-
-    @Override
     public Point getTargetPosition() {
         return new Point(targetPosition.x, targetPosition.y);
     }
@@ -119,14 +97,12 @@ public final class GameModelImpl implements GameModel {
         return new RobotPosition(robot);
     }
 
-    /**
-     * <p>Обновляет состояние модели.</p>
-     */
-    private void update() {
+    @Override
+    public void update(int time) {
         if (!hasChanges()) {
             return;
         }
-        moveRobot();
+        moveRobot(time);
         this.pcs.firePropertyChange("model", null, null);
     }
 
@@ -148,19 +124,21 @@ public final class GameModelImpl implements GameModel {
 
     /**
      * <p>Перемещает робота на поле.</p>
+     *
+     * @param time время, прошедшее с последнего апдейта.
      */
-    private void moveRobot() {
-        double newDirection = calcNewDirection();
+    private void moveRobot(int time) {
+        double newDirection = calcNewDirection(time);
         robot.setDirection(newDirection);
 
         final double velocity = robot.getVelocity();
 
         final double oldX = robot.getPositionX();
-        final double newX = oldX + velocity * GAME_CLOCK_PERIOD * Math.cos(newDirection);
+        final double newX = oldX + velocity * time * Math.cos(newDirection);
         robot.setPositionX(newX);
 
         final double oldY = robot.getPositionY();
-        final double newY = oldY + velocity * GAME_CLOCK_PERIOD * Math.sin(newDirection);
+        final double newY = oldY + velocity * time * Math.sin(newDirection);
         robot.setPositionY(newY);
     }
 
@@ -168,9 +146,10 @@ public final class GameModelImpl implements GameModel {
      * <p>Вычисляет новое направления робота
      * на основании положения цели.</p>
      *
+     * @param time время, прошедшее с последнего апдейта.
      * @return новое направление для робота.
      */
-    private double calcNewDirection() {
+    private double calcNewDirection(int time) {
         final double angleToTarget = angleTo(robot.getPositionX(), robot.getPositionY(),
                 targetPosition.x, targetPosition.y);
         final double direction = robot.getDirection();
@@ -184,7 +163,7 @@ public final class GameModelImpl implements GameModel {
         angularVelocity *= (angleDifference < Math.PI) ? 1 : -1;
         angularVelocity *= (isInsideBlindZone(targetPosition)) ? -1 : 1;
 
-        final double angleDelta = angularVelocity * GAME_CLOCK_PERIOD;
+        final double angleDelta = angularVelocity * time;
         return asNormalizedRadians(direction + angleDelta);
     }
 
