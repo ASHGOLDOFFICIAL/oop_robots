@@ -19,7 +19,6 @@ import org.xnap.commons.i18n.I18nManager;
 import org.xnap.commons.i18n.LocaleChangeEvent;
 import org.xnap.commons.i18n.LocaleChangeListener;
 import ru.urfu.config.ConfigSaveFailed;
-import ru.urfu.config.Configuration;
 import ru.urfu.config.ConfigurationManager;
 import ru.urfu.config.ConfigurationSource;
 import ru.urfu.config.FileConfigurationSource;
@@ -44,7 +43,6 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
 
     private final StateManager stateManager;
     private final ConfigurationManager configManager;
-    private final Configuration config;
     private final GameModel model;
 
     private final WindowListener exitListener = new WindowAdapter() {
@@ -65,8 +63,7 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
 
         final ConfigurationSource configurationSource = new FileConfigurationSource(CONFIG_FILE);
         this.configManager = new ConfigurationManager(configurationSource);
-        this.config = this.configManager.get();
-        this.stateManager = new StateManager(this.config);
+        this.stateManager = new StateManager(this.configManager.get());
 
         this.model = gameModel;
         this.model.start();
@@ -87,7 +84,7 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
     private void initialState() {
         openWindows();
         setLookAndFeel(DEFAULT_THEME);
-        this.stateManager.restoreState(this);
+        this.stateManager.restoreState(this, desktopPane);
     }
 
     /**
@@ -235,7 +232,7 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
         this.model.stop();
 
         try {
-            this.stateManager.saveState(this);
+            this.stateManager.saveState(this, desktopPane);
             this.configManager.flush();
         } catch (ConfigSaveFailed e) {
             log.error("Couldn't save application state");

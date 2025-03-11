@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.beans.PropertyVetoException;
 import java.util.Locale;
+import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import org.slf4j.Logger;
@@ -42,15 +43,14 @@ public final class StateManager {
      * и его дочерних компонентов, реализующих {@link Stateful}.</p>
      *
      * @param frame корневой фрейм
+     * @param pane  панель с окнами
      */
-    public void restoreState(JFrame frame) {
+    public void restoreState(JFrame frame, JDesktopPane pane) {
         restoreLocale();
         configureComponent(frame);
-        for (Component child : frame.getContentPane().getComponents()) {
+        for (JInternalFrame child : pane.getAllFrames()) {
             if (child instanceof Stateful) {
-                if (child instanceof JInternalFrame) {
-                    configureFrame((JInternalFrame) child);
-                }
+                configureFrame(child);
             }
         }
     }
@@ -60,13 +60,12 @@ public final class StateManager {
      * и его дочерних компонентов, реализующих {@link Stateful}.</p>
      *
      * @param frame корневой фрейм
+     * @param pane  панель с окнами
      */
-    public void saveState(JFrame frame) {
-        for (Component child : frame.getContentPane().getComponents()) {
+    public void saveState(JFrame frame, JDesktopPane pane) {
+        for (JInternalFrame child : pane.getAllFrames()) {
             if (child instanceof Stateful) {
-                if (child instanceof JInternalFrame) {
-                    saveFrameState((JInternalFrame) child);
-                }
+                saveFrameState(child);
             }
         }
         saveComponentState(frame);
