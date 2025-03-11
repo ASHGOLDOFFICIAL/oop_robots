@@ -47,6 +47,10 @@ public final class GameWindow extends JInternalFrame implements LocaleChangeList
         final int width = 400;
         final int height = 400;
         setPreferredSize(new Dimension(width, height));
+
+        final int x = 400;
+        final int y = 10;
+        setLocation(x, y);
         pack();
     }
 

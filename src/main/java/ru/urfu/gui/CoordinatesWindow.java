@@ -46,6 +46,10 @@ public final class CoordinatesWindow extends JInternalFrame
         final int width = 200;
         final int height = 75;
         setPreferredSize(new Dimension(width, height));
+
+        final int x = 100;
+        final int y = 100;
+        setLocation(x, y);
         pack();
     }
 
