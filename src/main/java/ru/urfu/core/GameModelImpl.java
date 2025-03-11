@@ -194,7 +194,43 @@ public final class GameModelImpl implements GameModel {
 
         double angularVelocity = robot.getAngularVelocity();
         angularVelocity *= (angleDifference < Math.PI) ? 1 : -1;
+        angularVelocity *= (isInsideBlindZone(targetPosition)) ? -1 : 1;
+
         final double angleDelta = angularVelocity * GAME_CLOCK_PERIOD;
         return asNormalizedRadians(direction + angleDelta);
+    }
+
+    /**
+     * <p>Проверяет, находится ли точка в слепой зоне робота.</p>
+     * <p>Слепой зоной назовём внутренности окружности,
+     * по которым робот может совершить круговое движение.</p>
+     *
+     * @param point проверяемая точка.
+     * @return результат проверки.
+     */
+    private boolean isInsideBlindZone(Point point) {
+        final double targetX = point.x;
+        final double targetY = point.y;
+
+        final double robotX = robot.getPositionX();
+        final double robotY = robot.getPositionY();
+        final double direction = robot.getDirection();
+        final double radius = robot.getMovementCircumferenceRadius();
+
+        final double radiusSquared = radius * radius;
+        final double directionSin = Math.sin(direction);
+        final double directionCos = Math.cos(direction);
+
+        final double blindZone1CenterX = robotX - radius * directionSin;
+        final double blindZone1CenterY = robotY + radius * directionCos;
+        final double distance1 = distanceSquared(targetX, targetY, blindZone1CenterX, blindZone1CenterY);
+        if (distance1 < radiusSquared) {
+            return true;
+        }
+
+        final double blindZone2CenterX = robotX + radius * directionSin;
+        final double blindZone2CenterY = robotY - radius * directionCos;
+        final double distance2 = distanceSquared(targetX, targetY, blindZone2CenterX, blindZone2CenterY);
+        return distance2 < radiusSquared;
     }
 }
