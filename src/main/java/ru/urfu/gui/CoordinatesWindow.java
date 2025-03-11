@@ -9,7 +9,6 @@ import org.xnap.commons.i18n.I18nFactory;
 import org.xnap.commons.i18n.I18nManager;
 import org.xnap.commons.i18n.LocaleChangeEvent;
 import org.xnap.commons.i18n.LocaleChangeListener;
-import ru.urfu.config.Configuration;
 import ru.urfu.core.GameModel;
 import ru.urfu.core.GameModelChangeListener;
 import ru.urfu.core.RobotPosition;
@@ -27,10 +26,9 @@ public final class CoordinatesWindow extends JInternalFrame
     /**
      * <p>Конструктор.</p>
      *
-     * @param config конфигурация
-     * @param model  модель игры
+     * @param model модель игры
      */
-    public CoordinatesWindow(Configuration config, GameModel model) {
+    public CoordinatesWindow(GameModel model) {
         super(null, true, true, true, true);
 
         this.model = model;

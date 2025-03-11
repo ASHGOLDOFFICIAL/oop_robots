@@ -34,16 +34,15 @@ import ru.urfu.log.Logger;
 public final class MainFrame extends JFrame implements LocaleChangeListener {
     private final static int MIN_WIDTH = 300;
     private final static int MIN_HEIGHT = 800;
-
     private final static String DEFAULT_THEME = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
     private final static String CONFIG_FILE = System.getProperty("user.home") + "/robots.properties";
-    private final static String THEME_KEY = "themeClass";
 
     private final JDesktopPane desktopPane = new JDesktopPane();
 
     private final I18n i18n = I18nFactory.getI18n(MainFrame.class);
     private final org.slf4j.Logger log = LoggerFactory.getLogger(MainFrame.class);
 
+    private final StateManager stateManager;
     private final ConfigurationManager configManager;
     private final Configuration config;
     private final GameModel model;
@@ -67,15 +66,17 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
         final ConfigurationSource configurationSource = new FileConfigurationSource(CONFIG_FILE);
         this.configManager = new ConfigurationManager(configurationSource);
         this.config = this.configManager.get();
+        this.stateManager = new StateManager(this.config);
 
         this.model = gameModel;
         this.model.start();
 
         setContentPane(desktopPane);
+        setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
+        setConfirmationBeforeExit();
 
         I18nManager.getInstance().addLocaleChangeListener(this);
 
-        setConfirmationBeforeExit();
         initialState();
         setLocaleSpecificProperties();
     }
@@ -85,10 +86,8 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
      */
     private void initialState() {
         openWindows();
-        setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
-        final String themeClass = config.get(THEME_KEY, DEFAULT_THEME);
-        setLookAndFeel(themeClass);
-        new WindowStateManager(config).restoreState(this);
+        setLookAndFeel(DEFAULT_THEME);
+        this.stateManager.restoreState(this);
     }
 
     /**
@@ -120,7 +119,7 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
      */
     public void addGameWindowIfClosed() {
         if (isWindowClosed(GameWindow.class)) {
-            final GameWindow gameWindow = new GameWindow(this.config, this.model);
+            final GameWindow gameWindow = new GameWindow(this.model);
             this.addWindow(gameWindow);
         }
     }
@@ -130,7 +129,7 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
      */
     public void addLogWindowIfClosed() {
         if (isWindowClosed(LogWindow.class)) {
-            final LogWindow logWindow = new LogWindow(this.config, Logger.getDefaultLogSource());
+            final LogWindow logWindow = new LogWindow(Logger.getDefaultLogSource());
             this.addWindow(logWindow);
         }
     }
@@ -140,7 +139,7 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
      */
     public void addCoordinatesWindowIfClosed() {
         if (isWindowClosed(CoordinatesWindow.class)) {
-            final CoordinatesWindow coordinatesWindow = new CoordinatesWindow(this.config, this.model);
+            final CoordinatesWindow coordinatesWindow = new CoordinatesWindow(this.model);
             this.addWindow(coordinatesWindow);
         }
     }
@@ -182,6 +181,11 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
         this.invalidate();
     }
 
+    @Override
+    public void localeChanged(LocaleChangeEvent event) {
+        setLocaleSpecificProperties();
+    }
+
     /**
      * <p>Добавляет внутреннее окно.</p>
      *
@@ -191,7 +195,6 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
         desktopPane.add(frame);
         frame.setVisible(true);
     }
-
 
     /**
      * <p>Меняет тему оформления.</p>
@@ -206,7 +209,6 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
                  | IllegalAccessException | UnsupportedLookAndFeelException e) {
             log.error("Error during setting application theme", e);
         }
-        config.put(THEME_KEY, className);
     }
 
     /**
@@ -216,11 +218,6 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
     private void setConfirmationBeforeExit() {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(this.exitListener);
-    }
-
-    @Override
-    public void localeChanged(LocaleChangeEvent event) {
-        setLocaleSpecificProperties();
     }
 
     /**
@@ -238,7 +235,7 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
         this.model.stop();
 
         try {
-            new WindowStateManager(config).saveState(this);
+            this.stateManager.saveState(this);
             this.configManager.flush();
         } catch (ConfigSaveFailed e) {
             log.error("Couldn't save application state");

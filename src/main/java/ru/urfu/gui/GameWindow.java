@@ -9,7 +9,6 @@ import org.xnap.commons.i18n.I18nFactory;
 import org.xnap.commons.i18n.I18nManager;
 import org.xnap.commons.i18n.LocaleChangeEvent;
 import org.xnap.commons.i18n.LocaleChangeListener;
-import ru.urfu.config.Configuration;
 import ru.urfu.core.GameModel;
 import ru.urfu.gui.game.GuiGameController;
 import ru.urfu.gui.game.GuiGameView;
@@ -23,10 +22,9 @@ public final class GameWindow extends JInternalFrame implements LocaleChangeList
     /**
      * <p>Конструктор.</p>
      *
-     * @param config конфигурация
-     * @param model  модель игры
+     * @param model модель игры
      */
-    public GameWindow(Configuration config, GameModel model) {
+    public GameWindow(GameModel model) {
         super(null, true, true, true, true);
 
         final GuiGameView view = new GuiGameView(model);

@@ -4,10 +4,12 @@ import java.awt.Component;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.beans.PropertyVetoException;
+import java.util.Locale;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xnap.commons.i18n.I18nManager;
 import ru.urfu.config.Configuration;
 
 /**
@@ -15,14 +17,15 @@ import ru.urfu.config.Configuration;
  *
  * <p>Сохраняет и загружает общее состояние окна: положение и размер.</p>
  */
-public final class WindowStateManager {
+public final class StateManager {
+    private final static String LANGUAGE_KEY = "language";
     private final static String WIDTH_KEY = "width";
     private final static String HEIGHT_KEY = "height";
     private final static String X_KEY = "x";
     private final static String Y_KEY = "y";
     private final static String MINIMIZED_KEY = "minimized";
 
-    private final Logger log = LoggerFactory.getLogger(WindowStateManager.class);
+    private final Logger log = LoggerFactory.getLogger(StateManager.class);
     private final Configuration config;
 
     /**
@@ -30,7 +33,7 @@ public final class WindowStateManager {
      *
      * @param config конфиг, в который сохранять информацию
      */
-    public WindowStateManager(Configuration config) {
+    public StateManager(Configuration config) {
         this.config = config;
     }
 
@@ -41,6 +44,7 @@ public final class WindowStateManager {
      * @param frame корневой фрейм
      */
     public void restoreState(JFrame frame) {
+        restoreLocale();
         configureComponent(frame);
         for (Component child : frame.getContentPane().getComponents()) {
             if (child instanceof Stateful) {
@@ -58,7 +62,6 @@ public final class WindowStateManager {
      * @param frame корневой фрейм
      */
     public void saveState(JFrame frame) {
-        saveComponentState(frame);
         for (Component child : frame.getContentPane().getComponents()) {
             if (child instanceof Stateful) {
                 if (child instanceof JInternalFrame) {
@@ -66,6 +69,19 @@ public final class WindowStateManager {
                 }
             }
         }
+        saveComponentState(frame);
+        config.put(LANGUAGE_KEY, Locale.getDefault().toString());
+    }
+
+    /**
+     * <p>Восстанавливает локаль.</p>
+     */
+    private void restoreLocale() {
+        final String language = config.get(LANGUAGE_KEY, Locale.getDefault().toString());
+        final Locale locale = Locale.forLanguageTag(language);
+        Locale.setDefault(locale);
+        I18nManager.getInstance().setDefaultLocale(locale);
+        log.debug("Initial locale is {}", locale);
     }
 
     /**

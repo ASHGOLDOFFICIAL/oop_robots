@@ -11,7 +11,6 @@ import org.xnap.commons.i18n.I18nFactory;
 import org.xnap.commons.i18n.I18nManager;
 import org.xnap.commons.i18n.LocaleChangeEvent;
 import org.xnap.commons.i18n.LocaleChangeListener;
-import ru.urfu.config.Configuration;
 import ru.urfu.log.LogChangeListener;
 import ru.urfu.log.LogEntry;
 import ru.urfu.log.LogWindowSource;
@@ -31,10 +30,9 @@ public final class LogWindow extends JInternalFrame
     /**
      * <p>Конструктор.</p>
      *
-     * @param config    конфигурация
      * @param logSource источник логов.
      */
-    public LogWindow(Configuration config, LogWindowSource logSource) {
+    public LogWindow(LogWindowSource logSource) {
         super(null, true, true, true, true);
 
         this.logSource = logSource;
