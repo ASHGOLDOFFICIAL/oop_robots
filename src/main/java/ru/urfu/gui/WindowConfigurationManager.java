@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.beans.PropertyVetoException;
+import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +23,6 @@ public final class WindowConfigurationManager {
     private final static String MINIMIZED_KEY = "minimized";
 
     private final Logger log = LoggerFactory.getLogger(WindowConfigurationManager.class);
-
     private final Configuration config;
 
     /**
@@ -35,11 +35,45 @@ public final class WindowConfigurationManager {
     }
 
     /**
+     * <p>Восстанавливает состояние {@link JFrame}
+     * и его дочерних компонентов, реализующих {@link Stateful}.</p>
+     *
+     * @param frame корневой фрейм
+     */
+    public void restoreState(JFrame frame) {
+        configureComponent(frame);
+        for (Component child : frame.getContentPane().getComponents()) {
+            if (child instanceof Stateful) {
+                if (child instanceof JInternalFrame) {
+                    configureFrame((JInternalFrame) child);
+                }
+            }
+        }
+    }
+
+    /**
+     * <p>Сохраняет состояние {@link JFrame}
+     * и его дочерних компонентов, реализующих {@link Stateful}.</p>
+     *
+     * @param frame корневой фрейм
+     */
+    public void saveState(JFrame frame) {
+        saveComponentState(frame);
+        for (Component child : frame.getContentPane().getComponents()) {
+            if (child instanceof Stateful) {
+                if (child instanceof JInternalFrame) {
+                    saveFrameState((JInternalFrame) child);
+                }
+            }
+        }
+    }
+
+    /**
      * <p>Конфигурирует компонент, считывая состояние из конфига.</p>
      *
      * @param component конфигурируемый компонент.
      */
-    public void configureComponent(Component component) {
+    private void configureComponent(Component component) {
         final String prefix = component.getClass().getSimpleName() + ".";
         final Point location = component.getLocation();
         final int x = config.get(prefix + X_KEY, location.x);
@@ -54,7 +88,7 @@ public final class WindowConfigurationManager {
      *
      * @param frame конфигурируемый фрейм.
      */
-    public void configureFrame(JInternalFrame frame) {
+    private void configureFrame(JInternalFrame frame) {
         configureComponent(frame);
         final String prefix = frame.getClass().getSimpleName() + ".";
         final boolean isMinimized = config.get(prefix + MINIMIZED_KEY, false);
@@ -71,7 +105,7 @@ public final class WindowConfigurationManager {
      *
      * @param component компонент, чьё состояние сохраняем.
      */
-    public void saveComponentState(Component component) {
+    private void saveComponentState(Component component) {
         final String prefix = component.getClass().getSimpleName() + ".";
         final Rectangle bounds = component.getBounds();
         config.put(prefix + WIDTH_KEY, bounds.width);
@@ -86,7 +120,7 @@ public final class WindowConfigurationManager {
      *
      * @param frame фрейм, чьё состояние сохраняем.
      */
-    public void saveFrameState(JInternalFrame frame) {
+    private void saveFrameState(JInternalFrame frame) {
         saveComponentState(frame);
         final String prefix = frame.getClass().getSimpleName() + ".";
         config.put(prefix + MINIMIZED_KEY, frame.isIcon());

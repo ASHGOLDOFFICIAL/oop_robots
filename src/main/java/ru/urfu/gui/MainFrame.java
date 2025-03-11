@@ -88,10 +88,10 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
         setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
         final String themeClass = config.get(THEME_KEY, DEFAULT_THEME);
         setLookAndFeel(themeClass);
-        new WindowConfigurationManager(config).configureComponent(this);
         addLogWindowIfClosed();
         addGameWindowIfClosed();
         addCoordinatesWindowIfClosed();
+        new WindowConfigurationManager(config).restoreState(this);
     }
 
     /**
@@ -231,16 +231,12 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
     private void onClose() {
         this.model.stop();
 
-        for (final JInternalFrame frame : this.desktopPane.getAllFrames()) {
-            frame.dispose();
-        }
-        dispose();
-
         try {
-            new WindowConfigurationManager(config).saveComponentState(this);
+            new WindowConfigurationManager(config).saveState(this);
             this.configManager.flush();
         } catch (ConfigSaveFailed e) {
             log.error("Couldn't save application state");
         }
+        dispose();
     }
 }

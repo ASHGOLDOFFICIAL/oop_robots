@@ -4,9 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.TextArea;
+import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import org.xnap.commons.i18n.I18n;
 import org.xnap.commons.i18n.I18nFactory;
+import org.xnap.commons.i18n.I18nManager;
+import org.xnap.commons.i18n.LocaleChangeEvent;
+import org.xnap.commons.i18n.LocaleChangeListener;
 import ru.urfu.config.Configuration;
 import ru.urfu.log.LogChangeListener;
 import ru.urfu.log.LogEntry;
@@ -16,7 +20,8 @@ import ru.urfu.log.Logger;
 /**
  * <p>Окно с логами.</p>
  */
-public final class LogWindow extends CustomInternalFrame implements LogChangeListener {
+public final class LogWindow extends JInternalFrame
+        implements LogChangeListener, LocaleChangeListener, Stateful {
     private final static int CONTENT_WIDTH = 200;
     private final static int CONTENT_HEIGHT = 500;
 
@@ -30,12 +35,15 @@ public final class LogWindow extends CustomInternalFrame implements LogChangeLis
      * @param logSource источник логов.
      */
     public LogWindow(Configuration config, LogWindowSource logSource) {
-        super(config);
+        super(null, true, true, true, true);
 
         this.logSource = logSource;
         this.logSource.registerListener(this);
         this.logContent = new TextArea("");
         this.logContent.setSize(CONTENT_WIDTH, CONTENT_HEIGHT);
+
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        I18nManager.getInstance().addLocaleChangeListener(this);
 
         final JPanel panel = new JPanel(new BorderLayout());
         panel.add(logContent, BorderLayout.CENTER);
@@ -45,6 +53,11 @@ public final class LogWindow extends CustomInternalFrame implements LogChangeLis
 
         final I18n i18n = I18nFactory.getI18n(getClass());
         Logger.debug(i18n.tr("Logger is working"));
+
+        final int width = 300;
+        final int height = 800;
+        setPreferredSize(new Dimension(width, height));
+        pack();
     }
 
     @Override
@@ -52,20 +65,11 @@ public final class LogWindow extends CustomInternalFrame implements LogChangeLis
         EventQueue.invokeLater(this::updateLogContent);
     }
 
-    @Override
-    protected Dimension defaultSize() {
-        final int windowWidth = 300;
-        final int windowHeight = 800;
-        return new Dimension(windowWidth, windowHeight);
-    }
-
-    @Override
-    protected void onDispose() {
-        logSource.unregisterListener(LogWindow.this);
-    }
-
-    @Override
-    protected void setLocaleDependantProperties() {
+    /**
+     * <p>Устанавливает свойства и поля,
+     * зависящие от текущей локали.</p>
+     */
+    private void setLocaleDependantProperties() {
         final I18n i18n = I18nFactory.getI18n(LogWindow.class);
         setTitle(i18n.tr("Logs"));
         updateLogContent();
@@ -79,5 +83,10 @@ public final class LogWindow extends CustomInternalFrame implements LogChangeLis
         }
         logContent.setText(content.toString());
         logContent.invalidate();
+    }
+
+    @Override
+    public void localeChanged(LocaleChangeEvent event) {
+        setLocaleDependantProperties();
     }
 }
