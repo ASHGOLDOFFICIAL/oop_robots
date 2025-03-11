@@ -1,8 +1,8 @@
 package ru.urfu.core;
 
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.List;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.Timer;
 import java.util.TimerTask;
 import org.slf4j.Logger;
@@ -17,12 +17,12 @@ public final class GameModelImpl implements GameModel {
     private final static double EPSILON = 0.00001;
 
     private final Logger log = LoggerFactory.getLogger(GameModelImpl.class);
+
     private final Point initialPosition = new Point(100, 100);
+    private final RobotModel robot = new RobotModel(initialPosition.x, initialPosition.y, 0);
 
     private final Timer timer = new Timer("Model Events Generator", true);
-    private final RobotModel robot = new RobotModel(initialPosition.x, initialPosition.y, 0);
-    private final List<GameModelChangeListener> listeners = new ArrayList<>();
-
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private final TimerTask updateTask = new TimerTask() {
         @Override
         public void run() {
@@ -30,7 +30,6 @@ public final class GameModelImpl implements GameModel {
         }
     };
 
-    private boolean isRunning = false;
     private Point targetPosition = new Point(initialPosition.x, initialPosition.y);
 
     /**
@@ -83,14 +82,12 @@ public final class GameModelImpl implements GameModel {
 
     @Override
     public void start() {
-        this.isRunning = true;
         this.timer.schedule(updateTask, 0, GAME_CLOCK_PERIOD);
         log.debug("Model has started.");
     }
 
     @Override
     public void stop() {
-        this.isRunning = false;
         updateTask.cancel();
         log.debug("Model has stopped.");
     }
@@ -106,15 +103,15 @@ public final class GameModelImpl implements GameModel {
     }
 
     @Override
-    public void registerListener(GameModelChangeListener listener) {
-        this.listeners.add(listener);
-        log.debug("Registered listener. Current listeners are {}", this.listeners);
+    public void registerListener(PropertyChangeListener listener) {
+        this.pcs.addPropertyChangeListener(listener);
+        log.debug("Registered listener {}", listener.getClass().getSimpleName());
     }
 
     @Override
-    public void removeListener(GameModelChangeListener listener) {
-        this.listeners.remove(listener);
-        log.debug("Unregistered listener. Current listeners are {}", this.listeners);
+    public void removeListener(PropertyChangeListener listener) {
+        this.pcs.removePropertyChangeListener(listener);
+        log.debug("Unregistered listener {}", listener.getClass().getSimpleName());
     }
 
     @Override
@@ -130,16 +127,7 @@ public final class GameModelImpl implements GameModel {
             return;
         }
         moveRobot();
-        notifyListeners();
-    }
-
-    /**
-     * <p>Оповещает слушателей об изменении модели.</p>
-     */
-    private void notifyListeners() {
-        for (final GameModelChangeListener listener : listeners) {
-            listener.onModelChange();
-        }
+        this.pcs.firePropertyChange("model", null, null);
     }
 
     /**
@@ -185,19 +173,52 @@ public final class GameModelImpl implements GameModel {
     private double calcNewDirection() {
         final double angleToTarget = angleTo(robot.getPositionX(), robot.getPositionY(),
                 targetPosition.x, targetPosition.y);
-
         final double direction = robot.getDirection();
-        double newDirection = direction;
-        if (Math.abs(angleToTarget - direction) > EPSILON) {
-            double angularVelocity = robot.getAngularVelocity();
-            if (angleToTarget < direction) {
-                angularVelocity = -robot.getAngularVelocity();
-            }
+        final double angleDifference = asNormalizedRadians(angleToTarget - direction);
 
-            final double angleDelta = angularVelocity * GAME_CLOCK_PERIOD;
-            newDirection = asNormalizedRadians(direction + angleDelta);
+        if (angleDifference < EPSILON) {
+            return direction;
         }
 
-        return newDirection;
+        double angularVelocity = robot.getAngularVelocity();
+        angularVelocity *= (angleDifference < Math.PI) ? 1 : -1;
+        angularVelocity *= (isInsideBlindZone(targetPosition)) ? -1 : 1;
+
+        final double angleDelta = angularVelocity * GAME_CLOCK_PERIOD;
+        return asNormalizedRadians(direction + angleDelta);
+    }
+
+    /**
+     * <p>Проверяет, находится ли точка в слепой зоне робота.</p>
+     * <p>Слепой зоной назовём внутренности окружности,
+     * по которым робот может совершить круговое движение.</p>
+     *
+     * @param point проверяемая точка.
+     * @return результат проверки.
+     */
+    private boolean isInsideBlindZone(Point point) {
+        final double targetX = point.x;
+        final double targetY = point.y;
+
+        final double robotX = robot.getPositionX();
+        final double robotY = robot.getPositionY();
+        final double direction = robot.getDirection();
+        final double radius = robot.getMovementCircumferenceRadius();
+
+        final double radiusSquared = radius * radius;
+        final double directionSin = Math.sin(direction);
+        final double directionCos = Math.cos(direction);
+
+        final double blindZone1CenterX = robotX - radius * directionSin;
+        final double blindZone1CenterY = robotY + radius * directionCos;
+        final double distance1 = distanceSquared(targetX, targetY, blindZone1CenterX, blindZone1CenterY);
+        if (distance1 < radiusSquared) {
+            return true;
+        }
+
+        final double blindZone2CenterX = robotX + radius * directionSin;
+        final double blindZone2CenterY = robotY - radius * directionCos;
+        final double distance2 = distanceSquared(targetX, targetY, blindZone2CenterX, blindZone2CenterY);
+        return distance2 < radiusSquared;
     }
 }

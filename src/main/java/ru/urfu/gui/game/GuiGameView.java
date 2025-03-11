@@ -5,16 +5,17 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import javax.swing.JPanel;
 import ru.urfu.core.GameModel;
-import ru.urfu.core.GameModelChangeListener;
 import ru.urfu.core.RobotPosition;
 
 /**
  * <p>View игры.</p>
  */
 @SuppressWarnings({"MissingJavadocMethod", "MagicNumber"})
-public final class GuiGameView extends JPanel implements GameModelChangeListener {
+public final class GuiGameView extends JPanel implements PropertyChangeListener {
     private final GameModel model;
 
     /**
@@ -30,7 +31,7 @@ public final class GuiGameView extends JPanel implements GameModelChangeListener
     }
 
     @Override
-    public void onModelChange() {
+    public void propertyChange(PropertyChangeEvent evt) {
         repaint();
     }
 

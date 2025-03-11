@@ -6,6 +6,7 @@ package ru.urfu.core;
 public final class RobotModel {
     private static final double MAX_VELOCITY = 0.1;
     private static final double MAX_ANGULAR_VELOCITY = 0.001;
+    private static final double RADIUS = MAX_VELOCITY / MAX_ANGULAR_VELOCITY;
 
     private volatile double positionX;
     private volatile double positionY;
@@ -94,5 +95,14 @@ public final class RobotModel {
      */
     public double getAngularVelocity() {
         return MAX_ANGULAR_VELOCITY;
+    }
+
+    /**
+     * <p>Возвращает радиус окружности, по которой робот движется.</p>
+     *
+     * @return радиус окружности
+     */
+    public double getMovementCircumferenceRadius() {
+        return RADIUS;
     }
 }
