@@ -3,8 +3,6 @@ package ru.urfu.core;
 import java.awt.Point;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import org.slf4j.Logger;
@@ -19,12 +17,11 @@ public final class GameModelImpl implements GameModel {
     private final static double EPSILON = 0.00001;
 
     private final Logger log = LoggerFactory.getLogger(GameModelImpl.class);
+
     private final Point initialPosition = new Point(100, 100);
+    private final RobotModel robot = new RobotModel(initialPosition.x, initialPosition.y, 0);
 
     private final Timer timer = new Timer("Model Events Generator", true);
-    private final RobotModel robot = new RobotModel(initialPosition.x, initialPosition.y, 0);
-    private final List<GameModelChangeListener> listeners = new ArrayList<>();
-
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private final TimerTask updateTask = new TimerTask() {
         @Override
@@ -108,13 +105,13 @@ public final class GameModelImpl implements GameModel {
     @Override
     public void registerListener(PropertyChangeListener listener) {
         this.pcs.addPropertyChangeListener(listener);
-        log.debug("Registered listener. Current listeners are {}", this.listeners);
+        log.debug("Registered listener {}", listener.getClass().getSimpleName());
     }
 
     @Override
     public void removeListener(PropertyChangeListener listener) {
         this.pcs.removePropertyChangeListener(listener);
-        log.debug("Unregistered listener. Current listeners are {}", this.listeners);
+        log.debug("Unregistered listener {}", listener.getClass().getSimpleName());
     }
 
     @Override
