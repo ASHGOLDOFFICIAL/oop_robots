@@ -185,19 +185,16 @@ public final class GameModelImpl implements GameModel {
     private double calcNewDirection() {
         final double angleToTarget = angleTo(robot.getPositionX(), robot.getPositionY(),
                 targetPosition.x, targetPosition.y);
-
         final double direction = robot.getDirection();
-        double newDirection = direction;
-        if (Math.abs(angleToTarget - direction) > EPSILON) {
-            double angularVelocity = robot.getAngularVelocity();
-            if (angleToTarget < direction) {
-                angularVelocity = -robot.getAngularVelocity();
-            }
+        final double angleDifference = asNormalizedRadians(angleToTarget - direction);
 
-            final double angleDelta = angularVelocity * GAME_CLOCK_PERIOD;
-            newDirection = asNormalizedRadians(direction + angleDelta);
+        if (angleDifference < EPSILON) {
+            return direction;
         }
 
-        return newDirection;
+        double angularVelocity = robot.getAngularVelocity();
+        angularVelocity *= (angleDifference < Math.PI) ? 1 : -1;
+        final double angleDelta = angularVelocity * GAME_CLOCK_PERIOD;
+        return asNormalizedRadians(direction + angleDelta);
     }
 }
