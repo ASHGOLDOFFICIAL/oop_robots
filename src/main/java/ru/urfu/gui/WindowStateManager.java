@@ -15,14 +15,14 @@ import ru.urfu.config.Configuration;
  *
  * <p>Сохраняет и загружает общее состояние окна: положение и размер.</p>
  */
-public final class WindowConfigurationManager {
+public final class WindowStateManager {
     private final static String WIDTH_KEY = "width";
     private final static String HEIGHT_KEY = "height";
     private final static String X_KEY = "x";
     private final static String Y_KEY = "y";
     private final static String MINIMIZED_KEY = "minimized";
 
-    private final Logger log = LoggerFactory.getLogger(WindowConfigurationManager.class);
+    private final Logger log = LoggerFactory.getLogger(WindowStateManager.class);
     private final Configuration config;
 
     /**
@@ -30,7 +30,7 @@ public final class WindowConfigurationManager {
      *
      * @param config конфиг, в который сохранять информацию
      */
-    public WindowConfigurationManager(Configuration config) {
+    public WindowStateManager(Configuration config) {
         this.config = config;
     }
 

@@ -71,27 +71,33 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
         this.model = gameModel;
         this.model.start();
 
+        setContentPane(desktopPane);
+
         I18nManager.getInstance().addLocaleChangeListener(this);
 
         setConfirmationBeforeExit();
-        setLocaleSpecificProperties();
-
-        setContentPane(desktopPane);
-
         initialState();
+        setLocaleSpecificProperties();
     }
 
     /**
      * <p>Настройка изначального состояния приложения.</p>
      */
     private void initialState() {
+        openWindows();
         setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
         final String themeClass = config.get(THEME_KEY, DEFAULT_THEME);
         setLookAndFeel(themeClass);
+        new WindowStateManager(config).restoreState(this);
+    }
+
+    /**
+     * <p>Открывает необходимые окна.</p>
+     */
+    private void openWindows() {
         addLogWindowIfClosed();
         addGameWindowIfClosed();
         addCoordinatesWindowIfClosed();
-        new WindowConfigurationManager(config).restoreState(this);
     }
 
     /**
@@ -232,7 +238,7 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
         this.model.stop();
 
         try {
-            new WindowConfigurationManager(config).saveState(this);
+            new WindowStateManager(config).saveState(this);
             this.configManager.flush();
         } catch (ConfigSaveFailed e) {
             log.error("Couldn't save application state");

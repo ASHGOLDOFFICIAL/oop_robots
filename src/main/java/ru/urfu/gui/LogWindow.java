@@ -65,6 +65,11 @@ public final class LogWindow extends JInternalFrame
         EventQueue.invokeLater(this::updateLogContent);
     }
 
+    @Override
+    public void localeChanged(LocaleChangeEvent event) {
+        setLocaleDependantProperties();
+    }
+
     /**
      * <p>Устанавливает свойства и поля,
      * зависящие от текущей локали.</p>
@@ -75,7 +80,9 @@ public final class LogWindow extends JInternalFrame
         updateLogContent();
     }
 
-    @SuppressWarnings("MissingJavadocMethod")
+    /**
+     * <p>Обновляет содержимое окна.</p>
+     */
     private void updateLogContent() {
         final StringBuilder content = new StringBuilder();
         for (final LogEntry entry : logSource.all()) {
@@ -83,10 +90,5 @@ public final class LogWindow extends JInternalFrame
         }
         logContent.setText(content.toString());
         logContent.invalidate();
-    }
-
-    @Override
-    public void localeChanged(LocaleChangeEvent event) {
-        setLocaleDependantProperties();
     }
 }
