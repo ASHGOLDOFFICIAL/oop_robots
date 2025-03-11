@@ -1,6 +1,7 @@
 package ru.urfu.core;
 
 import java.awt.Point;
+import java.beans.PropertyChangeListener;
 
 /**
  * <p>Модель игры.</p>
@@ -44,12 +45,12 @@ public interface GameModel {
      *
      * @param listener слушатель
      */
-    void registerListener(GameModelChangeListener listener);
+    void registerListener(PropertyChangeListener listener);
 
     /**
      * <p>Убирает слушателя изменения модели.</p>
      *
      * @param listener слушатель
      */
-    void removeListener(GameModelChangeListener listener);
+    void removeListener(PropertyChangeListener listener);
 }

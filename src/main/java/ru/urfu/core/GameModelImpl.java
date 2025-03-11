@@ -1,6 +1,8 @@
 package ru.urfu.core;
 
 import java.awt.Point;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -23,6 +25,7 @@ public final class GameModelImpl implements GameModel {
     private final RobotModel robot = new RobotModel(initialPosition.x, initialPosition.y, 0);
     private final List<GameModelChangeListener> listeners = new ArrayList<>();
 
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private final TimerTask updateTask = new TimerTask() {
         @Override
         public void run() {
@@ -30,7 +33,6 @@ public final class GameModelImpl implements GameModel {
         }
     };
 
-    private boolean isRunning = false;
     private Point targetPosition = new Point(initialPosition.x, initialPosition.y);
 
     /**
@@ -83,14 +85,12 @@ public final class GameModelImpl implements GameModel {
 
     @Override
     public void start() {
-        this.isRunning = true;
         this.timer.schedule(updateTask, 0, GAME_CLOCK_PERIOD);
         log.debug("Model has started.");
     }
 
     @Override
     public void stop() {
-        this.isRunning = false;
         updateTask.cancel();
         log.debug("Model has stopped.");
     }
@@ -106,14 +106,14 @@ public final class GameModelImpl implements GameModel {
     }
 
     @Override
-    public void registerListener(GameModelChangeListener listener) {
-        this.listeners.add(listener);
+    public void registerListener(PropertyChangeListener listener) {
+        this.pcs.addPropertyChangeListener(listener);
         log.debug("Registered listener. Current listeners are {}", this.listeners);
     }
 
     @Override
-    public void removeListener(GameModelChangeListener listener) {
-        this.listeners.remove(listener);
+    public void removeListener(PropertyChangeListener listener) {
+        this.pcs.removePropertyChangeListener(listener);
         log.debug("Unregistered listener. Current listeners are {}", this.listeners);
     }
 
@@ -130,16 +130,7 @@ public final class GameModelImpl implements GameModel {
             return;
         }
         moveRobot();
-        notifyListeners();
-    }
-
-    /**
-     * <p>Оповещает слушателей об изменении модели.</p>
-     */
-    private void notifyListeners() {
-        for (final GameModelChangeListener listener : listeners) {
-            listener.onModelChange();
-        }
+        this.pcs.firePropertyChange("model", null, null);
     }
 
     /**

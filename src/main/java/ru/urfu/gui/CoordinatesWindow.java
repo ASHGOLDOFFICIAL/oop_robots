@@ -1,6 +1,8 @@
 package ru.urfu.gui;
 
 import java.awt.Dimension;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -10,14 +12,13 @@ import org.xnap.commons.i18n.I18nManager;
 import org.xnap.commons.i18n.LocaleChangeEvent;
 import org.xnap.commons.i18n.LocaleChangeListener;
 import ru.urfu.core.GameModel;
-import ru.urfu.core.GameModelChangeListener;
 import ru.urfu.core.RobotPosition;
 
 /**
  * <p>Окно с координатами робота.</p>
  */
 public final class CoordinatesWindow extends JInternalFrame
-        implements GameModelChangeListener, LocaleChangeListener, Stateful {
+        implements PropertyChangeListener, LocaleChangeListener, Stateful {
     private final static String TEXT_TEMPLATE = "x: %f, y: %f";
 
     private final GameModel model;
@@ -49,7 +50,7 @@ public final class CoordinatesWindow extends JInternalFrame
     }
 
     @Override
-    public void onModelChange() {
+    public void propertyChange(PropertyChangeEvent evt) {
         final RobotPosition position = this.model.getRobotPosition();
         this.label.setText(getTextForLabel(position));
     }
