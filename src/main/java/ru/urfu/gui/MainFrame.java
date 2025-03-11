@@ -57,9 +57,10 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
     /**
      * <p>Конструктор.</p>
      *
-     * @param gameModel модель игры
+     * @param model модель игры
+     * @param timer контроллер-таймер
      */
-    public MainFrame(GameModel gameModel, GameTimerController timer) {
+    public MainFrame(GameModel model, GameTimerController timer) {
         log.debug("System locale is {}", Locale.getDefault());
         log.debug("Configuration file is {}", CONFIG_FILE);
 
@@ -67,7 +68,7 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
         this.configManager = new ConfigurationManager(configurationSource);
         this.stateManager = new StateManager(this.configManager.get());
 
-        this.model = gameModel;
+        this.model = model;
         this.controller = timer;
 
         setContentPane(desktopPane);
@@ -204,8 +205,8 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
         try {
             UIManager.setLookAndFeel(className);
             SwingUtilities.updateComponentTreeUI(this);
-        } catch (ClassNotFoundException | InstantiationException
-                 | IllegalAccessException | UnsupportedLookAndFeelException e) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+                 | UnsupportedLookAndFeelException e) {
             log.error("Error during setting application theme", e);
         }
     }

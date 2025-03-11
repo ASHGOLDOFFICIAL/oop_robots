@@ -12,15 +12,18 @@ import org.slf4j.LoggerFactory;
 public final class GameModelImpl implements GameModel {
     private final static double HALF_A_PIXEL = 0.5;
     private final static double EPSILON = 0.00001;
-
-    private final Logger log = LoggerFactory.getLogger(GameModelImpl.class);
-
-    private final Point initialPosition = new Point(100, 100);
-    private final RobotModel robot = new RobotModel(initialPosition.x, initialPosition.y, 0);
+    private static final double MAX_VELOCITY = 0.1;
+    private static final double MAX_ANGULAR_VELOCITY = 0.001;
+    private static final double RADIUS = MAX_VELOCITY / MAX_ANGULAR_VELOCITY;
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    private final Logger log = LoggerFactory.getLogger(GameModelImpl.class);
+    private final Point initialPosition = new Point(100, 100);
 
     private Point targetPosition = new Point(initialPosition.x, initialPosition.y);
+    private double robotX = initialPosition.x;
+    private double robotY = initialPosition.y;
+    private double robotDirection = 0;
 
     /**
      * <p>Квадрат расстояния между двумя точками.</p>
@@ -94,7 +97,7 @@ public final class GameModelImpl implements GameModel {
 
     @Override
     public RobotPosition getRobotPosition() {
-        return new RobotPosition(robot);
+        return new RobotPosition(robotX, robotY, robotDirection);
     }
 
     @Override
@@ -117,8 +120,7 @@ public final class GameModelImpl implements GameModel {
      * @return результат проверки.
      */
     private boolean hasChanges() {
-        final double distance = distanceSquared(targetPosition.x, targetPosition.y,
-                robot.getPositionX(), robot.getPositionY());
+        final double distance = distanceSquared(targetPosition.x, targetPosition.y, robotX, robotY);
         return distance >= HALF_A_PIXEL;
     }
 
@@ -128,18 +130,9 @@ public final class GameModelImpl implements GameModel {
      * @param time время, прошедшее с последнего апдейта.
      */
     private void moveRobot(int time) {
-        double newDirection = calcNewDirection(time);
-        robot.setDirection(newDirection);
-
-        final double velocity = robot.getVelocity();
-
-        final double oldX = robot.getPositionX();
-        final double newX = oldX + velocity * time * Math.cos(newDirection);
-        robot.setPositionX(newX);
-
-        final double oldY = robot.getPositionY();
-        final double newY = oldY + velocity * time * Math.sin(newDirection);
-        robot.setPositionY(newY);
+        robotDirection = calcNewDirection(time);
+        robotX = robotX + MAX_VELOCITY * time * Math.cos(robotDirection);
+        robotY = robotY + MAX_VELOCITY * time * Math.sin(robotDirection);
     }
 
     /**
@@ -150,21 +143,19 @@ public final class GameModelImpl implements GameModel {
      * @return новое направление для робота.
      */
     private double calcNewDirection(int time) {
-        final double angleToTarget = angleTo(robot.getPositionX(), robot.getPositionY(),
-                targetPosition.x, targetPosition.y);
-        final double direction = robot.getDirection();
-        final double angleDifference = asNormalizedRadians(angleToTarget - direction);
+        final double angleToTarget = angleTo(robotX, robotY, targetPosition.x, targetPosition.y);
+        final double angleDifference = asNormalizedRadians(angleToTarget - robotDirection);
 
         if (angleDifference < EPSILON) {
-            return direction;
+            return robotDirection;
         }
 
-        double angularVelocity = robot.getAngularVelocity();
+        double angularVelocity = MAX_ANGULAR_VELOCITY;
         angularVelocity *= (angleDifference < Math.PI) ? 1 : -1;
         angularVelocity *= (isInsideBlindZone(targetPosition)) ? -1 : 1;
 
         final double angleDelta = angularVelocity * time;
-        return asNormalizedRadians(direction + angleDelta);
+        return asNormalizedRadians(robotDirection + angleDelta);
     }
 
     /**
@@ -179,24 +170,19 @@ public final class GameModelImpl implements GameModel {
         final double targetX = point.x;
         final double targetY = point.y;
 
-        final double robotX = robot.getPositionX();
-        final double robotY = robot.getPositionY();
-        final double direction = robot.getDirection();
-        final double radius = robot.getMovementCircumferenceRadius();
+        final double radiusSquared = RADIUS * RADIUS;
+        final double directionSin = Math.sin(robotDirection);
+        final double directionCos = Math.cos(robotDirection);
 
-        final double radiusSquared = radius * radius;
-        final double directionSin = Math.sin(direction);
-        final double directionCos = Math.cos(direction);
-
-        final double blindZone1CenterX = robotX - radius * directionSin;
-        final double blindZone1CenterY = robotY + radius * directionCos;
+        final double blindZone1CenterX = robotX - RADIUS * directionSin;
+        final double blindZone1CenterY = robotY + RADIUS * directionCos;
         final double distance1 = distanceSquared(targetX, targetY, blindZone1CenterX, blindZone1CenterY);
         if (distance1 < radiusSquared) {
             return true;
         }
 
-        final double blindZone2CenterX = robotX + radius * directionSin;
-        final double blindZone2CenterY = robotY - radius * directionCos;
+        final double blindZone2CenterX = robotX + RADIUS * directionSin;
+        final double blindZone2CenterY = robotY - RADIUS * directionCos;
         final double distance2 = distanceSquared(targetX, targetY, blindZone2CenterX, blindZone2CenterY);
         return distance2 < radiusSquared;
     }
