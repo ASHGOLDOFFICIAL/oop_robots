@@ -4,6 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
 import org.xnap.commons.i18n.I18n;
 import org.xnap.commons.i18n.I18nFactory;
 import org.xnap.commons.i18n.I18nManager;
@@ -39,6 +42,7 @@ public final class GameWindow extends JInternalFrame implements LocaleChangeList
         getContentPane().add(view);
 
         setLocaleDependantProperties();
+        setControllerStopOnExit();
 
         final int width = 400;
         final int height = 400;
@@ -58,5 +62,20 @@ public final class GameWindow extends JInternalFrame implements LocaleChangeList
     void setLocaleDependantProperties() {
         final I18n i18n = I18nFactory.getI18n(GameWindow.class);
         setTitle(i18n.tr("Game Field"));
+    }
+
+    /**
+     * <p>Выключает перед выходом контроллер.</p>
+     */
+    private void setControllerStopOnExit() {
+        final InternalFrameListener exitListener = new InternalFrameAdapter() {
+            @Override
+            public void internalFrameClosing(InternalFrameEvent e) {
+                controller.stop();
+                dispose();
+            }
+        };
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        addInternalFrameListener(exitListener);
     }
 }
