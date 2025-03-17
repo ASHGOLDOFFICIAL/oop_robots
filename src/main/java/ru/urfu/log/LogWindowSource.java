@@ -1,49 +1,69 @@
 package ru.urfu.log;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Queue;
+import java.util.Set;
+import java.util.WeakHashMap;
 import org.slf4j.LoggerFactory;
+import ru.urfu.collections.SynchronizedCircularQueue;
 
 
-@SuppressWarnings({"MissingJavadocMethod", "MissingJavadocType"})
-public class LogWindowSource {
+/**
+ * <p>Источник логов для {@link ru.urfu.gui.LogWindow}.</p>
+ */
+public final class LogWindowSource {
     private final org.slf4j.Logger log = LoggerFactory.getLogger(LogWindowSource.class);
-    private final int iQueueLength;
-    private List<LogEntry> messages;
-    private final List<LogChangeListener> listeners;
+
+    private final Queue<LogEntry> messages;
+    private final Set<LogChangeListener> listeners;
+
     private volatile LogChangeListener[] activeListeners;
 
-    public LogWindowSource(int iQueueLength) {
-        this.iQueueLength = iQueueLength;
-        messages = new ArrayList<>(iQueueLength);
-        listeners = new ArrayList<>();
+    /**
+     * <p>Конструктор.</p>
+     *
+     * @param capacity максимальное количество хранимых логов.
+     */
+    public LogWindowSource(int capacity) {
+        messages = new SynchronizedCircularQueue<>(capacity);
+        listeners = Collections.newSetFromMap(new WeakHashMap<>());
     }
 
+    /**
+     * <p>Подписывает слушателя на уведомления об обновлениях логов.</p>
+     *
+     * @param listener слушатель событий
+     */
     public void registerListener(LogChangeListener listener) {
         synchronized (listeners) {
             listeners.add(listener);
-            activeListeners = null;
             log.trace("Listener {}[{}] registered.", listener.getClass().getSimpleName(), listener.hashCode());
         }
     }
 
+    /**
+     * <p>Отписывает слушателя от уведомлений об обновлениях логов.</p>
+     *
+     * @param listener слушатель событий
+     */
     public void unregisterListener(LogChangeListener listener) {
         synchronized (listeners) {
             listeners.remove(listener);
-            activeListeners = null;
             log.trace("Listener {}[{}] unregistered.", listener.getClass().getSimpleName(), listener.hashCode());
         }
     }
 
+    /**
+     * <p>Добавляет новую запись.</p>
+     *
+     * @param logLevel   уровень лога.
+     * @param strMessage сообщения лога.
+     */
     public void append(LogLevel logLevel, String strMessage) {
         final LogEntry entry = new LogEntry(logLevel, strMessage);
-
-        if (size() >= iQueueLength) {
-            this.messages = range(1, iQueueLength);
-        }
         messages.add(entry);
-        log.debug("Current size is {}", size());
+        log.debug("Current size is {}", messages.size());
 
         if (this.activeListeners == null) {
             synchronized (listeners) {
@@ -52,23 +72,16 @@ public class LogWindowSource {
                 }
             }
         }
-        for (LogChangeListener listener : this.activeListeners) {
+        for (final LogChangeListener listener : this.activeListeners) {
             listener.onLogChanged();
         }
     }
 
-    public int size() {
-        return messages.size();
-    }
-
-    public List<LogEntry> range(int startFrom, int count) {
-        if (startFrom < 0 || startFrom >= messages.size()) {
-            return Collections.emptyList();
-        }
-        int indexTo = Math.min(startFrom + count, messages.size());
-        return messages.subList(startFrom, indexTo);
-    }
-
+    /**
+     * <p>Возвращает все сообщения.</p>
+     *
+     * @return все сообщения.
+     */
     public Iterable<LogEntry> all() {
         return List.copyOf(messages);
     }
