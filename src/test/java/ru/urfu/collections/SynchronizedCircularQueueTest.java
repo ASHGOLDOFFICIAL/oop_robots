@@ -1,4 +1,4 @@
-package ru.urfu.structures;
+package ru.urfu.collections;
 
 import java.util.List;
 import org.junit.jupiter.api.Assertions;

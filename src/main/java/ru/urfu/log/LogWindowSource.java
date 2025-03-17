@@ -6,7 +6,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.WeakHashMap;
 import org.slf4j.LoggerFactory;
-import ru.urfu.structures.SynchronizedCircularQueue;
+import ru.urfu.collections.SynchronizedCircularQueue;
 
 
 /**

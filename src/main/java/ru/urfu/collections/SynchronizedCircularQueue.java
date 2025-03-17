@@ -1,6 +1,7 @@
-package ru.urfu.structures;
+package ru.urfu.collections;
 
 import java.util.AbstractQueue;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -83,21 +84,16 @@ public class SynchronizedCircularQueue<E> extends AbstractQueue<E> {
      * <p>Iterator for {@link SynchronizedCircularQueue}.</p>
      */
     private class SynchronizedCircularQueueIterator implements Iterator<E> {
-        /**
-         * Index of element to be returned by subsequent call to next.
-         */
-        int cursor;
-
-        /**
-         * Number of elements yet to be returned.
-         */
-        int remaining = size();
+        private final E[] iteratorElements;
+        private int cursor;
+        private int remaining = size();
 
         /**
          * <p>Constructor.</p>
          */
         SynchronizedCircularQueueIterator() {
             cursor = start;
+            iteratorElements = Arrays.copyOf(elements, elements.length);
         }
 
         @Override
@@ -110,7 +106,7 @@ public class SynchronizedCircularQueue<E> extends AbstractQueue<E> {
             if (remaining <= 0) {
                 throw new NoSuchElementException();
             }
-            final E e = elements[cursor];
+            final E e = iteratorElements[cursor];
             cursor = (cursor + 1) % capacity;
             remaining--;
             return e;
