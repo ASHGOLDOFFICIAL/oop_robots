@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.File;
 import java.util.Locale;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
@@ -21,8 +20,6 @@ import org.xnap.commons.i18n.LocaleChangeEvent;
 import org.xnap.commons.i18n.LocaleChangeListener;
 import ru.urfu.config.ConfigSaveFailed;
 import ru.urfu.config.ConfigurationManager;
-import ru.urfu.config.ConfigurationSource;
-import ru.urfu.config.FileConfigurationSource;
 import ru.urfu.core.GameModel;
 import ru.urfu.core.GameTimerController;
 import ru.urfu.gui.menu.MainFrameMenu;
@@ -37,7 +34,6 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
     private final static int MIN_WIDTH = 300;
     private final static int MIN_HEIGHT = 800;
     private final static String DEFAULT_THEME = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
-    private final static String CONFIG_FILE = System.getProperty("user.home") + File.separator + "robots.properties";
 
     private final JDesktopPane desktopPane = new JDesktopPane();
 
@@ -59,15 +55,14 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
     /**
      * <p>Конструктор.</p>
      *
-     * @param model модель игры
-     * @param timer контроллер-таймер
+     * @param configManager менеджер конфигураций
+     * @param model         модель игры
+     * @param timer         контроллер-таймер
      */
-    public MainFrame(GameModel model, GameTimerController timer) {
+    public MainFrame(ConfigurationManager configManager, GameModel model, GameTimerController timer) {
         log.debug("System locale is {}", Locale.getDefault());
-        log.debug("Configuration file is {}", CONFIG_FILE);
 
-        final ConfigurationSource configurationSource = new FileConfigurationSource(CONFIG_FILE);
-        this.configManager = new ConfigurationManager(configurationSource);
+        this.configManager = configManager;
         this.stateManager = new StateManager(this.configManager.get());
 
         this.model = model;
