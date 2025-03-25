@@ -1,4 +1,4 @@
-package ru.urfu.gui;
+package ru.urfu.state;
 
 import java.awt.Component;
 import java.awt.Point;

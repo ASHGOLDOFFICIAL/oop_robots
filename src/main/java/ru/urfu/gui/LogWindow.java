@@ -15,6 +15,7 @@ import ru.urfu.log.LogChangeListener;
 import ru.urfu.log.LogEntry;
 import ru.urfu.log.LogWindowSource;
 import ru.urfu.log.Logger;
+import ru.urfu.state.Stateful;
 
 /**
  * <p>Окно с логами.</p>

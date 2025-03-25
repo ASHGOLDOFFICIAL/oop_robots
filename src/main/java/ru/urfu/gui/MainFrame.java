@@ -26,6 +26,7 @@ import ru.urfu.core.GameModel;
 import ru.urfu.core.GameTimerController;
 import ru.urfu.gui.menu.MainFrameMenu;
 import ru.urfu.log.Logger;
+import ru.urfu.state.StateManager;
 
 
 /**

@@ -1,4 +1,4 @@
-package ru.urfu.gui;
+package ru.urfu.state;
 
 /**
  * <p>Обозначает, что для данного класса
