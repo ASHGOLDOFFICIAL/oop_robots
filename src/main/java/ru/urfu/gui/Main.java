@@ -14,7 +14,9 @@ import ru.urfu.core.GameTimerController;
  * <p>Класс для запуска приложения.</p>
  */
 public final class Main {
-    private final static String CONFIG_FILE = System.getProperty("user.home") + File.separator + "robots.properties";
+    private final static String CONFIG_FILE =
+            System.getProperty("user.home") + File.separator
+                    + "shaat" + File.separator + "robots.properties";
 
     /**
      * <p>Приватный конструктор,

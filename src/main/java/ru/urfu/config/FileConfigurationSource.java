@@ -56,6 +56,11 @@ public final class FileConfigurationSource implements ConfigurationSource {
 
         final File file = new File(this.fileName);
         try {
+            final boolean dirsCreated = file.getParentFile().mkdirs();
+            if (dirsCreated) {
+                log.debug("Directories for properties were created");
+            }
+
             final boolean created = file.createNewFile();
             if (created) {
                 log.debug("Properties was created");
