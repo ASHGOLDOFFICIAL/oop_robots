@@ -15,6 +15,7 @@ import org.xnap.commons.i18n.LocaleChangeListener;
 import ru.urfu.core.GameModel;
 import ru.urfu.gui.game.GuiGameController;
 import ru.urfu.gui.game.GuiGameView;
+import ru.urfu.state.Stateful;
 
 /**
  * <p>Игровое окно.</p>
