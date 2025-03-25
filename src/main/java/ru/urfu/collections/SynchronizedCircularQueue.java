@@ -15,7 +15,7 @@ import java.util.stream.Stream;
  * <p>If collection is full, then when adding a new element,
  * oldest one will be overwritten.</p>
  *
- * @param <E> the type of elements held in this deque
+ * @param <E> the type of elements held in this сollection
  */
 public class SynchronizedCircularQueue<E> extends AbstractQueue<E> {
     private final E[] elements;
