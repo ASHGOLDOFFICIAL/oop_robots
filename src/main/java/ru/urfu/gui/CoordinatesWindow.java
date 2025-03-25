@@ -13,6 +13,7 @@ import org.xnap.commons.i18n.LocaleChangeEvent;
 import org.xnap.commons.i18n.LocaleChangeListener;
 import ru.urfu.core.GameModel;
 import ru.urfu.core.RobotPosition;
+import ru.urfu.state.Stateful;
 
 /**
  * <p>Окно с координатами робота.</p>
