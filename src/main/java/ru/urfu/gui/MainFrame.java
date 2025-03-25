@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
 import java.util.Locale;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
@@ -36,7 +37,7 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
     private final static int MIN_WIDTH = 300;
     private final static int MIN_HEIGHT = 800;
     private final static String DEFAULT_THEME = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
-    private final static String CONFIG_FILE = System.getProperty("user.home") + "/robots.properties";
+    private final static String CONFIG_FILE = System.getProperty("user.home") + File.separator + "robots.properties";
 
     private final JDesktopPane desktopPane = new JDesktopPane();
 
