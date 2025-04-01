@@ -24,13 +24,14 @@ import ru.urfu.core.GameModel;
 import ru.urfu.core.GameTimerController;
 import ru.urfu.gui.menu.MainFrameMenu;
 import ru.urfu.log.Logger;
-import ru.urfu.state.StateManager;
+import ru.urfu.state.StateService;
+import ru.urfu.state.Stateful;
 
 
 /**
  * <p>Главное окно приложения.</p>
  */
-public final class MainFrame extends JFrame implements LocaleChangeListener {
+public final class MainFrame extends JFrame implements LocaleChangeListener, Stateful {
     private final static int MIN_WIDTH = 300;
     private final static int MIN_HEIGHT = 800;
     private final static String DEFAULT_THEME = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
@@ -40,7 +41,7 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
     private final I18n i18n = I18nFactory.getI18n(MainFrame.class);
     private final org.slf4j.Logger log = LoggerFactory.getLogger(MainFrame.class);
 
-    private final StateManager stateManager;
+    private final StateService stateManager;
     private final ConfigurationManager configManager;
     private final GameTimerController controller;
     private final GameModel model;
@@ -63,7 +64,7 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
         log.debug("System locale is {}", Locale.getDefault());
 
         this.configManager = configManager;
-        this.stateManager = new StateManager(this.configManager.get());
+        this.stateManager = new StateService(this.configManager.get());
 
         this.model = model;
         this.controller = timer;
@@ -74,17 +75,10 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
 
         I18nManager.getInstance().addLocaleChangeListener(this);
 
-        initialState();
-        setLocaleSpecificProperties();
-    }
-
-    /**
-     * <p>Настройка изначального состояния приложения.</p>
-     */
-    private void initialState() {
         openWindows();
         setLookAndFeel(DEFAULT_THEME);
         this.stateManager.restoreState(this, desktopPane);
+        setLocaleSpecificProperties();
     }
 
     /**
@@ -238,5 +232,10 @@ public final class MainFrame extends JFrame implements LocaleChangeListener {
             log.error("Couldn't save application state");
         }
         dispose();
+    }
+
+    @Override
+    public String getNameForStateService() {
+        return "MainFrame";
     }
 }
