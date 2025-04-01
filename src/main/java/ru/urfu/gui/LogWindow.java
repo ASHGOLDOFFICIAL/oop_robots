@@ -94,4 +94,9 @@ public final class LogWindow extends JInternalFrame
         logContent.setText(content.toString());
         logContent.invalidate();
     }
+
+    @Override
+    public String getNameForStateService() {
+        return "LogWindow";
+    }
 }

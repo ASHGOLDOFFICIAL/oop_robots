@@ -83,4 +83,9 @@ public final class GameWindow extends JInternalFrame implements LocaleChangeList
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addInternalFrameListener(exitListener);
     }
+
+    @Override
+    public String getNameForStateService() {
+        return "GameWindow";
+    }
 }

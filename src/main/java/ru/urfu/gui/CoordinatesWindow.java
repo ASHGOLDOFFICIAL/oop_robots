@@ -83,4 +83,9 @@ public final class CoordinatesWindow extends JInternalFrame
         final I18n i18n = I18nFactory.getI18n(CoordinatesWindow.class);
         setTitle(i18n.tr("Coordinates"));
     }
+
+    @Override
+    public String getNameForStateService() {
+        return "CoordinatesWindow";
+    }
 }
