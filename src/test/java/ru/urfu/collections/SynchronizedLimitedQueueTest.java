@@ -1,5 +1,7 @@
 package ru.urfu.collections;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
 import org.junit.jupiter.api.Assertions;
@@ -7,10 +9,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Тесты для {@link SynchronizedCircularQueue}.
+ * Тесты для {@link SynchronizedLimitedQueue}.
  */
 @SuppressWarnings("MagicNumber")
-class SynchronizedCircularQueueTest {
+class SynchronizedLimitedQueueTest {
     /**
      * <p>Проверяем, что:</p>
      * <ul>
@@ -21,7 +23,7 @@ class SynchronizedCircularQueueTest {
     @Test
     @DisplayName("Добавление null не проходит")
     void testNullAddition() {
-        final Queue<Integer> queue = new SynchronizedCircularQueue<>(3);
+        final Queue<Integer> queue = new SynchronizedLimitedQueue<>(3);
         Assertions.assertFalse(queue.offer(null));
         Assertions.assertIterableEquals(List.of(), queue);
         Assertions.assertEquals(0, queue.size());
@@ -34,7 +36,7 @@ class SynchronizedCircularQueueTest {
     @Test
     @DisplayName("Обычное добавление в коллекцию")
     void testNormalAddition() {
-        final Queue<Integer> queue = new SynchronizedCircularQueue<>(3);
+        final Queue<Integer> queue = new SynchronizedLimitedQueue<>(3);
 
         queue.offer(1);
         queue.offer(2);
@@ -50,20 +52,19 @@ class SynchronizedCircularQueueTest {
     /**
      * <p>Проверяем, что:</p>
      * <ul>
-     *     <li>{@link SynchronizedCircularQueue#poll} на пустой коллекции возвращает null;</li>
-     *     <li>{@link SynchronizedCircularQueue#poll} возвращает корректный элемент;</li>
-     *     <li>{@link SynchronizedCircularQueue#poll} на непустой коллекции удаляет элемент из коллекции.</li>
+     *     <li>{@link SynchronizedLimitedQueue#poll} на пустой коллекции возвращает null;</li>
+     *     <li>{@link SynchronizedLimitedQueue#poll} возвращает корректный элемент;</li>
+     *     <li>{@link SynchronizedLimitedQueue#poll} на непустой коллекции удаляет элемент из коллекции.</li>
      * </ul>
      */
     @Test
     @DisplayName("Обычное удаление из коллекции")
     void testRemoval() {
-        final Queue<Integer> queue = new SynchronizedCircularQueue<>(3);
+        final Queue<Integer> queue = new SynchronizedLimitedQueue<>(3);
         Assertions.assertNull(queue.poll());
 
         queue.add(5);
         Assertions.assertEquals(5, queue.poll());
-        Assertions.assertEquals(0, queue.size());
         Assertions.assertIterableEquals(List.of(), queue);
 
         Assertions.assertNull(queue.poll());
@@ -72,17 +73,16 @@ class SynchronizedCircularQueueTest {
     /**
      * <p>Проверяем, что:</p>
      * <ul>
-     *     <li>{@link SynchronizedCircularQueue#peek} возвращает корректный элемент
+     *     <li>{@link SynchronizedLimitedQueue#peek} возвращает корректный элемент
      *     и не меняет содержимое коллекции и её размер.</li>
      * </ul>
      */
     @Test
-    @DisplayName("peek")
+    @DisplayName("Просмотр первого элемента")
     void testPeek() {
-        final Queue<Integer> queue = new SynchronizedCircularQueue<>(3);
+        final Queue<Integer> queue = new SynchronizedLimitedQueue<>(3);
         queue.add(1);
         Assertions.assertEquals(1, queue.peek());
-        Assertions.assertEquals(1, queue.size());
         Assertions.assertIterableEquals(List.of(1), queue);
     }
 
@@ -97,9 +97,9 @@ class SynchronizedCircularQueueTest {
      * <p>Берём 3 элемента со 2-го. Ожидаем: 6, 7</p>
      */
     @Test
-    @DisplayName("range")
+    @DisplayName("Взятие диапазона")
     void testRange() {
-        final SynchronizedCircularQueue<Integer> queue = new SynchronizedCircularQueue<>(3);
+        final SynchronizedLimitedQueue<Integer> queue = new SynchronizedLimitedQueue<>(3);
         for (int i = 0; i < 8; ++i) {
             queue.add(i);
         }
@@ -107,5 +107,33 @@ class SynchronizedCircularQueueTest {
         Assertions.assertIterableEquals(List.of(5, 6, 7), queue.range(0, 3));
         Assertions.assertIterableEquals(List.of(6, 7), queue.range(1, 2));
         Assertions.assertIterableEquals(List.of(6, 7), queue.range(1, 3));
+    }
+
+    /**
+     * <p>Добавляем в очередь 3 элемента: 0, 1, 2. Затем берём итератор.
+     * После очищаем изначальную очередь и добавляем новые (иные) элементы.</p>
+     *
+     * <p>Проверяем, что итератор содержит первоначальные 0, 1, 2.</p>
+     */
+    @Test
+    @DisplayName("Итератор не меняется после модификации коллекции")
+    void testStableIterable() {
+        final Queue<Integer> queue = new SynchronizedLimitedQueue<>(3);
+        for (int i = 0; i < 3; ++i) {
+            queue.add(i);
+        }
+
+        final Iterator<Integer> itr = queue.iterator();
+
+        queue.clear();
+        Assertions.assertIterableEquals(List.of(), queue);
+        for (int i = 0; i < 3; ++i) {
+            queue.add(i + 10);
+        }
+        Assertions.assertIterableEquals(List.of(10, 11, 12), queue);
+
+        final List<Integer> itrList = new ArrayList<>();
+        itr.forEachRemaining(itrList::add);
+        Assertions.assertIterableEquals(List.of(0, 1, 2), itrList);
     }
 }

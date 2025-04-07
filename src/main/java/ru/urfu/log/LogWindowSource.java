@@ -6,7 +6,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.WeakHashMap;
 import org.slf4j.LoggerFactory;
-import ru.urfu.collections.SynchronizedCircularQueue;
+import ru.urfu.collections.SynchronizedLimitedQueue;
 
 
 /**
@@ -26,7 +26,7 @@ public final class LogWindowSource {
      * @param capacity максимальное количество хранимых логов.
      */
     public LogWindowSource(int capacity) {
-        messages = new SynchronizedCircularQueue<>(capacity);
+        messages = new SynchronizedLimitedQueue<>(capacity);
         listeners = Collections.newSetFromMap(new WeakHashMap<>());
     }
 

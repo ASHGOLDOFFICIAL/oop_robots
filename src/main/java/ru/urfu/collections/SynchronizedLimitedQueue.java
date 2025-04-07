@@ -1,11 +1,10 @@
 package ru.urfu.collections;
 
 import java.util.AbstractQueue;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.stream.Stream;
+import java.util.List;
 
 /**
  * <p>Circular queue with fixed size.</p>
@@ -17,31 +16,27 @@ import java.util.stream.Stream;
  *
  * @param <E> the type of elements held in this сollection
  */
-public class SynchronizedCircularQueue<E> extends AbstractQueue<E> {
-    private final E[] elements;
+public class SynchronizedLimitedQueue<E> extends AbstractQueue<E> {
     private final int capacity;
-
     private int size = 0;
-    private int start = 0;
-    private int end = 0;
+    private Node start = null;
+    private Node end = null;
 
     /**
      * <p>Constructor.</p>
      *
      * @param capacity queue capacity
      */
-    @SuppressWarnings("unchecked")
-    public SynchronizedCircularQueue(int capacity) {
+    public SynchronizedLimitedQueue(int capacity) {
         if (capacity <= 0) {
             throw new IllegalArgumentException("Illegal Capacity: " + capacity);
         }
         this.capacity = capacity;
-        this.elements = (E[]) new Object[capacity];
     }
 
     @Override
     public synchronized Iterator<E> iterator() {
-        return new SynchronizedCircularQueueIterator();
+        return new Itr();
     }
 
     @Override
@@ -55,12 +50,21 @@ public class SynchronizedCircularQueue<E> extends AbstractQueue<E> {
             return false;
         }
 
-        if (size == elements.length) {
-            start = (start + 1) % capacity;
+        if (size == capacity) {
+            start = start.next;
             --size;
         }
-        elements[end] = e;
-        end = (end + 1) % capacity;
+
+        final Node node = new Node(null, e);
+
+        if (size == 0) {
+            start = node;
+            end = node;
+        } else {
+            end.next = node;
+            end = end.next;
+        }
+
         ++size;
         return true;
     }
@@ -70,16 +74,22 @@ public class SynchronizedCircularQueue<E> extends AbstractQueue<E> {
         if (size == 0) {
             return null;
         }
-        final E head = peek();
-        elements[start] = null;
-        start = (start + 1) % capacity;
+        final Node head = start;
+        if (head == end) {
+            end = null;
+        }
+
+        start = start.next;
         --size;
-        return head;
+        return head.el;
     }
 
     @Override
     public synchronized E peek() {
-        return elements[start];
+        if (size == 0) {
+            return null;
+        }
+        return start.el;
     }
 
     /**
@@ -96,38 +106,61 @@ public class SynchronizedCircularQueue<E> extends AbstractQueue<E> {
      *         of the collection starting with given index
      */
     public synchronized Iterable<E> range(int startFrom, int count) {
-        if (startFrom < 0 || startFrom >= size || count == 0) {
+        final int needed = Math.min(size - startFrom, count);
+        if (startFrom < 0 || startFrom >= size || needed <= 0) {
             return Collections.emptyList();
         }
 
-        final int remaining = size - startFrom;
-        final int realCount = Math.min(count, remaining);
-        final int fromIndex = (start + startFrom) % size;
-        final int toIndex = (fromIndex + realCount) % size;
-
-        if (toIndex <= fromIndex) {
-            final E[] firstPart = Arrays.copyOfRange(elements, fromIndex, size);
-            final E[] secondPart = Arrays.copyOfRange(elements, 0, toIndex);
-            return Stream.concat(Arrays.stream(firstPart), Arrays.stream(secondPart)).toList();
+        Node current = start;
+        for (int i = 0; i < startFrom; ++i) {
+            if (current == null) {
+                return Collections.emptyList();
+            }
+            current = current.next;
         }
 
-        return Arrays.asList(Arrays.copyOfRange(elements, fromIndex, toIndex));
+        final List<E> elements = new ArrayList<>(needed);
+        for (int i = 0; i < needed; ++i) {
+            elements.add(current.el);
+            current = current.next;
+        }
+        return elements;
     }
 
     /**
-     * <p>Iterator for {@link SynchronizedCircularQueue}.</p>
+     * <p>List node, for inner use only.</p>
      */
-    private class SynchronizedCircularQueueIterator implements Iterator<E> {
-        private final E[] iteratorElements = Arrays.copyOf(elements, elements.length);
-        private int cursor;
+    private class Node {
+        E el;
+
+        Node next;
+
+        /**
+         * <p>Constructor.</p>
+         *
+         * @param next reference to the next node
+         * @param el   node content
+         */
+        private Node(Node next, E el) {
+            this.next = next;
+            this.el = el;
+        }
+
+    }
+
+    /**
+     * <p>Iterator for {@link SynchronizedLimitedQueue}.</p>
+     */
+    private class Itr implements Iterator<E> {
+        private Node cursor;
         private int remaining;
 
         /**
          * <p>Constructor.</p>
          */
-        SynchronizedCircularQueueIterator() {
-            remaining = size();
+        private Itr() {
             cursor = start;
+            remaining = size();
         }
 
         @Override
@@ -137,13 +170,10 @@ public class SynchronizedCircularQueue<E> extends AbstractQueue<E> {
 
         @Override
         public E next() {
-            if (remaining <= 0) {
-                throw new NoSuchElementException();
-            }
-            final E e = iteratorElements[cursor];
-            cursor = (cursor + 1) % capacity;
-            remaining--;
-            return e;
+            final Node head = cursor;
+            cursor = cursor.next;
+            --remaining;
+            return head.el;
         }
     }
 }
