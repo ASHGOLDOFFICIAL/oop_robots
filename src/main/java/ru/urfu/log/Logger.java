@@ -2,7 +2,7 @@ package ru.urfu.log;
 
 @SuppressWarnings({"MissingJavadocMethod", "MissingJavadocType"})
 public final class Logger {
-    private static final int QUEUE_LENGTH = 100;
+    private static final int QUEUE_LENGTH = 5;
     private static final LogWindowSource DEFAULT_LOG_SOURCE;
 
     static {
