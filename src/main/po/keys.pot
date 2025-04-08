@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-04 11:12+0500\n"
+"POT-Creation-Date: 2025-04-08 14:04+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,23 +17,24 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ru/urfu/gui/CoordinatesWindow.java:35
+#: ru/urfu/gui/CoordinatesWindow.java:84
+#: ru/urfu/gui/menu/WindowsMenuProvider.java:63
 msgid "Coordinates"
 msgstr ""
 
-#: ru/urfu/gui/MainFrame.java:124
+#: ru/urfu/gui/MainFrame.java:143
 msgid "Yes"
 msgstr ""
 
-#: ru/urfu/gui/MainFrame.java:124
+#: ru/urfu/gui/MainFrame.java:143
 msgid "No"
 msgstr ""
 
-#: ru/urfu/gui/MainFrame.java:127
+#: ru/urfu/gui/MainFrame.java:146
 msgid "Are you sure you want to close application?"
 msgstr ""
 
-#: ru/urfu/gui/MainFrame.java:128
+#: ru/urfu/gui/MainFrame.java:147
 msgid "Exit Confirmation"
 msgstr ""
 
@@ -81,12 +82,20 @@ msgstr ""
 msgid "Test commands."
 msgstr ""
 
-#: ru/urfu/gui/menu/TestsMenuProvider.java:36
-msgid "Log a message"
+#: ru/urfu/gui/menu/TestsMenuProvider.java:24
+msgid "Log message A"
 msgstr ""
 
-#: ru/urfu/gui/menu/TestsMenuProvider.java:37
-msgid "New string"
+#: ru/urfu/gui/menu/TestsMenuProvider.java:24
+msgid "New string A"
+msgstr ""
+
+#: ru/urfu/gui/menu/TestsMenuProvider.java:25
+msgid "Log message B"
+msgstr ""
+
+#: ru/urfu/gui/menu/TestsMenuProvider.java:25
+msgid "New string B"
 msgstr ""
 
 #: ru/urfu/gui/menu/WindowsMenuProvider.java:19
@@ -97,14 +106,14 @@ msgstr ""
 msgid "Controls windows."
 msgstr ""
 
-#: ru/urfu/gui/menu/WindowsMenuProvider.java:38 ru/urfu/gui/GameWindow.java:60
+#: ru/urfu/gui/menu/WindowsMenuProvider.java:39 ru/urfu/gui/GameWindow.java:69
 msgid "Game Field"
 msgstr ""
 
-#: ru/urfu/gui/menu/WindowsMenuProvider.java:50 ru/urfu/gui/LogWindow.java:70
+#: ru/urfu/gui/menu/WindowsMenuProvider.java:51 ru/urfu/gui/LogWindow.java:82
 msgid "Logs"
 msgstr ""
 
-#: ru/urfu/gui/LogWindow.java:47
+#: ru/urfu/gui/LogWindow.java:54
 msgid "Logger is working"
 msgstr ""

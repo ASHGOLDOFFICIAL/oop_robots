@@ -21,7 +21,8 @@ final class TestsMenuProvider implements MenuElementProvider {
         final JMenu menu = new JMenu(i18n.tr("Tests"));
         menu.setMnemonic(KeyEvent.VK_T);
         menu.getAccessibleContext().setAccessibleDescription(i18n.tr("Test commands."));
-        menu.add(createAddLogMessageItem());
+        menu.add(createAddLogMessageItem(i18n.tr("Log message A"), i18n.tr("New string A")));
+        menu.add(createAddLogMessageItem(i18n.tr("Log message B"), i18n.tr("New string B")));
         return menu;
     }
 
@@ -32,9 +33,9 @@ final class TestsMenuProvider implements MenuElementProvider {
      *
      * @return созданный элемент.
      */
-    private JMenuItem createAddLogMessageItem() {
-        final JMenuItem menuItem = new JMenuItem(i18n.tr("Log a message"), KeyEvent.VK_S);
-        menuItem.addActionListener((event) -> Logger.debug(i18n.tr("New string")));
+    private JMenuItem createAddLogMessageItem(String menuName, String message) {
+        final JMenuItem menuItem = new JMenuItem(menuName, KeyEvent.VK_S);
+        menuItem.addActionListener((event) -> Logger.debug(message));
         return menuItem;
     }
 }
