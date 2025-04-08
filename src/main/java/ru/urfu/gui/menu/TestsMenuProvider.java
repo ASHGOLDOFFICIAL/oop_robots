@@ -31,6 +31,8 @@ final class TestsMenuProvider implements MenuElementProvider {
      * при нажатии на которую происходит логирование
      * сообщения "Новая строка".</p>
      *
+     * @param menuName отображаемое имя
+     * @param message  логируемое сообщение
      * @return созданный элемент.
      */
     private JMenuItem createAddLogMessageItem(String menuName, String message) {
