@@ -78,6 +78,7 @@ public final class MainFrame extends JFrame implements LocaleChangeListener, Sta
         openWindows();
         setLookAndFeel(DEFAULT_THEME);
         this.stateManager.restoreState(this, desktopPane);
+        Logger.debug(i18n.tr("Logger is working"));
         setLocaleSpecificProperties();
     }
 
