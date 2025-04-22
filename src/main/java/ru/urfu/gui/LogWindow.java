@@ -14,7 +14,6 @@ import org.xnap.commons.i18n.LocaleChangeListener;
 import ru.urfu.log.LogChangeListener;
 import ru.urfu.log.LogEntry;
 import ru.urfu.log.LogWindowSource;
-import ru.urfu.log.Logger;
 import ru.urfu.state.Stateful;
 
 /**
@@ -49,9 +48,6 @@ public final class LogWindow extends JInternalFrame
         getContentPane().add(panel);
 
         setLocaleDependantProperties();
-
-        final I18n i18n = I18nFactory.getI18n(getClass());
-        Logger.debug(i18n.tr("Logger is working"));
 
         final int width = 300;
         final int height = 800;
