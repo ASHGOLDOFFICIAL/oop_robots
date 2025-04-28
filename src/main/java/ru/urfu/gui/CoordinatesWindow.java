@@ -6,13 +6,12 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-import org.xnap.commons.i18n.I18n;
-import org.xnap.commons.i18n.I18nFactory;
-import org.xnap.commons.i18n.I18nManager;
-import org.xnap.commons.i18n.LocaleChangeEvent;
-import org.xnap.commons.i18n.LocaleChangeListener;
 import ru.urfu.core.GameModel;
 import ru.urfu.core.RobotPosition;
+import ru.urfu.i18n.I18n;
+import ru.urfu.i18n.I18nManager;
+import ru.urfu.i18n.LocaleChangeListener;
+import ru.urfu.i18n.LocaleChangedEvent;
 import ru.urfu.state.Stateful;
 
 /**
@@ -37,7 +36,7 @@ public final class CoordinatesWindow extends JInternalFrame
         this.model.registerListener(this);
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        I18nManager.getInstance().addLocaleChangeListener(this);
+        I18nManager.getInstance().addWeakLocaleChangeListener(this);
 
         this.label = new JLabel(getTextForLabel(this.model.getRobotPosition()), SwingConstants.CENTER);
         getContentPane().add(label);
@@ -61,7 +60,7 @@ public final class CoordinatesWindow extends JInternalFrame
     }
 
     @Override
-    public void localeChanged(LocaleChangeEvent event) {
+    public void onLocaleChanged(LocaleChangedEvent event) {
         setLocaleDependantProperties();
     }
 
@@ -80,7 +79,7 @@ public final class CoordinatesWindow extends JInternalFrame
      * зависящие от текущей локали.</p>
      */
     private void setLocaleDependantProperties() {
-        final I18n i18n = I18nFactory.getI18n(CoordinatesWindow.class);
+        final I18n i18n = I18nManager.getInstance().getI18n();
         setTitle(i18n.tr("Coordinates"));
     }
 

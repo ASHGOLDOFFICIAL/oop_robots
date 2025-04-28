@@ -135,14 +135,6 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- Internationalization -->
-        <!-- https://mvnrepository.com/artifact/com.googlecode.gettext-commons/gettext-commons -->
-        <dependency>
-            <groupId>com.googlecode.gettext-commons</groupId>
-            <artifactId>gettext-commons</artifactId>
-            <version>${gettext-commons.version}</version>
-        </dependency>
-
         <!-- Logging -->
         <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
         <dependency>
