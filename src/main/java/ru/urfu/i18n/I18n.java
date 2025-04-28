@@ -9,8 +9,10 @@ import java.util.ResourceBundle;
  * <p>Набор методов для интернационализации в заданную локаль.</p>
  */
 public final class I18n {
-    private final int cacheSize = 1 << 12;
-    private final MessageFormatCache cache = new MessageFormatCache(cacheSize);
+    @SuppressWarnings("MagicNumber")
+    private static final int CACHE_SIZE = 1 << 12;
+
+    private final MessageFormatCache cache = new MessageFormatCache(CACHE_SIZE);
     private volatile ResourceBundle bundle;
     private String baseName;
 
