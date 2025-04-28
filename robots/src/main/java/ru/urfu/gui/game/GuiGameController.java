@@ -1,11 +1,13 @@
 package ru.urfu.gui.game;
 
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.urfu.core.GameModel;
+import ru.urfu.utils.Vector2;
 
 
 /**
@@ -27,7 +29,8 @@ public final class GuiGameController {
         this.mouseListener = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                model.setTargetPosition(e.getPoint());
+                final Point p = e.getPoint();
+                model.setTargetPosition(new Vector2(p.x, p.y));
             }
         };
     }

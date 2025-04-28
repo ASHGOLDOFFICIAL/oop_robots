@@ -9,7 +9,8 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.JPanel;
 import ru.urfu.core.GameModel;
-import ru.urfu.core.RobotPosition;
+import ru.urfu.core.RobotInfo;
+import ru.urfu.utils.Vector2;
 
 /**
  * <p>View игры.</p>
@@ -17,6 +18,7 @@ import ru.urfu.core.RobotPosition;
 @SuppressWarnings({"MissingJavadocMethod", "MagicNumber"})
 public final class GuiGameView extends JPanel implements PropertyChangeListener {
     private final GameModel model;
+    private RobotShape robotShape = new RobotShapeImpl();
 
     /**
      * <p>Конструктор.</p>
@@ -30,6 +32,16 @@ public final class GuiGameView extends JPanel implements PropertyChangeListener 
         repaint();
     }
 
+    /**
+     * <p>Меняет логику отображения робота.</p>
+     *
+     * @param shape новый отрисовщик.
+     */
+    public void changeRobotShape(RobotShape shape) {
+        robotShape = shape;
+        repaint();
+    }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         repaint();
@@ -40,9 +52,11 @@ public final class GuiGameView extends JPanel implements PropertyChangeListener 
         super.paint(g);
         Graphics2D g2d = (Graphics2D) g;
 
-        final RobotPosition robot = model.getRobotPosition();
-        drawRobot(g2d, round(robot.positionX()), round(robot.positionY()), robot.direction());
-        drawTarget(g2d, model.getTargetPosition());
+        final RobotInfo robot = model.getRobotInfo();
+        final Vector2 pos = robot.position();
+        drawRobot(g2d, round(pos.x()), round(pos.y()), robot.direction());
+        final Vector2 targetPosition = model.getTargetPosition();
+        drawTarget(g2d, new Point(round(targetPosition.x()), round(targetPosition.y())));
     }
 
     private static void fillOval(Graphics g, int centerX, int centerY, int diam1, int diam2) {
@@ -53,20 +67,25 @@ public final class GuiGameView extends JPanel implements PropertyChangeListener 
         g.drawOval(centerX - diam1 / 2, centerY - diam2 / 2, diam1, diam2);
     }
 
+    /**
+     * <p>Рисует робота.</p>
+     *
+     * @param g         графика для рисования.
+     * @param x         положение по оси x
+     * @param y         положение по оси y
+     * @param direction направление робота
+     */
     private void drawRobot(Graphics2D g, int x, int y, double direction) {
-        int robotCenterX = round(x);
-        int robotCenterY = round(y);
+        final AffineTransform old = g.getTransform();
 
-        AffineTransform t = AffineTransform.getRotateInstance(direction, robotCenterX, robotCenterY);
-        g.setTransform(t);
-        g.setColor(Color.MAGENTA);
-        fillOval(g, robotCenterX, robotCenterY, 30, 10);
-        g.setColor(Color.BLACK);
-        drawOval(g, robotCenterX, robotCenterY, 30, 10);
-        g.setColor(Color.WHITE);
-        fillOval(g, robotCenterX + 10, robotCenterY, 5, 5);
-        g.setColor(Color.BLACK);
-        drawOval(g, robotCenterX + 10, robotCenterY, 5, 5);
+        final AffineTransform transform = new AffineTransform();
+        transform.translate(x, y);
+        transform.rotate(direction);
+
+        g.transform(transform);
+        robotShape.draw(g);
+
+        g.setTransform(old);
     }
 
     private void drawTarget(Graphics2D g, Point p) {

@@ -10,6 +10,7 @@ import javax.swing.event.InternalFrameListener;
 import ru.urfu.core.GameModel;
 import ru.urfu.gui.game.GuiGameController;
 import ru.urfu.gui.game.GuiGameView;
+import ru.urfu.gui.game.RobotShape;
 import ru.urfu.i18n.I18n;
 import ru.urfu.i18n.I18nManager;
 import ru.urfu.i18n.LocaleChangeListener;
@@ -20,6 +21,7 @@ import ru.urfu.state.Stateful;
  * <p>Игровое окно.</p>
  */
 public final class GameWindow extends JInternalFrame implements LocaleChangeListener, Stateful {
+    private final GuiGameView view;
     private final GuiGameController controller;
 
     /**
@@ -30,7 +32,7 @@ public final class GameWindow extends JInternalFrame implements LocaleChangeList
     public GameWindow(GameModel model) {
         super(null, true, true, true, true);
 
-        final GuiGameView view = new GuiGameView(model);
+        this.view = new GuiGameView(model);
         this.controller = new GuiGameController(model, view);
         this.controller.start();
 
@@ -52,6 +54,15 @@ public final class GameWindow extends JInternalFrame implements LocaleChangeList
         final int y = 10;
         setLocation(x, y);
         pack();
+    }
+
+    /**
+     * <p>Меняет форму робота.</p>
+     *
+     * @param shape новая форма.
+     */
+    public void changeRobotShape(RobotShape shape) {
+        this.view.changeRobotShape(shape);
     }
 
     @Override
