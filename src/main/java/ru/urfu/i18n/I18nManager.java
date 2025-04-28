@@ -47,6 +47,7 @@ public final class I18nManager {
      */
     public void setDefaultLocale(Locale locale) {
         synchronized (i18n) {
+            Locale.setDefault(locale);
             i18n.setLocale(locale);
         }
         fireLocaleChangedEvent(locale);

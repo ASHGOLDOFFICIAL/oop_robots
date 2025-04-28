@@ -1,6 +1,5 @@
 package ru.urfu.i18n;
 
-import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -10,6 +9,8 @@ import java.util.ResourceBundle;
  * <p>Набор методов для интернационализации в заданную локаль.</p>
  */
 public final class I18n {
+    private final int cacheSize = 1 << 12;
+    private final MessageFormatCache cache = new MessageFormatCache(cacheSize);
     private volatile ResourceBundle bundle;
     private String baseName;
 
@@ -57,7 +58,8 @@ public final class I18n {
         final String stringToFormat = getStringFromBundle(text);
 
         if (args.length > 0) {
-            return MessageFormat.format(getStringFromBundle(text), args);
+            final String key = getStringFromBundle(text);
+            return cache.get(key).format(args);
         }
 
         return stringToFormat;
