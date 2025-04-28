@@ -13,16 +13,15 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.slf4j.LoggerFactory;
-import org.xnap.commons.i18n.I18n;
-import org.xnap.commons.i18n.I18nFactory;
-import org.xnap.commons.i18n.I18nManager;
-import org.xnap.commons.i18n.LocaleChangeEvent;
-import org.xnap.commons.i18n.LocaleChangeListener;
 import ru.urfu.config.ConfigSaveFailed;
 import ru.urfu.config.ConfigurationManager;
 import ru.urfu.core.GameModel;
 import ru.urfu.core.GameTimerController;
 import ru.urfu.gui.menu.MainFrameMenu;
+import ru.urfu.i18n.I18n;
+import ru.urfu.i18n.I18nManager;
+import ru.urfu.i18n.LocaleChangeListener;
+import ru.urfu.i18n.LocaleChangedEvent;
 import ru.urfu.log.Logger;
 import ru.urfu.state.StateService;
 import ru.urfu.state.Stateful;
@@ -38,7 +37,7 @@ public final class MainFrame extends JFrame implements LocaleChangeListener, Sta
 
     private final JDesktopPane desktopPane = new JDesktopPane();
 
-    private final I18n i18n = I18nFactory.getI18n(MainFrame.class);
+    private final I18n i18n = I18nManager.getInstance().getI18n();
     private final org.slf4j.Logger log = LoggerFactory.getLogger(MainFrame.class);
 
     private final StateService stateManager;
@@ -73,7 +72,7 @@ public final class MainFrame extends JFrame implements LocaleChangeListener, Sta
         setMinimumSize(new Dimension(MIN_WIDTH, MIN_HEIGHT));
         setConfirmationBeforeExit();
 
-        I18nManager.getInstance().addLocaleChangeListener(this);
+        I18nManager.getInstance().addWeakLocaleChangeListener(this);
 
         openWindows();
         setLookAndFeel(DEFAULT_THEME);
@@ -174,7 +173,7 @@ public final class MainFrame extends JFrame implements LocaleChangeListener, Sta
     }
 
     @Override
-    public void localeChanged(LocaleChangeEvent event) {
+    public void onLocaleChanged(LocaleChangedEvent event) {
         setLocaleSpecificProperties();
     }
 

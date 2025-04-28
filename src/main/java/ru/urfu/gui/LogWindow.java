@@ -6,11 +6,10 @@ import java.awt.EventQueue;
 import java.awt.TextArea;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
-import org.xnap.commons.i18n.I18n;
-import org.xnap.commons.i18n.I18nFactory;
-import org.xnap.commons.i18n.I18nManager;
-import org.xnap.commons.i18n.LocaleChangeEvent;
-import org.xnap.commons.i18n.LocaleChangeListener;
+import ru.urfu.i18n.I18n;
+import ru.urfu.i18n.I18nManager;
+import ru.urfu.i18n.LocaleChangeListener;
+import ru.urfu.i18n.LocaleChangedEvent;
 import ru.urfu.log.LogChangeListener;
 import ru.urfu.log.LogEntry;
 import ru.urfu.log.LogWindowSource;
@@ -41,7 +40,7 @@ public final class LogWindow extends JInternalFrame
         this.logContent.setSize(CONTENT_WIDTH, CONTENT_HEIGHT);
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        I18nManager.getInstance().addLocaleChangeListener(this);
+        I18nManager.getInstance().addWeakLocaleChangeListener(this);
 
         final JPanel panel = new JPanel(new BorderLayout());
         panel.add(logContent, BorderLayout.CENTER);
@@ -65,7 +64,7 @@ public final class LogWindow extends JInternalFrame
     }
 
     @Override
-    public void localeChanged(LocaleChangeEvent event) {
+    public void onLocaleChanged(LocaleChangedEvent event) {
         setLocaleDependantProperties();
     }
 
@@ -74,7 +73,7 @@ public final class LogWindow extends JInternalFrame
      * зависящие от текущей локали.</p>
      */
     private void setLocaleDependantProperties() {
-        final I18n i18n = I18nFactory.getI18n(LogWindow.class);
+        final I18n i18n = I18nManager.getInstance().getI18n();
         setTitle(i18n.tr("Logs"));
         updateLogContent();
     }

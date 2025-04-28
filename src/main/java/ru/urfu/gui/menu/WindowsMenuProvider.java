@@ -4,15 +4,15 @@ import java.awt.Component;
 import java.awt.event.KeyEvent;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import org.xnap.commons.i18n.I18n;
-import org.xnap.commons.i18n.I18nFactory;
 import ru.urfu.gui.MainFrame;
+import ru.urfu.i18n.I18n;
+import ru.urfu.i18n.I18nManager;
 
 /**
  * <p>Создаёт меню для открытия окон.</p>
  */
 final class WindowsMenuProvider implements MenuElementProvider {
-    private final I18n i18n = I18nFactory.getI18n(getClass());
+    private final I18n i18n = I18nManager.getInstance().getI18n();
 
     @Override
     public Component provide(MainFrame frame) {

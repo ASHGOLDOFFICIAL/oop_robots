@@ -10,8 +10,8 @@ import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xnap.commons.i18n.I18nManager;
 import ru.urfu.config.Configuration;
+import ru.urfu.i18n.I18nManager;
 
 /**
  * <p>Менеджер конфигураций окон.</p>

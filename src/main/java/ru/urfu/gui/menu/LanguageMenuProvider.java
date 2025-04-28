@@ -7,17 +7,16 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xnap.commons.i18n.I18n;
-import org.xnap.commons.i18n.I18nFactory;
-import org.xnap.commons.i18n.I18nManager;
 import ru.urfu.gui.MainFrame;
+import ru.urfu.i18n.I18n;
+import ru.urfu.i18n.I18nManager;
 
 /**
  * <p>Создаёт меню для смены языка.</p>
  */
 final class LanguageMenuProvider implements MenuElementProvider {
     private final Logger log = LoggerFactory.getLogger(LanguageMenuProvider.class);
-    private final I18n i18n = I18nFactory.getI18n(getClass());
+    private final I18n i18n = I18nManager.getInstance().getI18n();
 
     @Override
     public Component provide(MainFrame frame) {

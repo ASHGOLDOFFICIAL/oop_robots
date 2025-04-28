@@ -7,14 +7,13 @@ import javax.swing.JPanel;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
-import org.xnap.commons.i18n.I18n;
-import org.xnap.commons.i18n.I18nFactory;
-import org.xnap.commons.i18n.I18nManager;
-import org.xnap.commons.i18n.LocaleChangeEvent;
-import org.xnap.commons.i18n.LocaleChangeListener;
 import ru.urfu.core.GameModel;
 import ru.urfu.gui.game.GuiGameController;
 import ru.urfu.gui.game.GuiGameView;
+import ru.urfu.i18n.I18n;
+import ru.urfu.i18n.I18nManager;
+import ru.urfu.i18n.LocaleChangeListener;
+import ru.urfu.i18n.LocaleChangedEvent;
 import ru.urfu.state.Stateful;
 
 /**
@@ -35,7 +34,7 @@ public final class GameWindow extends JInternalFrame implements LocaleChangeList
         this.controller = new GuiGameController(model, view);
         this.controller.start();
 
-        I18nManager.getInstance().addLocaleChangeListener(this);
+        I18nManager.getInstance().addWeakLocaleChangeListener(this);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         final JPanel panel = new JPanel(new BorderLayout());
@@ -56,7 +55,7 @@ public final class GameWindow extends JInternalFrame implements LocaleChangeList
     }
 
     @Override
-    public void localeChanged(LocaleChangeEvent event) {
+    public void onLocaleChanged(LocaleChangedEvent event) {
         setLocaleDependantProperties();
     }
 
@@ -65,7 +64,7 @@ public final class GameWindow extends JInternalFrame implements LocaleChangeList
      * зависящие от текущей локали.</p>
      */
     void setLocaleDependantProperties() {
-        final I18n i18n = I18nFactory.getI18n(GameWindow.class);
+        final I18n i18n = I18nManager.getInstance().getI18n();
         setTitle(i18n.tr("Game Field"));
     }
 
