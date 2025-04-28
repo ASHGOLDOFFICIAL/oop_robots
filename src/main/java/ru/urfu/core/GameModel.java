@@ -1,7 +1,7 @@
 package ru.urfu.core;
 
-import java.awt.Point;
 import java.beans.PropertyChangeListener;
+import ru.urfu.utils.Vector2;
 
 /**
  * <p>Модель игры.</p>
@@ -19,21 +19,21 @@ public interface GameModel {
      *
      * @return информация о положении робота.
      */
-    RobotPosition getRobotPosition();
+    RobotInfo getRobotInfo();
 
     /**
      * <p>Геттер положения цели.</p>
      *
      * @return положение цели.
      */
-    Point getTargetPosition();
+    Vector2 getTargetPosition();
 
     /**
      * <p>Сеттер положения цели.</p>
      *
      * @param p новое положение цели.
      */
-    void setTargetPosition(Point p);
+    void setTargetPosition(Vector2 p);
 
     /**
      * <p>Регистрирует слушателя изменения модели.</p>

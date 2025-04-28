@@ -7,12 +7,13 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import ru.urfu.core.GameModel;
-import ru.urfu.core.RobotPosition;
+import ru.urfu.core.RobotInfo;
 import ru.urfu.i18n.I18n;
 import ru.urfu.i18n.I18nManager;
 import ru.urfu.i18n.LocaleChangeListener;
 import ru.urfu.i18n.LocaleChangedEvent;
 import ru.urfu.state.Stateful;
+import ru.urfu.utils.Vector2;
 
 /**
  * <p>Окно с координатами робота.</p>
@@ -38,7 +39,7 @@ public final class CoordinatesWindow extends JInternalFrame
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         I18nManager.getInstance().addWeakLocaleChangeListener(this);
 
-        this.label = new JLabel(getTextForLabel(this.model.getRobotPosition()), SwingConstants.CENTER);
+        this.label = new JLabel(getTextForLabel(this.model.getRobotInfo()), SwingConstants.CENTER);
         getContentPane().add(label);
 
         setLocaleDependantProperties();
@@ -55,7 +56,7 @@ public final class CoordinatesWindow extends JInternalFrame
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        final RobotPosition position = this.model.getRobotPosition();
+        final RobotInfo position = this.model.getRobotInfo();
         this.label.setText(getTextForLabel(position));
     }
 
@@ -70,8 +71,9 @@ public final class CoordinatesWindow extends JInternalFrame
      * @param position позиция робота.
      * @return созданную строку.
      */
-    private String getTextForLabel(RobotPosition position) {
-        return TEXT_TEMPLATE.formatted(position.positionX(), position.positionY());
+    private String getTextForLabel(RobotInfo position) {
+        final Vector2 pos = position.position();
+        return TEXT_TEMPLATE.formatted(pos.x(), pos.y());
     }
 
     /**
