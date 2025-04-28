@@ -18,7 +18,7 @@ import ru.urfu.utils.Vector2;
 @SuppressWarnings({"MissingJavadocMethod", "MagicNumber"})
 public final class GuiGameView extends JPanel implements PropertyChangeListener {
     private final GameModel model;
-    private final RobotShape robotShape = new RobotShapeImpl();
+    private RobotShape robotShape = new RobotShapeImpl();
 
     /**
      * <p>Конструктор.</p>
@@ -29,6 +29,16 @@ public final class GuiGameView extends JPanel implements PropertyChangeListener 
         this.model = model;
         this.model.registerListener(this);
         setDoubleBuffered(true);
+        repaint();
+    }
+
+    /**
+     * <p>Меняет логику отображения робота.</p>
+     *
+     * @param shape новый отрисовщик.
+     */
+    public void changeRobotShape(RobotShape shape) {
+        robotShape = shape;
         repaint();
     }
 

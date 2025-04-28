@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.Locale;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
@@ -17,12 +19,17 @@ import ru.urfu.config.ConfigSaveFailed;
 import ru.urfu.config.ConfigurationManager;
 import ru.urfu.core.GameModel;
 import ru.urfu.core.GameTimerController;
+import ru.urfu.core.RobotMovement;
+import ru.urfu.gui.game.RobotShape;
 import ru.urfu.gui.menu.MainFrameMenu;
 import ru.urfu.i18n.I18n;
 import ru.urfu.i18n.I18nManager;
 import ru.urfu.i18n.LocaleChangeListener;
 import ru.urfu.i18n.LocaleChangedEvent;
 import ru.urfu.log.Logger;
+import ru.urfu.modding.Mod;
+import ru.urfu.modding.ModLoader;
+import ru.urfu.modding.ModLoaderException;
 import ru.urfu.state.StateService;
 import ru.urfu.state.Stateful;
 
@@ -40,10 +47,12 @@ public final class MainFrame extends JFrame implements LocaleChangeListener, Sta
     private final I18n i18n = I18nManager.getInstance().getI18n();
     private final org.slf4j.Logger log = LoggerFactory.getLogger(MainFrame.class);
 
+    private final ModLoader modLoader = new ModLoader();
     private final StateService stateManager;
     private final ConfigurationManager configManager;
     private final GameTimerController controller;
     private final GameModel model;
+    private WeakReference<GameWindow> gameWindow = new WeakReference<>(null);
 
     private final WindowListener exitListener = new WindowAdapter() {
         @Override
@@ -110,8 +119,9 @@ public final class MainFrame extends JFrame implements LocaleChangeListener, Sta
      */
     public void addGameWindowIfClosed() {
         if (isWindowClosed(GameWindow.class)) {
-            final GameWindow gameWindow = new GameWindow(this.model);
-            this.addWindow(gameWindow);
+            final GameWindow window = new GameWindow(this.model);
+            this.gameWindow = new WeakReference<>(window);
+            this.addWindow(window);
         }
     }
 
@@ -170,6 +180,36 @@ public final class MainFrame extends JFrame implements LocaleChangeListener, Sta
     public void setCrossPlatformLookAndFeel() {
         setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
         this.invalidate();
+    }
+
+    /**
+     * <p>Обрабатывает файл с модом.</p>
+     *
+     * @param modFile файл с модом.
+     */
+    public void handleModFile(File modFile) {
+        try {
+            final Mod mod = modLoader.load(modFile);
+            final RobotMovement logic = mod.logic();
+            if (logic != null) {
+                model.changeRobotMovementLogic(logic);
+            }
+
+            final RobotShape shape = mod.shape();
+            if (shape != null) {
+                final GameWindow localGameWindow = this.gameWindow.get();
+                if (localGameWindow != null) {
+                    localGameWindow.changeRobotShape(shape);
+                }
+            }
+        } catch (ModLoaderException e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    i18n.tr("Couldn't load mod from given file."),
+                    i18n.tr("Mod Loader Error"),
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
     }
 
     @Override

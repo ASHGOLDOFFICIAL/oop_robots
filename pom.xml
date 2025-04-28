@@ -14,7 +14,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Dependencies -->
-        <gettext-commons.version>0.9.8</gettext-commons.version>
         <junit-bom.version>5.12.1</junit-bom.version>
         <log4j-bom.version>2.24.3</log4j-bom.version>
 
@@ -26,30 +25,16 @@
         <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
     </properties>
 
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>examples</module>
+        <module>robots</module>
+    </modules>
+
+
     <build>
         <plugins>
-            <!-- Internationalization -->
-            <!-- https://mvnrepository.com/artifact/com.googlecode.gettext-commons/gettext-maven-plugin -->
-            <plugin>
-                <groupId>com.googlecode.gettext-commons</groupId>
-                <artifactId>gettext-maven-plugin</artifactId>
-                <version>${gettext-maven-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>dist</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <poDirectory>src/main/po</poDirectory>
-                    <targetBundle>ru.urfu.i18n.Messages</targetBundle>
-                    <outputDirectory>src/main/resources</outputDirectory>
-                    <outputFormat>properties</outputFormat>
-                </configuration>
-            </plugin>
-
             <!-- Checks Style -->
             <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-checkstyle-plugin -->
             <plugin>
@@ -87,21 +72,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Builds JAR  -->
-            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-jar-plugin -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>${maven-jar-plugin.version}</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>ru.urfu.gui.Main</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-
             <!-- Runs Tests -->
             <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
             <plugin>
@@ -110,6 +80,26 @@
                 <version>${maven-surefire-plugin.version}</version>
             </plugin>
         </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <!-- Internationalization -->
+                <!-- https://mvnrepository.com/artifact/com.googlecode.gettext-commons/gettext-maven-plugin -->
+                <plugin>
+                    <groupId>com.googlecode.gettext-commons</groupId>
+                    <artifactId>gettext-maven-plugin</artifactId>
+                    <version>${gettext-maven-plugin.version}</version>
+                </plugin>
+
+                <!-- Builds JAR  -->
+                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-jar-plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${maven-jar-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
     <dependencyManagement>
@@ -133,41 +123,4 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <dependencies>
-        <!-- Logging -->
-        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j2-impl -->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-slf4j2-impl</artifactId>
-        </dependency>
-
-        <!-- Testing -->
-        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-engine -->
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-engine</artifactId>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-suite -->
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-suite</artifactId>
-        </dependency>
-    </dependencies>
-
 </project>

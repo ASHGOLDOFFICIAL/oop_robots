@@ -14,6 +14,7 @@ public final class MainFrameMenu extends JMenuBar {
      */
     public MainFrameMenu(MainFrame frame) {
         add(new ControlMenuProvider().provide(frame));
+        add(new ModMenuProvider().provide(frame));
         add(new WindowsMenuProvider().provide(frame));
         add(new TestsMenuProvider().provide(frame));
     }

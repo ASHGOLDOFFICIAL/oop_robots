@@ -17,7 +17,8 @@ public final class GameModelImpl implements GameModel {
     private final Logger log = LoggerFactory.getLogger(GameModelImpl.class);
     private final Vector2 initialPosition = new Vector2(100, 100);
 
-    private final RobotMovement logic = new RobotMovementImpl();
+    private final Object logicLock = new Object();
+    private RobotMovement logic = new RobotMovementImpl();
     private Vector2 targetPosition = initialPosition;
     private Vector2 robotPosition = initialPosition;
     private double robotDirection = 0;
@@ -57,6 +58,13 @@ public final class GameModelImpl implements GameModel {
         this.pcs.firePropertyChange("model", null, null);
     }
 
+    @Override
+    public void changeRobotMovementLogic(RobotMovement logic) {
+        synchronized (logicLock) {
+            this.logic = logic;
+        }
+    }
+
     /**
      * <p>Перемещает робота на поле.</p>
      *
@@ -64,7 +72,11 @@ public final class GameModelImpl implements GameModel {
      * @return двинулся ли робот.
      */
     private boolean moveRobot(int time) {
-        final Vector2 velocity = logic.velocity(this, time);
+        Vector2 velocity;
+        synchronized (logicLock) {
+            velocity = logic.velocity(this, time);
+        }
+
         if (velocity.equals(zero)) {
             return false;
         }

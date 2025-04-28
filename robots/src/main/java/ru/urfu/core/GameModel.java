@@ -15,6 +15,13 @@ public interface GameModel {
     void update(int time);
 
     /**
+     * <p>Меняет логику передвижения робота.</p>
+     *
+     * @param logic новая логика передвижения
+     */
+    void changeRobotMovementLogic(RobotMovement logic);
+
+    /**
      * <p>Геттер информации о положении робота.</p>
      *
      * @return информация о положении робота.
