@@ -34,6 +34,19 @@ public final class Level {
     }
 
     /**
+     * <p>Убирает препятствие по данным координатам.</p>
+     * <p>Индексация с нуля до ширины/высоты не включительно.</p>
+     *
+     * @param x x
+     * @param y y
+     */
+    public void removeObstacle(int x, int y) {
+        if (x < 0 || x >= width || y < 0 || y >= height)
+            throw new IllegalArgumentException();
+        this.obstacles[y * height + x] = false;
+    }
+
+    /**
      * <p>Проверка, есть ли препятствие по данным координатам.</p>
      * <p>Индексация с нуля до ширины/высоты не включительно.</p>
      *

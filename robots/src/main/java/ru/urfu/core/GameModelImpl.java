@@ -86,6 +86,7 @@ public final class GameModelImpl implements GameModel {
         synchronized (logicLock) {
             logic = new ObstaclesModeMovement();
             level = levelGenerator.generate(WIDTH, HEIGHT);
+            level.removeObstacle((int) initialPosition.x(), (int) initialPosition.y());
         }
         this.pcs.firePropertyChange("model", null, null);
     }
