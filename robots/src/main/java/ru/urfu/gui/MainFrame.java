@@ -19,7 +19,7 @@ import ru.urfu.config.ConfigSaveFailed;
 import ru.urfu.config.ConfigurationManager;
 import ru.urfu.core.GameModel;
 import ru.urfu.core.GameTimerController;
-import ru.urfu.core.RobotMovement;
+import ru.urfu.core.movement.RobotMovement;
 import ru.urfu.gui.game.RobotShape;
 import ru.urfu.gui.menu.MainFrameMenu;
 import ru.urfu.i18n.I18n;

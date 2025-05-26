@@ -1,19 +1,21 @@
-package ru.urfu.core;
+package ru.urfu.core.movement;
 
+import ru.urfu.core.GameModel;
+import ru.urfu.core.RobotInfo;
 import ru.urfu.utils.MathTools;
 import ru.urfu.utils.Vector2;
 
 /**
  * <p>Реализация логики передвижения робота по умолчанию.</p>
  */
-public final class RobotMovementImpl implements RobotMovement {
-    private final static double HALF_A_PIXEL = 0.5;
+public final class StandardModeMovement implements RobotMovement {
+    private final static double HALF_A_PIXEL = 0.05;
     private final static double EPSILON = 0.00001;
-    private static final double MAX_VELOCITY = 0.1;
+    private static final double MAX_VELOCITY = 0.01;
     private static final double MAX_ANGULAR_VELOCITY = 0.001;
     private static final double RADIUS = MAX_VELOCITY / MAX_ANGULAR_VELOCITY;
 
-    private final Vector2 zero = new Vector2(0, 0);
+    private final Vector2 zero = new Vector2();
 
     private GameModel model;
 
