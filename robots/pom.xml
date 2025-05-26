@@ -14,10 +14,6 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
         <!-- Dependencies -->
         <gettext-commons.version>0.9.8</gettext-commons.version>
         <fastnoise.version>0.10</fastnoise.version>
