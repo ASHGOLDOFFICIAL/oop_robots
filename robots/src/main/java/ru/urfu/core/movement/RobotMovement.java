@@ -1,5 +1,6 @@
-package ru.urfu.core;
+package ru.urfu.core.movement;
 
+import ru.urfu.core.GameModel;
 import ru.urfu.utils.Vector2;
 
 /**

@@ -30,7 +30,9 @@ public final class GuiGameController {
             @Override
             public void mouseClicked(MouseEvent e) {
                 final Point p = e.getPoint();
-                model.setTargetPosition(new Vector2(p.x, p.y));
+                final double x = (double) p.x / GuiGameView.SCALE;
+                final double y = (double) p.y / GuiGameView.SCALE;
+                model.setTargetPosition(new Vector2(x, y));
             }
         };
     }

@@ -19,7 +19,7 @@ import ru.urfu.config.ConfigSaveFailed;
 import ru.urfu.config.ConfigurationManager;
 import ru.urfu.core.GameModel;
 import ru.urfu.core.GameTimerController;
-import ru.urfu.core.RobotMovement;
+import ru.urfu.core.movement.RobotMovement;
 import ru.urfu.gui.game.RobotShape;
 import ru.urfu.gui.menu.MainFrameMenu;
 import ru.urfu.i18n.I18n;
@@ -180,6 +180,21 @@ public final class MainFrame extends JFrame implements LocaleChangeListener, Sta
     public void setCrossPlatformLookAndFeel() {
         setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
         this.invalidate();
+    }
+
+    /**
+     * <p>Включить режим игры с препятствиями.</p>
+     */
+    public void setObstaclesMode() {
+        model.setObstaclesMode();
+
+    }
+
+    /**
+     * <p>Включить стандартный режим игры.</p>
+     */
+    public void setStandardMode() {
+        model.reset();
     }
 
     /**

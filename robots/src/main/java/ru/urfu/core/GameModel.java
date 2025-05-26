@@ -1,6 +1,8 @@
 package ru.urfu.core;
 
 import java.beans.PropertyChangeListener;
+import ru.urfu.core.level.Level;
+import ru.urfu.core.movement.RobotMovement;
 import ru.urfu.utils.Vector2;
 
 /**
@@ -55,4 +57,21 @@ public interface GameModel {
      * @param listener слушатель
      */
     void removeListener(PropertyChangeListener listener);
+
+    /**
+     * <p>Возвращает модель в первоначальное состояние.</p>
+     */
+    void reset();
+
+    /**
+     * <p>Включает режим с препятствиями. Робот движется линейно.</p>
+     */
+    void setObstaclesMode();
+
+    /**
+     * <p>Возвращает текущее поле, если есть.</p>
+     *
+     * @return поле игры с препятствиями.
+     */
+    Level getLevel();
 }

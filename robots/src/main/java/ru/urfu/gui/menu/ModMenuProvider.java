@@ -6,6 +6,7 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JSeparator;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,9 @@ public final class ModMenuProvider implements MenuElementProvider {
         menu.getAccessibleContext().setAccessibleDescription(
                 i18n.tr("Manage mods."));
 
+        menu.add(addObstaclesItem(frame));
+        menu.add(removeObstaclesItem(frame));
+        menu.add(new JSeparator());
         menu.add(createModLoadItem(frame));
         return menu;
     }
@@ -52,6 +56,30 @@ public final class ModMenuProvider implements MenuElementProvider {
                 frame.handleModFile(selectedFile);
             }
         });
+        return item;
+    }
+
+    /**
+     * <p>Создаёт элемент меню для добавления препятствий.</p>
+     *
+     * @param frame окно.
+     * @return элемент меню.
+     */
+    private JMenuItem addObstaclesItem(MainFrame frame) {
+        final JMenuItem item = new JMenuItem(i18n.tr("Add Obstacles"), KeyEvent.VK_O);
+        item.addActionListener((event) -> frame.setObstaclesMode());
+        return item;
+    }
+
+    /**
+     * <p>Создаёт элемент меню для удаления препятствий.</p>
+     *
+     * @param frame окно.
+     * @return элемент меню.
+     */
+    private JMenuItem removeObstaclesItem(MainFrame frame) {
+        final JMenuItem item = new JMenuItem(i18n.tr("Remove Obstacles"), KeyEvent.VK_O);
+        item.addActionListener((event) -> frame.setStandardMode());
         return item;
     }
 }

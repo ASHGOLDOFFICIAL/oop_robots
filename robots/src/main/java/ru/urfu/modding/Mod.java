@@ -1,6 +1,6 @@
 package ru.urfu.modding;
 
-import ru.urfu.core.RobotMovement;
+import ru.urfu.core.movement.RobotMovement;
 import ru.urfu.gui.game.RobotShape;
 
 /**

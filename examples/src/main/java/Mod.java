@@ -3,7 +3,7 @@
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.Shape;
-import ru.urfu.core.RobotMovement;
+import ru.urfu.core.movement.RobotMovement;
 import ru.urfu.gui.game.RobotShape;
 import ru.urfu.utils.Vector2;
 

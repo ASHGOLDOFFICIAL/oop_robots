@@ -8,6 +8,13 @@ package ru.urfu.utils;
  */
 public record Vector2(double x, double y) {
     /**
+     * <p>Дефолтный конструктор.</p>
+     */
+    public Vector2() {
+        this(0, 0);
+    }
+
+    /**
      * <p>Длина вектора.</p>
      *
      * @return длину
@@ -94,5 +101,34 @@ public record Vector2(double x, double y) {
      */
     public Vector2 minus(Vector2 other) {
         return new Vector2(x - other.x, y - other.y);
+    }
+
+    /**
+     * <p>Покомпонентное умножение.</p>
+     *
+     * @param other другой вектор
+     * @return результат умножения.
+     */
+    public Vector2 mul(Vector2 other) {
+        return new Vector2(x * other.x, y * other.y);
+    }
+
+    /**
+     * <p>Покомпонентное деление.</p>
+     *
+     * @param other другой вектор.
+     * @return результат деления.
+     */
+    public Vector2 divide(Vector2 other) {
+        return new Vector2(x / other.x, y / other.y);
+    }
+
+    /**
+     * <p>Каждая компонента берётся по модулю.</p>
+     *
+     * @return результат операции.
+     */
+    public Vector2 abs() {
+        return new Vector2(Math.abs(x), Math.abs(y));
     }
 }
