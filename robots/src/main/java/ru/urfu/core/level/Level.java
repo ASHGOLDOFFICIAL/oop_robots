@@ -28,8 +28,9 @@ public final class Level {
      * @param y y
      */
     public void addObstacle(int x, int y) {
-        if (x < 0 || x >= width || y < 0 || y >= height)
+        if (x < 0 || x >= width || y < 0 || y >= height) {
             throw new IllegalArgumentException();
+        }
         this.obstacles[y * height + x] = true;
     }
 
@@ -41,8 +42,9 @@ public final class Level {
      * @param y y
      */
     public void removeObstacle(int x, int y) {
-        if (x < 0 || x >= width || y < 0 || y >= height)
+        if (x < 0 || x >= width || y < 0 || y >= height) {
             throw new IllegalArgumentException();
+        }
         this.obstacles[y * height + x] = false;
     }
 
@@ -52,10 +54,12 @@ public final class Level {
      *
      * @param x x
      * @param y y
+     * @return результат проверки.
      */
     public boolean hasObstacle(int x, int y) {
-        if (x < 0 || x >= width || y < 0 || y >= height)
+        if (x < 0 || x >= width || y < 0 || y >= height) {
             throw new IllegalArgumentException();
+        }
         return obstacles[y * height + x];
     }
 

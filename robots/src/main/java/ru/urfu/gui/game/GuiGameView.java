@@ -65,6 +65,7 @@ public final class GuiGameView extends JPanel implements PropertyChangeListener 
      * @param value число.
      * @return результат.
      */
+    @SuppressWarnings("MagicNumber")
     private static int round(double value) {
         return (int) (value + 0.5);
     }
@@ -128,6 +129,7 @@ public final class GuiGameView extends JPanel implements PropertyChangeListener 
      * @param g графика.
      * @param p точка цели.
      */
+    @SuppressWarnings("MagicNumber")
     private void drawTarget(Graphics2D g, Point p) {
         AffineTransform t = AffineTransform.getRotateInstance(0, 0, 0);
         g.setTransform(t);

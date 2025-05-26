@@ -10,6 +10,7 @@ import ru.urfu.utils.Vector2;
  * <p>Логика движение робота с поддержкой объезда препятствий.</p>
  */
 public final class ObstaclesModeMovement implements RobotMovement {
+    private final static double EPSILON = 0.05;
     private final static double SPEED = 0.01;
     private final Vector2 zero = new Vector2();
 
@@ -76,7 +77,9 @@ public final class ObstaclesModeMovement implements RobotMovement {
     private Vector2 linearMovement(GameModel model, int time) {
         final Vector2 target = model.getTargetPosition();
         final Vector2 from = model.getRobotInfo().position();
-        if (from.distanceSquared(target) < 0.5) return zero;
+        if (from.distanceSquared(target) < EPSILON) {
+            return zero;
+        }
         return target.minus(from).normalize().scalar(time * SPEED);
     }
 

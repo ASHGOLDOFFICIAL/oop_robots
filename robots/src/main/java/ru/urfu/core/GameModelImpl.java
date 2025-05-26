@@ -16,6 +16,7 @@ import ru.urfu.utils.Vector2;
  * <p>Реализация интерфейса {@link GameModel}.</p>
  */
 public final class GameModelImpl implements GameModel {
+    private final static String MODEL_STRING = "model";
     private final Vector2 zero = new Vector2();
 
     private final static int WIDTH = 50;
@@ -41,7 +42,7 @@ public final class GameModelImpl implements GameModel {
     @Override
     public void setTargetPosition(Vector2 p) {
         this.targetPosition = p;
-        this.pcs.firePropertyChange("model", null, null);
+        this.pcs.firePropertyChange(MODEL_STRING, null, null);
     }
 
     @Override
@@ -71,13 +72,13 @@ public final class GameModelImpl implements GameModel {
         if (!moveRobot(time)) {
             return;
         }
-        this.pcs.firePropertyChange("model", null, null);
+        this.pcs.firePropertyChange(MODEL_STRING, null, null);
     }
 
     @Override
     public void reset() {
         resetSilently();
-        this.pcs.firePropertyChange("model", null, null);
+        this.pcs.firePropertyChange(MODEL_STRING, null, null);
     }
 
     @Override
@@ -88,7 +89,7 @@ public final class GameModelImpl implements GameModel {
             level = levelGenerator.generate(WIDTH, HEIGHT);
             level.removeObstacle((int) initialPosition.x(), (int) initialPosition.y());
         }
-        this.pcs.firePropertyChange("model", null, null);
+        this.pcs.firePropertyChange(MODEL_STRING, null, null);
     }
 
     @Override

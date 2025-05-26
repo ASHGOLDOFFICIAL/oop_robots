@@ -8,6 +8,7 @@ import personthecat.fastnoise.generator.SimplexNoise;
  * <p>Генератор случайных полей.</p>
  */
 public final class LevelGenerator {
+    private final static double OBSTACLE_THRESHOLD = 0.2;
     private final Random random = new Random();
 
     /**
@@ -30,8 +31,9 @@ public final class LevelGenerator {
             level.addObstacle(0, y);
             for (int x = 1; x < width - 1; ++x) {
                 final float value = noise.getNoise(x, y);
-                if (value > 0.2)
+                if (value > OBSTACLE_THRESHOLD) {
                     level.addObstacle(x, y);
+                }
             }
             level.addObstacle(width - 1, y);
         }
