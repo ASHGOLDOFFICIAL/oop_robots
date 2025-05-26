@@ -183,6 +183,21 @@ public final class MainFrame extends JFrame implements LocaleChangeListener, Sta
     }
 
     /**
+     * <p>Включить режим игры с препятствиями.</p>
+     */
+    public void setObstaclesMode() {
+        model.setObstaclesMode();
+
+    }
+
+    /**
+     * <p>Включить стандартный режим игры.</p>
+     */
+    public void setStandardMode() {
+        model.reset();
+    }
+
+    /**
      * <p>Обрабатывает файл с модом.</p>
      *
      * @param modFile файл с модом.
