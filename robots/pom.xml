@@ -20,6 +20,8 @@
 
         <!-- Dependencies -->
         <gettext-commons.version>0.9.8</gettext-commons.version>
+        <fastnoise.version>0.10</fastnoise.version>
+        <astarlib>v0.2</astarlib>
     </properties>
 
     <build>
@@ -94,6 +96,17 @@
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-suite</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.personthecat</groupId>
+            <artifactId>fastnoise</artifactId>
+            <version>${fastnoise.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.aureldussauge</groupId>
+            <artifactId>AStarLibrary</artifactId>
+            <version>${astarlib}</version>
         </dependency>
     </dependencies>
 
