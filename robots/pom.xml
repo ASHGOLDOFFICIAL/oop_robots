@@ -26,27 +26,6 @@
 
     <build>
         <plugins>
-            <!-- Internationalization -->
-            <!-- https://mvnrepository.com/artifact/com.googlecode.gettext-commons/gettext-maven-plugin -->
-            <plugin>
-                <groupId>com.googlecode.gettext-commons</groupId>
-                <artifactId>gettext-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>dist</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <poDirectory>src/main/po</poDirectory>
-                    <targetBundle>ru.urfu.i18n.Messages</targetBundle>
-                    <outputDirectory>src/main/resources</outputDirectory>
-                    <outputFormat>properties</outputFormat>
-                </configuration>
-            </plugin>
-
             <!-- Builds JAR  -->
             <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-jar-plugin -->
             <plugin>
